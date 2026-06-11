@@ -1,0 +1,54 @@
+{%- liquid
+  assign products_data = "Blazer Nebraska|Blazer Oversize|$280.000|Chaqueta Urban Stone|Chaqueta Torera|$320.000|Blazer Genova|Blazer 3/4|$295.000|Gabán Manchester|Gabán Largo|$450.000|Chaqueta Manchester|Chaqueta Torera|$350.000" | split: "|"
+-%}
+
+<section class="mr-products">
+  <div class="mr-products__container">
+    <div class="mr-products__grid">
+      {%- for i in (0..4) -%}
+        {%- assign name_idx = i | times: 3 -%}
+        {%- assign cat_idx = name_idx | plus: 1 -%}
+        {%- assign price_idx = name_idx | plus: 2 -%}
+        <a href="#" class="mr-product">
+          <div class="mr-product__media">
+            {%- if i == 0 -%}
+              <span class="mr-product__badge">Nuevo</span>
+            {%- endif -%}
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+          </div>
+          <div class="mr-product__category">{{ products_data[cat_idx] }}</div>
+          <h3 class="mr-product__title">{{ products_data[name_idx] }}</h3>
+          <div class="mr-product__price">{{ products_data[price_idx] }} COP</div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    <div class="mr-products__cta-wrap">
+      <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="mr-btn">{{ section.settings.button_label }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Productos Destacados",
+  "settings": [
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Ver Colección Completa"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Productos Destacados"
+    }
+  ]
+}
+{% endschema %}

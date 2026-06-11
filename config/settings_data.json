@@ -1,0 +1,18 @@
+{
+  "current": {
+    "color_primary": "#1a472a",
+    "color_accent": "#c97a44",
+    "color_background": "#faf8f6",
+    "brand_name": "MILA ROSSE",
+    "brand_tagline": "Sastrería Femenina Premium",
+    "whatsapp_number": "573227786365",
+    "instagram_handle": "milarosse.studio"
+  },
+  "presets": {
+    "Default": {
+      "color_primary": "#1a472a",
+      "color_accent": "#c97a44",
+      "color_background": "#faf8f6"
+    }
+  }
+}

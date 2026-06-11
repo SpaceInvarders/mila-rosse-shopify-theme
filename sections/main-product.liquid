@@ -1,0 +1,20 @@
+<section class="mr-page">
+  <div class="mr-page__container">
+    <h1 class="mr-page__title">{{ product.title | default: 'Producto' }}</h1>
+    <div class="mr-page__content">
+      {% if product %}
+        <p>{{ product.description }}</p>
+        <p><strong>{{ product.price | money }}</strong></p>
+      {% else %}
+        <p>Producto no disponible</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto",
+  "settings": []
+}
+{% endschema %}

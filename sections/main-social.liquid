@@ -1,0 +1,73 @@
+{%- liquid
+  assign reels_data = "Look Casual Friday|Blazer Nebraska + Jeans|Urban Stone Vibes|Chaqueta corta urbana|Elegancia Genova|Manga 3/4 para eventos|Manchester Style|Gabán + Pantalón ancho" | split: "|"
+-%}
+
+<section class="mr-social">
+  <div class="mr-social__container">
+    <div class="mr-social__head">
+      <div class="mr-intro__eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="mr-intro__title">{{ section.settings.title }}</h2>
+      <div class="mr-intro__divider"></div>
+      <p class="mr-intro__text">{{ section.settings.text }}</p>
+    </div>
+
+    <div class="mr-social__grid">
+      {%- for i in (0..3) -%}
+        {%- assign title_idx = i | times: 2 -%}
+        {%- assign sub_idx = title_idx | plus: 1 -%}
+        <a href="https://instagram.com/{{ settings.instagram_handle }}" target="_blank" rel="noopener" class="mr-reel">
+          <div class="mr-reel__placeholder">
+            {{ 'lifestyle-2' | placeholder_svg_tag: 'mr-reel__svg' }}
+          </div>
+          <div class="mr-reel__play"></div>
+          <div class="mr-reel__overlay"></div>
+          <div class="mr-reel__info">
+            <p class="mr-reel__title">{{ reels_data[title_idx] }}</p>
+            <p class="mr-reel__sub">{{ reels_data[sub_idx] }}</p>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+
+    <div class="mr-products__cta-wrap">
+      <a href="https://instagram.com/{{ settings.instagram_handle }}" target="_blank" rel="noopener" class="mr-btn mr-btn--solid">{{ section.settings.button_label }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Social Commerce",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "INSTAGRAM"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Shop the Look"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Descripción",
+      "default": "Inspírate con nuestros looks en redes sociales."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Seguir @milarosse.studio"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Social Commerce"
+    }
+  ]
+}
+{% endschema %}

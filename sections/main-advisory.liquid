@@ -1,0 +1,64 @@
+<section class="mr-advisory">
+  <div class="mr-advisory__container">
+    <svg class="mr-advisory__icon" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.052 0-2.082.435-2.847 1.207-.757.772-1.178 1.81-1.178 2.905 0 1.094.421 2.132 1.178 2.905.765.772 1.795 1.207 2.847 1.207 1.052 0 2.082-.435 2.847-1.207.757-.772 1.178-1.81 1.178-2.905 0-1.094-.421-2.132-1.178-2.905-.765-.772-1.795-1.207-2.847-1.207m5.42-7.403C11.05 0 6.487 4.562 6.487 10.128c0 1.747.451 3.47 1.307 4.999L6.305 24l5.296-1.688c1.486.82 3.15 1.254 4.84 1.254 5.563 0 10.125-4.562 10.125-10.128S21.953 0 16.39 0z"/>
+    </svg>
+    <div class="mr-advisory__eyebrow">{{ section.settings.eyebrow }}</div>
+    <h2 class="mr-advisory__title">{{ section.settings.title }}</h2>
+    <div class="mr-advisory__divider"></div>
+    <p class="mr-advisory__text">{{ section.settings.text }}</p>
+    <a href="https://wa.me/{{ settings.whatsapp_number }}?text=Hola,%20me%20gustaría%20asesoría%20con%20mi%20talla" target="_blank" rel="noopener" class="mr-btn mr-btn--copper">{{ section.settings.button_label }}</a>
+
+    <div class="mr-advisory__features">
+      <div>
+        <div class="mr-advisory__feature-num">24h</div>
+        <div class="mr-advisory__feature-text">Respuesta Rápida</div>
+      </div>
+      <div>
+        <div class="mr-advisory__feature-num">100%</div>
+        <div class="mr-advisory__feature-text">Personalizada</div>
+      </div>
+      <div>
+        <div class="mr-advisory__feature-num">Free</div>
+        <div class="mr-advisory__feature-text">Sin Costo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Asesoría WhatsApp",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "ATENCIÓN PERSONALIZADA"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Asesoría de Talla"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Nuestras asesoras de moda están listas para ayudarte a encontrar la talla perfecta. Contáctanos por WhatsApp."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Contactar por WhatsApp"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Asesoría WhatsApp"
+    }
+  ]
+}
+{% endschema %}

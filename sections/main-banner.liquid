@@ -1,0 +1,41 @@
+<section class="mr-banner">
+  <div class="mr-banner__placeholder">
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'mr-banner__svg' }}
+  </div>
+  <div class="mr-banner__content">
+    <h1 class="mr-banner__brand">{{ settings.brand_name | default: 'MILA ROSSE' }}</h1>
+    <div class="mr-banner__line"></div>
+    <p class="mr-banner__sub">{{ section.settings.subtitle }}</p>
+    <a href="{{ section.settings.button_link }}" class="mr-banner__cta">{{ section.settings.button_label }}</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Banner Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtítulo",
+      "default": "Sastrería Femenina · Colección Otoño 2026"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Ver Colección"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Enlace del botón"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner Hero"
+    }
+  ]
+}
+{% endschema %}

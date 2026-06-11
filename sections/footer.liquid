@@ -1,0 +1,41 @@
+<footer class="mr-footer">
+  <div class="mr-footer__inner">
+    <div class="mr-footer__col">
+      <div class="mr-footer__brand">{{ settings.brand_name | default: 'MILA ROSSE' }}</div>
+      <p class="mr-footer__tagline">{{ settings.brand_tagline | default: 'Sastrería Femenina Premium' }}</p>
+    </div>
+    <div class="mr-footer__col">
+      <h3>Tienda</h3>
+      <ul>
+        <li><a href="/collections/all">Catálogo</a></li>
+        <li><a href="/collections/blazers">Blazers</a></li>
+        <li><a href="/collections/gabanes">Gabanes</a></li>
+      </ul>
+    </div>
+    <div class="mr-footer__col">
+      <h3>Ayuda</h3>
+      <ul>
+        <li><a href="/pages/contact">Contacto</a></li>
+        <li><a href="https://wa.me/{{ settings.whatsapp_number }}" target="_blank">Asesoría WhatsApp</a></li>
+        <li><a href="/pages/shipping">Envíos</a></li>
+      </ul>
+    </div>
+    <div class="mr-footer__col">
+      <h3>Síguenos</h3>
+      <ul>
+        <li><a href="https://instagram.com/{{ settings.instagram_handle }}" target="_blank">Instagram</a></li>
+        <li><a href="https://tiktok.com/@{{ settings.instagram_handle }}" target="_blank">TikTok</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="mr-footer__bottom">
+    © {{ 'now' | date: '%Y' }} {{ settings.brand_name | default: 'MILA ROSSE' }} · Todos los derechos reservados
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}

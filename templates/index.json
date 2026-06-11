@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-banner",
+      "settings": {}
+    },
+    "intro": {
+      "type": "main-intro",
+      "settings": {}
+    },
+    "products": {
+      "type": "main-products",
+      "settings": {}
+    },
+    "social": {
+      "type": "main-social",
+      "settings": {}
+    },
+    "advisory": {
+      "type": "main-advisory",
+      "settings": {}
+    },
+    "newsletter": {
+      "type": "main-newsletter",
+      "settings": {}
+    }
+  },
+  "order": ["banner", "intro", "products", "social", "advisory", "newsletter"]
+}

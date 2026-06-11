@@ -1,0 +1,46 @@
+<section class="mr-newsletter">
+  <h2 class="mr-newsletter__title">{{ section.settings.title }}</h2>
+  <p class="mr-newsletter__text">{{ section.settings.text }}</p>
+  {% form 'customer', class: 'mr-newsletter__form' %}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <input type="email" name="contact[email]" class="mr-newsletter__input" placeholder="{{ section.settings.placeholder }}" required>
+    <button type="submit" class="mr-btn mr-btn--solid">{{ section.settings.button_label }}</button>
+  {% endform %}
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "ÚNETE AL MUNDO MILA ROSSE"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Recibe acceso exclusivo a nuevas colecciones, lookbooks y ofertas especiales."
+    },
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder del input",
+      "default": "Tu correo electrónico"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Texto del botón",
+      "default": "Suscribirme"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter"
+    }
+  ]
+}
+{% endschema %}

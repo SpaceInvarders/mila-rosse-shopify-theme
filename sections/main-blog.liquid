@@ -1,0 +1,18 @@
+<section class="mr-page">
+  <div class="mr-page__container">
+    <h1 class="mr-page__title">{{ blog.title | default: 'Blog' }}</h1>
+    {% for article in blog.articles %}
+      <article style="padding:30px 0; border-bottom:1px solid var(--mr-border);">
+        <h2 class="mr-product__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+        <p>{{ article.excerpt | default: article.content | strip_html | truncate: 200 }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": []
+}
+{% endschema %}

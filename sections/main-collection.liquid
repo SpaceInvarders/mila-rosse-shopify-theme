@@ -1,0 +1,25 @@
+<section class="mr-page">
+  <div class="mr-page__container">
+    <h1 class="mr-page__title">{{ collection.title | default: 'Colección' }}</h1>
+    <div class="mr-products__grid">
+      {% for product in collection.products %}
+        <a href="{{ product.url }}" class="mr-product">
+          <div class="mr-product__media">
+            {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+          </div>
+          <h3 class="mr-product__title">{{ product.title }}</h3>
+          <div class="mr-product__price">{{ product.price | money }}</div>
+        </a>
+      {% else %}
+        <p>No hay productos en esta colección todavía.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Colección",
+  "settings": []
+}
+{% endschema %}

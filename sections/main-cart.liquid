@@ -1,0 +1,36 @@
+<section class="mr-page">
+  <div class="mr-page__container">
+    <h1 class="mr-page__title">Carrito</h1>
+    {% if cart.item_count > 0 %}
+      <form action="/cart" method="post">
+        {% for item in cart.items %}
+          <div style="display:flex; gap:20px; padding:20px 0; border-bottom:1px solid var(--mr-border);">
+            <div style="width:100px; height:130px; background:var(--mr-cream);">
+              {{ 'product-apparel-1' | placeholder_svg_tag }}
+            </div>
+            <div style="flex:1;">
+              <h3 class="mr-product__title">{{ item.product.title }}</h3>
+              <p class="mr-product__price">{{ item.price | money }} × {{ item.quantity }}</p>
+            </div>
+          </div>
+        {% endfor %}
+        <div style="text-align:right; margin-top:30px;">
+          <p style="font-size:1.2rem; margin-bottom:20px;"><strong>Total: {{ cart.total_price | money }}</strong></p>
+          <button type="submit" name="checkout" class="mr-btn mr-btn--solid">Finalizar Compra</button>
+        </div>
+      </form>
+    {% else %}
+      <p style="text-align:center;">Tu carrito está vacío</p>
+      <div style="text-align:center; margin-top:30px;">
+        <a href="/collections/all" class="mr-btn">Ver Catálogo</a>
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Carrito",
+  "settings": []
+}
+{% endschema %}

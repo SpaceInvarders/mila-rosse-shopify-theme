@@ -1,0 +1,17 @@
+<div class="mr-announcement">
+  {{ section.settings.text }}
+</div>
+
+{% schema %}
+{
+  "name": "Anuncio",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Texto del anuncio",
+      "default": "ENVÍO GRATIS A NIVEL NACIONAL · COMPRAS SOBRE $300.000"
+    }
+  ]
+}
+{% endschema %}

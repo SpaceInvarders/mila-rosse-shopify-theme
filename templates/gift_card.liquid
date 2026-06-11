@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{{ shop.name }} - Tarjeta de Regalo</title>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+  </head>
+  <body class="mr-body">
+    <section class="mr-page">
+      <div class="mr-page__container" style="text-align:center;">
+        <h1 class="mr-page__title">Tarjeta de Regalo</h1>
+        <p style="font-size:2rem; margin:30px 0;">{{ gift_card.initial_value | money_without_trailing_zeros }}</p>
+        <p>Código: <code>{{ gift_card.code | format_code }}</code></p>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<section class="mr-page">
+  <div class="mr-page__container">
+    <h1 class="mr-page__title">Colecciones</h1>
+    <div class="mr-products__grid">
+      {% for collection in collections %}
+        <a href="{{ collection.url }}" class="mr-product">
+          <div class="mr-product__media">
+            {{ 'collection-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+          </div>
+          <h3 class="mr-product__title">{{ collection.title }}</h3>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Lista Colecciones",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,69 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "MILA ROSSE",
+    "theme_version": "1.0.0",
+    "theme_author": "MILA ROSSE Studio",
+    "theme_documentation_url": "https://milarosse.com",
+    "theme_support_url": "https://milarosse.com/support"
+  },
+  {
+    "name": "MILA ROSSE",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Paleta de Colores"
+      },
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Verde Oscuro (Principal)",
+        "default": "#1a472a"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Naranja Cobrizo (Acento)",
+        "default": "#c97a44"
+      },
+      {
+        "type": "color",
+        "id": "color_background",
+        "label": "Fondo Crema",
+        "default": "#faf8f6"
+      },
+      {
+        "type": "header",
+        "content": "Marca"
+      },
+      {
+        "type": "text",
+        "id": "brand_name",
+        "label": "Nombre de la Marca",
+        "default": "MILA ROSSE"
+      },
+      {
+        "type": "text",
+        "id": "brand_tagline",
+        "label": "Slogan",
+        "default": "Sastrería Femenina Premium"
+      },
+      {
+        "type": "header",
+        "content": "Contacto"
+      },
+      {
+        "type": "text",
+        "id": "whatsapp_number",
+        "label": "Número WhatsApp (con código país)",
+        "default": "573227786365"
+      },
+      {
+        "type": "text",
+        "id": "instagram_handle",
+        "label": "Usuario Instagram",
+        "default": "milarosse.studio"
+      }
+    ]
+  }
+]
