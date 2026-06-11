@@ -1,7 +1,3 @@
-{%- liquid
-  assign reels_data = "Look Casual Friday|Blazer Nebraska + Jeans|Urban Stone Vibes|Chaqueta corta urbana|Elegancia Genova|Manga 3/4 para eventos|Manchester Style|Gabán + Pantalón ancho" | split: "|"
--%}
-
 <section class="mr-social">
   <div class="mr-social__container">
     <div class="mr-social__head">
@@ -12,21 +8,79 @@
     </div>
 
     <div class="mr-social__grid">
-      {%- for i in (0..3) -%}
-        {%- assign title_idx = i | times: 2 -%}
-        {%- assign sub_idx = title_idx | plus: 1 -%}
-        <a href="https://instagram.com/{{ settings.instagram_handle }}" target="_blank" rel="noopener" class="mr-reel">
-          <div class="mr-reel__placeholder">
-            {{ 'lifestyle-2' | placeholder_svg_tag: 'mr-reel__svg' }}
-          </div>
-          <div class="mr-reel__play"></div>
-          <div class="mr-reel__overlay"></div>
-          <div class="mr-reel__info">
-            <p class="mr-reel__title">{{ reels_data[title_idx] }}</p>
-            <p class="mr-reel__sub">{{ reels_data[sub_idx] }}</p>
-          </div>
-        </a>
-      {%- endfor -%}
+
+      <div class="mr-reel">
+        <div class="mr-reel__embed-wrap">
+          <iframe
+            src="{{ section.settings.reel_1_url }}"
+            class="mr-reel__embed"
+            frameborder="0"
+            scrolling="no"
+            allowtransparency="true"
+            allowfullscreen="true"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="mr-reel__caption">
+          <h3 class="mr-reel__title">{{ section.settings.reel_1_title }}</h3>
+          <p class="mr-reel__sub">{{ section.settings.reel_1_description }}</p>
+        </div>
+      </div>
+
+      <div class="mr-reel">
+        <div class="mr-reel__embed-wrap">
+          <iframe
+            src="{{ section.settings.reel_2_url }}"
+            class="mr-reel__embed"
+            frameborder="0"
+            scrolling="no"
+            allowtransparency="true"
+            allowfullscreen="true"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="mr-reel__caption">
+          <h3 class="mr-reel__title">{{ section.settings.reel_2_title }}</h3>
+          <p class="mr-reel__sub">{{ section.settings.reel_2_description }}</p>
+        </div>
+      </div>
+
+      <div class="mr-reel">
+        <div class="mr-reel__embed-wrap">
+          <iframe
+            src="{{ section.settings.reel_3_url }}"
+            class="mr-reel__embed"
+            frameborder="0"
+            scrolling="no"
+            allowtransparency="true"
+            allowfullscreen="true"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="mr-reel__caption">
+          <h3 class="mr-reel__title">{{ section.settings.reel_3_title }}</h3>
+          <p class="mr-reel__sub">{{ section.settings.reel_3_description }}</p>
+        </div>
+      </div>
+
+      <div class="mr-reel">
+        <div class="mr-reel__embed-wrap">
+          <iframe
+            src="{{ section.settings.reel_4_url }}"
+            class="mr-reel__embed"
+            frameborder="0"
+            scrolling="no"
+            allowtransparency="true"
+            allowfullscreen="true"
+            loading="lazy"
+          ></iframe>
+        </div>
+        <div class="mr-reel__caption">
+          <h3 class="mr-reel__title">{{ section.settings.reel_4_title }}</h3>
+          <p class="mr-reel__sub">{{ section.settings.reel_4_description }}</p>
+        </div>
+      </div>
+
     </div>
 
     <div class="mr-products__cta-wrap">
@@ -40,6 +94,10 @@
   "name": "Social Commerce",
   "settings": [
     {
+      "type": "header",
+      "content": "Encabezado"
+    },
+    {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow",
@@ -48,20 +106,109 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Título",
+      "label": "Titulo",
       "default": "Shop the Look"
     },
     {
       "type": "textarea",
       "id": "text",
-      "label": "Descripción",
-      "default": "Inspírate con nuestros looks en redes sociales."
+      "label": "Descripcion",
+      "default": "Inspirate con nuestros looks en redes sociales."
     },
     {
       "type": "text",
       "id": "button_label",
-      "label": "Texto del botón",
+      "label": "Texto del boton",
       "default": "Seguir @milarosse.studio"
+    },
+    {
+      "type": "header",
+      "content": "Reel 1"
+    },
+    {
+      "type": "text",
+      "id": "reel_1_url",
+      "label": "URL Embed Instagram",
+      "info": "Formato: https://www.instagram.com/p/POST_ID/embed/",
+      "default": "https://www.instagram.com/p/DZXxrVeRG67/embed/"
+    },
+    {
+      "type": "text",
+      "id": "reel_1_title",
+      "label": "Titulo",
+      "default": "Gabán: Infinitas Posibilidades"
+    },
+    {
+      "type": "textarea",
+      "id": "reel_1_description",
+      "label": "Descripcion",
+      "default": "La prenda que transforma cualquier outfit y te hace lucir impecable en segundos."
+    },
+    {
+      "type": "header",
+      "content": "Reel 2"
+    },
+    {
+      "type": "text",
+      "id": "reel_2_url",
+      "label": "URL Embed Instagram",
+      "default": "https://www.instagram.com/p/DY-aLuOpJ4h/embed/"
+    },
+    {
+      "type": "text",
+      "id": "reel_2_title",
+      "label": "Titulo",
+      "default": "Chaquetilla Manchester Classic"
+    },
+    {
+      "type": "textarea",
+      "id": "reel_2_description",
+      "label": "Descripcion",
+      "default": "La chaquetilla que marca tendencia. Diseño moderno y versatil."
+    },
+    {
+      "type": "header",
+      "content": "Reel 3"
+    },
+    {
+      "type": "text",
+      "id": "reel_3_url",
+      "label": "URL Embed Instagram",
+      "default": "https://www.instagram.com/p/DY7eRBpxC0S/embed/"
+    },
+    {
+      "type": "text",
+      "id": "reel_3_title",
+      "label": "Titulo",
+      "default": "Diseño Oversize Sofisticado"
+    },
+    {
+      "type": "textarea",
+      "id": "reel_3_description",
+      "label": "Descripcion",
+      "default": "La prenda perfecta para un estilo moderno y con personalidad."
+    },
+    {
+      "type": "header",
+      "content": "Reel 4"
+    },
+    {
+      "type": "text",
+      "id": "reel_4_url",
+      "label": "URL Embed Instagram",
+      "default": "https://www.instagram.com/p/DPm_e6yEeyM/embed/"
+    },
+    {
+      "type": "text",
+      "id": "reel_4_title",
+      "label": "Titulo",
+      "default": "Blazers de Temporada"
+    },
+    {
+      "type": "textarea",
+      "id": "reel_4_description",
+      "label": "Descripcion",
+      "default": "Descubre los blazers que estan dominando la temporada."
     }
   ],
   "presets": [
