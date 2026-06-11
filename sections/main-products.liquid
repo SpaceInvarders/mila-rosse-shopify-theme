@@ -1,31 +1,90 @@
-{%- liquid
-  assign products_data = "Blazer Nebraska|Blazer Oversize|$280.000|Chaqueta Urban Stone|Chaqueta Torera|$320.000|Blazer Genova|Blazer 3/4|$295.000|Gabán Manchester|Gabán Largo|$450.000|Chaqueta Manchester|Chaqueta Torera|$350.000" | split: "|"
--%}
-
 <section class="mr-products">
   <div class="mr-products__container">
+
     <div class="mr-products__grid">
-      {%- for i in (0..4) -%}
-        {%- assign name_idx = i | times: 3 -%}
-        {%- assign cat_idx = name_idx | plus: 1 -%}
-        {%- assign price_idx = name_idx | plus: 2 -%}
-        <a href="#" class="mr-product">
-          <div class="mr-product__media">
-            {%- if i == 0 -%}
-              <span class="mr-product__badge">Nuevo</span>
-            {%- endif -%}
-            {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+
+      {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
+        {%- assign source_products = section.settings.collection.products -%}
+        {%- assign products_count = source_products.size -%}
+        {%- assign limit = section.settings.products_to_show | default: 5 -%}
+        {%- if limit > products_count -%}{%- assign limit = products_count -%}{%- endif -%}
+
+        {%- for product in source_products limit: limit -%}
+          <a href="{{ product.url }}" class="mr-product">
+            <div class="mr-product__media">
+              {%- if forloop.first -%}
+                <span class="mr-product__badge">Nuevo</span>
+              {%- endif -%}
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape | default: product.title }}"
+                  loading="lazy"
+                  width="600"
+                  height="780">
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+              {%- endif -%}
+            </div>
+            <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
+            <h3 class="mr-product__title">{{ product.title }}</h3>
+            <div class="mr-product__price">{{ product.price | money }}</div>
+          </a>
+        {%- endfor -%}
+
+      {%- elsif collections.all.products.size > 0 -%}
+        {%- assign limit = section.settings.products_to_show | default: 5 -%}
+
+        {%- for product in collections.all.products limit: limit -%}
+          <a href="{{ product.url }}" class="mr-product">
+            <div class="mr-product__media">
+              {%- if forloop.first -%}
+                <span class="mr-product__badge">Nuevo</span>
+              {%- endif -%}
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape | default: product.title }}"
+                  loading="lazy"
+                  width="600"
+                  height="780">
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+              {%- endif -%}
+            </div>
+            <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
+            <h3 class="mr-product__title">{{ product.title }}</h3>
+            <div class="mr-product__price">{{ product.price | money }}</div>
+          </a>
+        {%- endfor -%}
+
+      {%- else -%}
+        {%- assign limit = section.settings.products_to_show | default: 5 -%}
+        {%- for i in (1..limit) -%}
+          <div class="mr-product">
+            <div class="mr-product__media">
+              {%- if forloop.first -%}
+                <span class="mr-product__badge">Nuevo</span>
+              {%- endif -%}
+              {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+            </div>
+            <div class="mr-product__category">Próximamente</div>
+            <h3 class="mr-product__title">Producto {{ forloop.index }}</h3>
+            <div class="mr-product__price">$0 COP</div>
           </div>
-          <div class="mr-product__category">{{ products_data[cat_idx] }}</div>
-          <h3 class="mr-product__title">{{ products_data[name_idx] }}</h3>
-          <div class="mr-product__price">{{ products_data[price_idx] }} COP</div>
-        </a>
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- endif -%}
+
     </div>
 
     <div class="mr-products__cta-wrap">
-      <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="mr-btn">{{ section.settings.button_label }}</a>
+      <a
+        href="{% if section.settings.collection != blank %}{{ section.settings.collection.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}"
+        class="mr-btn">
+        {{ section.settings.button_label | default: 'Ver Colección Completa' }}
+      </a>
     </div>
+
   </div>
 </section>
 
@@ -34,15 +93,33 @@
   "name": "Productos Destacados",
   "settings": [
     {
+      "type": "header",
+      "content": "Productos"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Colección",
+      "info": "Si no seleccionas, mostrará productos de toda la tienda"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Cantidad",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Botón"
+    },
+    {
       "type": "text",
       "id": "button_label",
       "label": "Texto del botón",
       "default": "Ver Colección Completa"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Enlace del botón"
     }
   ],
   "presets": [

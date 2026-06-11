@@ -1,21 +1,162 @@
-<section class="mr-page">
-  <div class="mr-page__container">
-    <h1 class="mr-page__title">{{ collection.title | default: 'Colección' }}</h1>
-    <div class="mr-products__grid">
-      {% for product in collection.products %}
-        <a href="{{ product.url }}" class="mr-product">
-          <div class="mr-product__media">
-            {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
-          </div>
-          <h3 class="mr-product__title">{{ product.title }}</h3>
-          <div class="mr-product__price">{{ product.price | money }}</div>
-        </a>
-      {% else %}
-        <p>No hay productos en esta colección todavía.</p>
-      {% endfor %}
+<section class="mr-collection">
+  <div class="mr-collection__container">
+
+    <div class="mr-collection__header">
+      <div class="mr-collection__eyebrow">COLECCIÓN</div>
+      <h1 class="mr-collection__title">{{ collection.title | default: 'Catálogo' }}</h1>
+      <div class="mr-collection__divider"></div>
+      {%- if collection.description != blank -%}
+        <div class="mr-collection__description">{{ collection.description }}</div>
+      {%- endif -%}
+      <p class="mr-collection__count">
+        {%- if collection.products_count > 0 -%}
+          {{ collection.products_count }} {% if collection.products_count == 1 %}pieza{% else %}piezas{% endif %}
+        {%- endif -%}
+      </p>
     </div>
+
+    {%- if collection.products.size > 0 -%}
+      <div class="mr-collection__grid">
+        {%- for product in collection.products -%}
+          <a href="{{ product.url }}" class="mr-product">
+            <div class="mr-product__media">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 600 }}"
+                  alt="{{ product.featured_image.alt | escape | default: product.title }}"
+                  loading="lazy"
+                  width="600"
+                  height="780">
+                {%- if product.images.size > 1 -%}
+                  <img
+                    src="{{ product.images[1] | image_url: width: 600 }}"
+                    alt="{{ product.title }}"
+                    class="mr-product__media-hover"
+                    loading="lazy"
+                    width="600"
+                    height="780">
+                {%- endif -%}
+              {%- else -%}
+                {{ 'product-apparel-1' | placeholder_svg_tag: 'mr-product__svg' }}
+              {%- endif -%}
+            </div>
+            <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
+            <h3 class="mr-product__title">{{ product.title }}</h3>
+            <div class="mr-product__price">{{ product.price | money }}</div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- else -%}
+      <div class="mr-collection__empty">
+        <p>Próximamente nuevas piezas en esta colección.</p>
+        <a href="{{ routes.all_products_collection_url }}" class="mr-btn">Ver toda la tienda</a>
+      </div>
+    {%- endif -%}
+
   </div>
 </section>
+
+<style>
+  .mr-collection {
+    background: var(--mr-cream, #faf8f6);
+    padding: 80px 30px;
+    min-height: 70vh;
+  }
+  .mr-collection__container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .mr-collection__header {
+    text-align: center;
+    margin-bottom: 70px;
+  }
+  .mr-collection__eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--mr-copper, #c97a44);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+  .mr-collection__title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: 0.3em;
+    color: var(--mr-dark-green, #1a472a);
+    margin: 0 0 25px;
+    text-transform: uppercase;
+  }
+  .mr-collection__divider {
+    width: 60px;
+    height: 1px;
+    background: var(--mr-copper, #c97a44);
+    margin: 0 auto 25px;
+  }
+  .mr-collection__description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--mr-text-light, #666);
+    max-width: 600px;
+    margin: 0 auto 15px;
+    line-height: 1.7;
+  }
+  .mr-collection__count {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mr-copper, #c97a44);
+    margin: 0;
+  }
+
+  .mr-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px 25px;
+  }
+
+  .mr-collection .mr-product__media {
+    position: relative;
+  }
+  .mr-collection .mr-product__media img {
+    transition: opacity 0.5s ease;
+  }
+  .mr-collection .mr-product__media-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+  .mr-collection .mr-product:hover .mr-product__media-hover { opacity: 1; }
+
+  .mr-collection__empty {
+    text-align: center;
+    padding: 80px 20px;
+  }
+  .mr-collection__empty p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--mr-text-light, #666);
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 1024px) {
+    .mr-collection__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .mr-collection { padding: 50px 20px; }
+    .mr-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 25px 15px; }
+    .mr-collection__header { margin-bottom: 40px; }
+  }
+  @media (max-width: 480px) {
+    .mr-collection__grid { grid-template-columns: 1fr; }
+  }
+</style>
 
 {% schema %}
 {
