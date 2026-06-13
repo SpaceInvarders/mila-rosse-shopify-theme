@@ -53,83 +53,69 @@
         "show_text_below": false
       }
     },
+    "intro_text": {
+      "type": "rich-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "LOOKBOOK",
+            "text_style": "uppercase"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Piezas Destacadas",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Descubre nuestras creaciones más emblemáticas, diseñadas con tejidos premium y atención al detalle.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 80,
+        "padding_bottom": 20
+      }
+    },
     "featured_products": {
       "type": "featured-collection",
       "settings": {
-        "title": "Colección Destacada",
+        "title": "",
         "heading_size": "h1",
         "description": "",
         "show_description": false,
         "description_style": "body",
         "collection": "",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "full_width": true,
+        "products_to_show": 5,
+        "columns_desktop": 5,
+        "full_width": false,
         "show_view_all": true,
         "view_all_style": "solid",
-        "enable_desktop_slider": true,
+        "enable_desktop_slider": false,
         "color_scheme": "scheme-3",
         "image_ratio": "portrait",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
-        "enable_quick_add": true,
+        "enable_quick_add": false,
         "columns_mobile": "2",
-        "swipe_on_mobile": true,
-        "padding_top": 60,
-        "padding_bottom": 60
-      }
-    },
-    "instagram_videos": {
-      "type": "instagram-videos",
-      "blocks": {
-        "video_1": {
-          "type": "video",
-          "settings": {
-            "embed_url": ""
-          }
-        },
-        "video_2": {
-          "type": "video",
-          "settings": {
-            "embed_url": ""
-          }
-        },
-        "video_3": {
-          "type": "video",
-          "settings": {
-            "embed_url": ""
-          }
-        },
-        "video_4": {
-          "type": "video",
-          "settings": {
-            "embed_url": ""
-          }
-        },
-        "video_5": {
-          "type": "video",
-          "settings": {
-            "embed_url": ""
-          }
-        }
-      },
-      "block_order": [
-        "video_1",
-        "video_2",
-        "video_3",
-        "video_4",
-        "video_5"
-      ],
-      "settings": {
-        "label": "SÍGUENOS EN INSTAGRAM",
-        "heading": "Como lo usan nuestras clientas",
-        "subtext": "Videos reales · Sin filtros · Pura sastrería",
-        "background_color": "#FBF9F6",
-        "cta_label": "Seguir @milarosse.studio",
-        "cta_url": "https://instagram.com/milarosse.studio",
-        "padding_top": 80,
+        "swipe_on_mobile": false,
+        "padding_top": 20,
         "padding_bottom": 80
       }
     },
@@ -191,7 +177,7 @@
         "button_link": "https://instagram.com/milarosse.studio",
         "color_scheme": "",
         "columns_mobile": "1",
-        "swipe_on_mobile": true,
+        "swipe_on_mobile": false,
         "padding_top": 80,
         "padding_bottom": 80
       }
@@ -285,8 +271,8 @@
   },
   "order": [
     "hero_banner",
+    "intro_text",
     "featured_products",
-    "instagram_videos",
     "social_commerce",
     "advisory",
     "newsletter"
