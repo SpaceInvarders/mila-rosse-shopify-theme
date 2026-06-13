@@ -9,93 +9,286 @@
  */
 {
   "sections": {
-    "banner": {
-      "type": "main-banner",
+    "hero_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "MILA ROSSE",
+            "heading_size": "h0"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "Sastrería Femenina Premium · Colección Otoño 2026",
+            "text_style": "subtitle"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Ver Colección",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
-        "subtitle": "Sastrería Femenina · Colección Otoño 2026",
-        "button_label": "Ver Colección",
-        "button_link": ""
+        "image_overlay_opacity": 40,
+        "image_height": "large",
+        "desktop_content_position": "middle-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-1",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": true,
+        "show_text_below": false
       }
     },
-    "intro": {
-      "type": "main-intro",
+    "featured_products": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "LOOKBOOK",
-        "title": "Piezas Destacadas",
-        "text": "Descubre nuestras creaciones más emblemáticas, diseñadas con tejidos premium y atención al detalle en cada costura."
+        "title": "Colección Destacada",
+        "heading_size": "h1",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": true,
+        "color_scheme": "scheme-3",
+        "image_ratio": "portrait",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "enable_quick_add": true,
+        "columns_mobile": "2",
+        "swipe_on_mobile": true,
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
-    "products": {
-      "type": "main-products",
+    "instagram_videos": {
+      "type": "instagram-videos",
+      "blocks": {
+        "video_1": {
+          "type": "video",
+          "settings": {
+            "embed_url": ""
+          }
+        },
+        "video_2": {
+          "type": "video",
+          "settings": {
+            "embed_url": ""
+          }
+        },
+        "video_3": {
+          "type": "video",
+          "settings": {
+            "embed_url": ""
+          }
+        },
+        "video_4": {
+          "type": "video",
+          "settings": {
+            "embed_url": ""
+          }
+        },
+        "video_5": {
+          "type": "video",
+          "settings": {
+            "embed_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "video_1",
+        "video_2",
+        "video_3",
+        "video_4",
+        "video_5"
+      ],
       "settings": {
-        "button_label": "Ver Colección Completa",
-        "button_link": ""
+        "label": "SÍGUENOS EN INSTAGRAM",
+        "heading": "Como lo usan nuestras clientas",
+        "subtext": "Videos reales · Sin filtros · Pura sastrería",
+        "background_color": "#FBF9F6",
+        "cta_label": "Seguir @milarosse.studio",
+        "cta_url": "https://instagram.com/milarosse.studio",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
-    "video_scrub": {
-      "type": "video-scroll-scrub",
+    "social_commerce": {
+      "type": "multicolumn",
+      "blocks": {
+        "col1": {
+          "type": "column",
+          "settings": {
+            "title": "Look Casual",
+            "text": "<p>Blazer Nebraska + Jeans Premium</p>",
+            "link_label": "Ver más",
+            "link": "https://instagram.com/milarosse.studio"
+          }
+        },
+        "col2": {
+          "type": "column",
+          "settings": {
+            "title": "Urban Stone",
+            "text": "<p>Chaqueta corta urbana</p>",
+            "link_label": "Ver más",
+            "link": "https://instagram.com/milarosse.studio"
+          }
+        },
+        "col3": {
+          "type": "column",
+          "settings": {
+            "title": "Genova Style",
+            "text": "<p>Manga 3/4 elegante</p>",
+            "link_label": "Ver más",
+            "link": "https://instagram.com/milarosse.studio"
+          }
+        },
+        "col4": {
+          "type": "column",
+          "settings": {
+            "title": "Manchester",
+            "text": "<p>Gabán + Pantalón ancho</p>",
+            "link_label": "Ver más",
+            "link": "https://instagram.com/milarosse.studio"
+          }
+        }
+      },
+      "block_order": [
+        "col1",
+        "col2",
+        "col3",
+        "col4"
+      ],
       "settings": {
-        "video_source": "shopify://files/videos/puedes_hacer_una_video_de_se.mp4",
-        "scroll_height": 300,
-        "object_fit": "cover",
-        "background_color": "#1a472a",
-        "show_overlay": true,
-        "overlay_opacity": 25,
-        "eyebrow": "DETALLES",
-        "heading": "Blazer Nebraska",
-        "subtitle": "Cada costura cuenta una historia de elegancia y artesanía premium.",
-        "text_color": "#ffffff",
-        "show_scroll_hint": true
-      }
-    },
-    "social": {
-      "type": "main-social",
-      "settings": {
-        "eyebrow": "INSTAGRAM",
         "title": "Shop the Look",
-        "text": "Inspirate con nuestros looks en redes sociales.",
+        "heading_size": "h1",
+        "image_width": "full",
+        "image_ratio": "portrait",
+        "columns_desktop": 4,
+        "column_alignment": "center",
+        "background_style": "none",
         "button_label": "Seguir @milarosse.studio",
-        "reel_1_url": "https://www.instagram.com/p/DZXxrVeRG67/embed/",
-        "reel_1_title": "Gabán: Infinitas Posibilidades",
-        "reel_1_description": "La prenda que transforma cualquier outfit y te hace lucir impecable en segundos.",
-        "reel_2_url": "https://www.instagram.com/p/DY-aLuOpJ4h/embed/",
-        "reel_2_title": "Chaquetilla Manchester Classic",
-        "reel_2_description": "La chaquetilla que marca tendencia. Diseño moderno y versatil.",
-        "reel_3_url": "https://www.instagram.com/p/DY7eRBpxC0S/embed/",
-        "reel_3_title": "Diseño Oversize Sofisticado",
-        "reel_3_description": "La prenda perfecta para un estilo moderno y con personalidad.",
-        "reel_4_url": "https://www.instagram.com/p/DPm_e6yEeyM/embed/",
-        "reel_4_title": "Blazers de Temporada",
-        "reel_4_description": "Descubre los blazers que estan dominando la temporada."
+        "button_link": "https://instagram.com/milarosse.studio",
+        "color_scheme": "",
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "advisory": {
-      "type": "main-advisory",
+      "type": "image-with-text",
+      "blocks": {
+        "caption": {
+          "type": "caption",
+          "settings": {
+            "caption": "ATENCIÓN PERSONALIZADA",
+            "text_style": "uppercase"
+          }
+        },
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Asesoría de Talla",
+            "heading_size": "h1"
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Nuestras asesoras de moda están listas para ayudarte a encontrar la talla perfecta. Contáctanos por WhatsApp y recibe atención personalizada de nuestras expertas.</p>",
+            "text_style": "body"
+          }
+        },
+        "button": {
+          "type": "button",
+          "settings": {
+            "button_label": "Contactar por WhatsApp",
+            "button_link": "https://wa.me/573227786365"
+          }
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "text",
+        "button"
+      ],
       "settings": {
-        "eyebrow": "ATENCIÓN PERSONALIZADA",
-        "title": "Asesoría de Talla",
-        "text": "Nuestras asesoras de moda están listas para ayudarte a encontrar la talla perfecta. Contáctanos por WhatsApp.",
-        "button_label": "Contactar por WhatsApp"
+        "height": "medium",
+        "desktop_image_width": "medium",
+        "layout": "image_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "left",
+        "content_layout": "no-overlap",
+        "section_color_scheme": "scheme-2",
+        "color_scheme": "",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 80,
+        "padding_bottom": 80
       }
     },
     "newsletter": {
-      "type": "main-newsletter",
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "ÚNETE AL MUNDO MILA ROSSE",
+            "heading_size": "h2"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Recibe acceso exclusivo a nuevas colecciones, lookbooks y ofertas especiales.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
       "settings": {
-        "title": "ÚNETE AL MUNDO MILA ROSSE",
-        "text": "Recibe acceso exclusivo a nuevas colecciones, lookbooks y ofertas especiales.",
-        "placeholder": "Tu correo electrónico",
-        "button_label": "Suscribirme"
+        "color_scheme": "scheme-3",
+        "full_width": true,
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     }
   },
   "order": [
-    "banner",
-    "intro",
-    "products",
-    "video_scrub",
-    "social",
+    "hero_banner",
+    "featured_products",
+    "instagram_videos",
+    "social_commerce",
     "advisory",
     "newsletter"
   ]
 }
-
