@@ -213,57 +213,110 @@
     color: rgba(27, 77, 62, 0.8);
   }
 
-  /* Review Minimalist UI */
-  .mr-reviews-section {
+  /* Review Minimalist UI / Testimonials */
+  .mr-pdp__testimonials {
     margin-top: 4rem;
     padding-top: 3rem;
     border-top: 1px solid var(--mr-border);
+    font-family: 'Inter', sans-serif;
   }
-  .mr-reviews-title {
-    font-family: var(--mr-font-serif);
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    font-weight: 400;
+  .mr-pdp__testimonials-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--mr-text, #1a1a1a);
+    margin: 0 0 15px;
   }
-  .mr-review-list {
+  .mr-pdp__testimonials-summary {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-  }
-  .mr-review-item {
-    border-bottom: 1px solid rgba(27, 77, 62, 0.05);
-    padding-bottom: 1.5rem;
-  }
-  .mr-review-header {
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.8rem;
+    margin-bottom: 20px;
   }
-  .mr-review-author {
+  .mr-pdp__testimonials-stars {
+    display: flex;
+    align-items: center;
+    color: var(--mr-copper, #c97a44);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  .mr-pdp__testimonials-stars .half { opacity: 0.5; }
+  .mr-pdp__testimonials-score {
+    font-size: 0.85rem;
     font-weight: 600;
-    font-size: 0.9rem;
-    letter-spacing: 0.5px;
+    color: var(--mr-text-light, #666);
+    margin-left: 10px;
+  }
+  .mr-pdp__testimonials-count {
+    font-size: 0.75rem;
+    color: var(--mr-text-light, #666);
+    margin: 0;
+  }
+  .mr-pdp__testimonials-bars {
+    max-width: 320px;
+    margin: 0 auto 30px;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
   }
-  .mr-review-verified {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.6;
-    font-weight: 400;
+  .mr-pdp__testimonials-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--mr-text-light, #666);
   }
-  .mr-review-date {
-    font-size: 0.8rem;
-    opacity: 0.6;
+  .mr-pdp__testimonials-bar-stars {
+    color: var(--mr-copper, #c97a44);
+    width: 60px;
+    text-align: right;
+    letter-spacing: 2px;
   }
-  .mr-review-text {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    opacity: 0.9;
+  .mr-pdp__testimonials-bar-stars .empty { color: var(--mr-border, #e8e4de); }
+  .mr-pdp__testimonials-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--mr-cream, #faf8f6);
+    border-radius: 4px;
+    overflow: hidden;
   }
+  .mr-pdp__testimonials-bar-fill {
+    height: 100%;
+    background: var(--mr-dark-green, #1a472a);
+    border-radius: 4px;
+  }
+  .mr-pdp__testimonials-bar-count {
+    width: 30px;
+    text-align: left;
+  }
+  .mr-pdp__testimonials-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .mr-pdp__testimonials-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .mr-pdp__testimonials-btn--dark {
+    background: #333333;
+    color: #ffffff;
+    border: none;
+  }
+  .mr-pdp__testimonials-btn--dark:hover { background: #000000; }
+  .mr-pdp__testimonials-btn--light {
+    background: #ffffff;
+    color: var(--mr-text-light, #666);
+    border: 1px solid var(--mr-border, #e8e4de);
+  }
+  .mr-pdp__testimonials-btn--light:hover { background: var(--mr-cream, #faf8f6); }
 
   /* Related Products */
   .mr-related-section {
@@ -482,40 +535,48 @@
         </details>
       </div>
 
-      <!-- Minimalist Review UI -->
-      <div class="mr-reviews-section">
-        <h2 class="mr-reviews-title">Voces de Clientas</h2>
-        
-        <div class="mr-review-list">
-          <div class="mr-review-item">
-            <div class="mr-review-header">
-              <div class="mr-aesthetic-stars">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              </div>
-              <span class="mr-review-date">Hace 2 semanas</span>
-            </div>
-            <div class="mr-review-author">María Fernanda <span class="mr-review-verified">| Compra verificada</span></div>
-            <div class="mr-review-text">La calidad de la tela es increíble. El corte me quedó perfecto, realmente se nota la atención al detalle en la sastrería y los acabados a mano. Definitivamente una inversión que vale la pena.</div>
+      <!-- Minimalist Review UI / Testimonials -->
+      <div class="mr-pdp__testimonials">
+        <h4 class="mr-pdp__testimonials-title">Testimonios de nuestros clientes</h4>
+        <div class="mr-pdp__testimonials-summary">
+          <div class="mr-pdp__testimonials-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span class="half">★</span>
+            <span class="mr-pdp__testimonials-score">4.66 de 5</span>
           </div>
+          <p class="mr-pdp__testimonials-count">Basado en 458 reseñas(s)</p>
+        </div>
 
-          <div class="mr-review-item">
-            <div class="mr-review-header">
-              <div class="mr-aesthetic-stars">
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              </div>
-              <span class="mr-review-date">Hace 1 mes</span>
-            </div>
-            <div class="mr-review-author">Camila R. <span class="mr-review-verified">| Compra verificada</span></div>
-            <div class="mr-review-text">Súper elegante. Me lo puse para una presentación importante en la oficina y me sentí muy segura de mi misma. El forro interno se siente muy premium contra la piel.</div>
+        <div class="mr-pdp__testimonials-bars">
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 80%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">379</span>
           </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★★</span><span class="empty">★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 15%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">40</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★</span><span class="empty">★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 5%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">17</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★</span><span class="empty">★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 2%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">7</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★</span><span class="empty">★★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 4%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">15</span>
+          </div>
+        </div>
+
+        <div class="mr-pdp__testimonials-actions">
+          <button class="mr-pdp__testimonials-btn mr-pdp__testimonials-btn--dark">Escribir una reseña</button>
+          <button class="mr-pdp__testimonials-btn mr-pdp__testimonials-btn--light">Tengo una pregunta</button>
         </div>
       </div>
 
