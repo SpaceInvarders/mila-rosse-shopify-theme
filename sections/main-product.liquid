@@ -114,6 +114,50 @@
           <span><a href="https://wa.me/{{ settings.whatsapp_number | default: '573227786365' }}" target="_blank" rel="noopener">WhatsApp directo</a></span>
         </div>
       </div>
+
+      <div class="mr-pdp__testimonials">
+        <h4 class="mr-pdp__testimonials-title">Testimonios de nuestros clientes</h4>
+        <div class="mr-pdp__testimonials-summary">
+          <div class="mr-pdp__testimonials-stars">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span class="half">★</span>
+            <span class="mr-pdp__testimonials-score">4.66 de 5</span>
+          </div>
+          <p class="mr-pdp__testimonials-count">Basado en 458 reseñas(s)</p>
+        </div>
+
+        <div class="mr-pdp__testimonials-bars">
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 80%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">379</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★★</span><span class="empty">★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 15%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">40</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★★</span><span class="empty">★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 5%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">17</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★★</span><span class="empty">★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 2%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">7</span>
+          </div>
+          <div class="mr-pdp__testimonials-bar-row">
+            <div class="mr-pdp__testimonials-bar-stars"><span>★</span><span class="empty">★★★★</span></div>
+            <div class="mr-pdp__testimonials-bar-track"><div class="mr-pdp__testimonials-bar-fill" style="width: 4%"></div></div>
+            <span class="mr-pdp__testimonials-bar-count">15</span>
+          </div>
+        </div>
+
+        <div class="mr-pdp__testimonials-actions">
+          <button class="mr-pdp__testimonials-btn mr-pdp__testimonials-btn--dark">Escribir una reseña</button>
+          <button class="mr-pdp__testimonials-btn mr-pdp__testimonials-btn--light">Tengo una pregunta</button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -351,6 +395,111 @@
     text-decoration: none;
   }
   .mr-pdp__feature a:hover { text-decoration: underline; }
+
+  /* Testimonials */
+  .mr-pdp__testimonials {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid var(--mr-border, #e8e4de);
+    font-family: 'Inter', sans-serif;
+  }
+  .mr-pdp__testimonials-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--mr-text, #1a1a1a);
+    margin: 0 0 15px;
+  }
+  .mr-pdp__testimonials-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .mr-pdp__testimonials-stars {
+    display: flex;
+    align-items: center;
+    color: var(--mr-copper, #c97a44);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  .mr-pdp__testimonials-stars .half { opacity: 0.5; }
+  .mr-pdp__testimonials-score {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mr-text-light, #666);
+    margin-left: 10px;
+  }
+  .mr-pdp__testimonials-count {
+    font-size: 0.75rem;
+    color: var(--mr-text-light, #666);
+    margin: 0;
+  }
+  .mr-pdp__testimonials-bars {
+    max-width: 320px;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mr-pdp__testimonials-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--mr-text-light, #666);
+  }
+  .mr-pdp__testimonials-bar-stars {
+    color: var(--mr-copper, #c97a44);
+    width: 60px;
+    text-align: right;
+    letter-spacing: 2px;
+  }
+  .mr-pdp__testimonials-bar-stars .empty { color: var(--mr-border, #e8e4de); }
+  .mr-pdp__testimonials-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--mr-cream, #faf8f6);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .mr-pdp__testimonials-bar-fill {
+    height: 100%;
+    background: var(--mr-dark-green, #1a472a);
+    border-radius: 4px;
+  }
+  .mr-pdp__testimonials-bar-count {
+    width: 30px;
+    text-align: left;
+  }
+  .mr-pdp__testimonials-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .mr-pdp__testimonials-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 30px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .mr-pdp__testimonials-btn--dark {
+    background: #333333;
+    color: #ffffff;
+    border: none;
+  }
+  .mr-pdp__testimonials-btn--dark:hover { background: #000000; }
+  .mr-pdp__testimonials-btn--light {
+    background: #ffffff;
+    color: var(--mr-text-light, #666);
+    border: 1px solid var(--mr-border, #e8e4de);
+  }
+  .mr-pdp__testimonials-btn--light:hover { background: var(--mr-cream, #faf8f6); }
 
   @media (max-width: 768px) {
     .mr-pdp { padding: 30px 20px; }
