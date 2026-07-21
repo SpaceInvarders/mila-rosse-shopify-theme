@@ -1,0 +1,55 @@
+<div class="mr-story">
+  <div class="mr-story__container">
+    <div class="mr-story__eyebrow">{{ section.settings.eyebrow }}</div>
+    <h1 class="mr-story__title">{{ section.settings.title }}</h1>
+    <div class="mr-story__divider"></div>
+    <div class="mr-story__body">
+      {% if section.settings.image %}
+        <div class="mr-story__image">
+          <img src="{{ section.settings.image | image_url: width: 700 }}" alt="{{ section.settings.image.alt | escape }}">
+        </div>
+      {% endif %}
+      <div class="mr-story__text">{{ section.settings.story }}</div>
+    </div>
+    <div class="mr-story__pillars">
+      {% for block in section.blocks %}
+        <div class="mr-story__pillar" {{ block.shopify_attributes }}>
+          <div class="mr-story__pillar-num">{{ block.settings.label }}</div>
+          <div class="mr-story__pillar-text">{{ block.settings.text }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Nuestra Historia",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "DESDE EL CORAZÓN DE COLOMBIA" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Nuestra Historia" },
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "richtext", "id": "story", "label": "Historia", "default": "<p>MILA ROSSE nació de una idea simple: la mujer colombiana merece sastrería de la más alta calidad, diseñada y confeccionada pensando en su cuerpo, su estilo y su vida real.</p><p>Cada blazer, chaqueta y gabán que creamos pasa por un proceso cuidadoso de diseño propio, selección de tejidos premium y confección artesanal, buscando que cada prenda se sienta tan bien como se ve.</p><p>Hoy seguimos creciendo gracias a la confianza de cada clienta que elige vestir MILA ROSSE.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pilar",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Número/Etiqueta" },
+        { "type": "text", "id": "text", "label": "Descripción" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nuestra Historia",
+      "blocks": [
+        { "type": "pillar", "settings": { "label": "100%", "text": "Diseño Propio" } },
+        { "type": "pillar", "settings": { "label": "Premium", "text": "Tejidos Seleccionados" } },
+        { "type": "pillar", "settings": { "label": "1:1", "text": "Asesoría Personalizada" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

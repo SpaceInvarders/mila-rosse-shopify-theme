@@ -1,0 +1,54 @@
+<div class="mr-faq">
+  <div class="mr-faq__container">
+    <div class="mr-faq__eyebrow">{{ section.settings.eyebrow }}</div>
+    <h1 class="mr-faq__title">{{ section.settings.title }}</h1>
+    <div class="mr-faq__divider"></div>
+    <div class="mr-faq__list">
+      {% for block in section.blocks %}
+        <details class="mr-faq__item" {{ block.shopify_attributes }}>
+          <summary class="mr-faq__question">{{ block.settings.question }} <span class="mr-faq__icon">+</span></summary>
+          <div class="mr-faq__answer">{{ block.settings.answer }}</div>
+        </details>
+      {% endfor %}
+    </div>
+    <div class="mr-faq__cta">
+      <p>¿No encontraste tu respuesta?</p>
+      <a href="/pages/contact" class="mr-btn mr-btn--solid">Contáctanos</a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Preguntas Frecuentes",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "AYUDA" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Preguntas Frecuentes" }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Pregunta",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Pregunta" },
+        { "type": "richtext", "id": "answer", "label": "Respuesta" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Preguntas Frecuentes",
+      "blocks": [
+        { "type": "faq_item", "settings": { "question": "¿Cuánto tarda el envío?", "answer": "<p>Los envíos nacionales dentro de Colombia tardan entre 3 y 5 días hábiles.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Hacen envíos internacionales?", "answer": "<p>Por ahora nuestros envíos están disponibles solo para Colombia. Estamos trabajando para llegar pronto a más países.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Qué métodos de pago aceptan?", "answer": "<p>Aceptamos Mercado Pago y PSE para pagos seguros desde Colombia.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Puedo cambiar o devolver una prenda?", "answer": "<p>Sí, tienes 30 días desde la recepción del pedido para solicitar un cambio o devolución, siempre que la prenda esté en su estado original.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Cómo sé cuál es mi talla?", "answer": "<p>Nuestras tallas van de XS a XL. Escríbenos por WhatsApp y una asesora te ayudará a encontrar tu talla ideal.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Cómo debo cuidar mis prendas?", "answer": "<p>Recomendamos limpieza en seco para conservar la estructura y calidad de los tejidos.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Puedo cambiar mi pedido después de realizarlo?", "answer": "<p>Escríbenos lo antes posible por WhatsApp o correo y con gusto te ayudamos si el pedido aún no ha sido despachado.</p>" } },
+        { "type": "faq_item", "settings": { "question": "¿Cómo los contacto?", "answer": "<p>Por WhatsApp o mediante nuestro formulario de contacto. Respondemos en 24-48 horas hábiles.</p>" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

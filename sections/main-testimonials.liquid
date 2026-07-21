@@ -1,0 +1,43 @@
+<div class="mr-testimonials">
+  <div class="mr-testimonials__container">
+    <div class="mr-testimonials__head">
+      <div class="mr-testimonials__eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="mr-testimonials__title">{{ section.settings.title }}</h2>
+    </div>
+    <div class="mr-testimonials__grid">
+      {% for block in section.blocks %}
+        <div class="mr-testimonial" {{ block.shopify_attributes }}>
+          <div class="mr-testimonial__stars">
+            {% for i in (1..5) %}{% if i <= block.settings.rating %}★{% else %}☆{% endif %}{% endfor %}
+          </div>
+          <p class="mr-testimonial__quote">"{{ block.settings.quote }}"</p>
+          <p class="mr-testimonial__author">{{ block.settings.author }}</p>
+          <p class="mr-testimonial__location">{{ block.settings.location }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Testimonios",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Lo que dicen de nosotras" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Reseñas de Clientas" }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonio",
+      "settings": [
+        { "type": "range", "id": "rating", "label": "Calificación", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "textarea", "id": "quote", "label": "Reseña" },
+        { "type": "text", "id": "author", "label": "Nombre" },
+        { "type": "text", "id": "location", "label": "Ciudad" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Testimonios", "blocks": [{ "type": "testimonial" }, { "type": "testimonial" }, { "type": "testimonial" }] } ]
+}
+{% endschema %}

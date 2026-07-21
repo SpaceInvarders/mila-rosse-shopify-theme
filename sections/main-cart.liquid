@@ -1,36 +1,51 @@
-<section class="mr-page">
-  <div class="mr-page__container">
-    <h1 class="mr-page__title">Carrito</h1>
+<div class="mr-cart">
+  <div class="mr-cart__container">
     {% if cart.item_count > 0 %}
-      <form action="/cart" method="post">
-        {% for item in cart.items %}
-          <div style="display:flex; gap:20px; padding:20px 0; border-bottom:1px solid var(--mr-border);">
-            <div style="width:100px; height:130px; background:var(--mr-cream);">
-              {{ 'product-apparel-1' | placeholder_svg_tag }}
+      <div class="mr-cart__shipping-note">Envío gratis a toda Colombia · Entrega en 3-5 días hábiles</div>
+      <form action="/cart" method="post" class="mr-cart__layout">
+        <div class="mr-cart__items">
+          {% for item in cart.items %}
+            <div class="mr-cart__item">
+              <div class="mr-cart__item-image">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}">
+                {% endif %}
+              </div>
+              <div class="mr-cart__item-info">
+                <div class="mr-cart__item-title"><a href="{{ item.url }}">{{ item.product.title }}</a></div>
+                {% unless item.product.has_only_default_variant %}
+                  <div class="mr-cart__item-variant">{{ item.variant.title }}</div>
+                {% endunless %}
+                <div class="mr-cart__item-price">{{ item.final_price | money }}</div>
+              </div>
+              <div class="mr-cart__item-actions">
+                <div class="mr-cart__qty">
+                  <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0">
+                </div>
+                <a href="/cart/change?line={{ forloop.index }}&quantity=0" class="mr-cart__remove">Eliminar</a>
+              </div>
             </div>
-            <div style="flex:1;">
-              <h3 class="mr-product__title">{{ item.product.title }}</h3>
-              <p class="mr-product__price">{{ item.price | money }} × {{ item.quantity }}</p>
-            </div>
-          </div>
-        {% endfor %}
-        <div style="text-align:right; margin-top:30px;">
-          <p style="font-size:1.2rem; margin-bottom:20px;"><strong>Total: {{ cart.total_price | money }}</strong></p>
-          <button type="submit" name="checkout" class="mr-btn mr-btn--solid">Finalizar Compra</button>
+          {% endfor %}
+        </div>
+        <div class="mr-cart__summary">
+          <h2 class="mr-cart__summary-title">Resumen</h2>
+          <div class="mr-cart__summary-row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+          <div class="mr-cart__summary-row"><span>Envío</span><span>Gratis</span></div>
+          <div class="mr-cart__summary-row mr-cart__summary-row--total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+          <button type="submit" name="update" class="mr-btn mr-btn--full">Actualizar Carrito</button>
+          <button type="submit" name="checkout" class="mr-btn mr-btn--solid mr-btn--full mr-cart__checkout">Finalizar Compra</button>
         </div>
       </form>
     {% else %}
-      <p style="text-align:center;">Tu carrito está vacío</p>
-      <div style="text-align:center; margin-top:30px;">
-        <a href="/collections/all" class="mr-btn">Ver Catálogo</a>
+      <div class="mr-cart__empty">
+        <svg class="mr-cart__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <p class="mr-cart__empty-text">Tu carrito está vacío</p>
+        <a href="/collections/all" class="mr-btn mr-btn--solid">Ver Catálogo</a>
       </div>
     {% endif %}
   </div>
-</section>
+</div>
 
 {% schema %}
-{
-  "name": "Carrito",
-  "settings": []
-}
+{ "name": "Carrito", "settings": [] }
 {% endschema %}

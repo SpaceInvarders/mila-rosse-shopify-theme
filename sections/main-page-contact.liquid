@@ -1,0 +1,41 @@
+<div class="mr-contact">
+  <div class="mr-contact__container">
+    <p class="mr-contact__intro">¿Tienes preguntas sobre tallas, envíos o alguna prenda? Escríbenos, con gusto te ayudamos.</p>
+    <div class="mr-contact__grid">
+      <div class="mr-contact__form">
+        {% form 'contact' %}
+          {% if form.posted_successfully? %}
+            <div class="mr-contact__success">¡Gracias por escribirnos! Te responderemos pronto.</div>
+          {% endif %}
+          <div class="mr-contact__field">
+            <label class="mr-contact__label" for="ContactName">Nombre</label>
+            <input class="mr-contact__input" type="text" id="ContactName" name="contact[name]" required>
+          </div>
+          <div class="mr-contact__field">
+            <label class="mr-contact__label" for="ContactEmail">Correo</label>
+            <input class="mr-contact__input" type="email" id="ContactEmail" name="contact[email]" required>
+          </div>
+          <div class="mr-contact__field">
+            <label class="mr-contact__label" for="ContactPhone">Teléfono (opcional)</label>
+            <input class="mr-contact__input" type="tel" id="ContactPhone" name="contact[phone]">
+          </div>
+          <div class="mr-contact__field">
+            <label class="mr-contact__label" for="ContactBody">Mensaje</label>
+            <textarea rows="5" class="mr-contact__textarea" id="ContactBody" name="contact[body]" required></textarea>
+          </div>
+          <button type="submit" class="mr-btn mr-btn--solid mr-btn--full">Enviar Mensaje</button>
+        {% endform %}
+      </div>
+      <div class="mr-contact__info">
+        <h3 class="mr-contact__info-title">Contáctanos</h3>
+        <div class="mr-contact__info-item">WhatsApp: <a href="https://wa.me/{{ settings.whatsapp_number }}" target="_blank">Asesoría directa</a></div>
+        <div class="mr-contact__info-item">Correo: {{ shop.email }}</div>
+        <div class="mr-contact__info-item">Respuesta en 24-48 horas hábiles</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{ "name": "Contacto", "settings": [] }
+{% endschema %}
