@@ -177,47 +177,18 @@
   }
   .mr-btn:hover { background-color: #123329; color: #fff; }
 
-  .mr-buy-now-divider {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 1.1rem;
-  }
-  .mr-buy-now-divider::before,
-  .mr-buy-now-divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--mr-border);
-  }
-  .mr-buy-now-divider span {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+  .mr-btn--outline {
+    background-color: transparent;
     color: var(--mr-green);
+    border: 1px solid var(--mr-green);
+  }
+  .mr-btn--outline:hover { background-color: var(--mr-green); color: var(--mr-cream); }
+  .mr-btn--outline:disabled,
+  .mr-btn:disabled {
     opacity: 0.5;
+    cursor: not-allowed;
   }
-  .mr-buy-now {
-    margin-bottom: 1.5rem;
-  }
-  .mr-buy-now .shopify-payment-button {
-    width: 100%;
-  }
-  .mr-buy-now .shopify-payment-button__button {
-    border-radius: 4px !important;
-    min-height: 52px !important;
-  }
-  .mr-buy-now .shopify-payment-button__more-options {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.72rem !important;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--mr-green) !important;
-    opacity: 0.7;
-    margin-top: 0.6rem !important;
-  }
+  .mr-btn--outline:disabled:hover { background-color: transparent; color: var(--mr-green); }
 
   .mr-trust-icons {
     display: flex;
@@ -538,12 +509,13 @@
           {% endif %}
         </button>
 
-        {%- if product.selected_or_first_available_variant.available -%}
-          <div class="mr-buy-now-divider"><span>o</span></div>
-          <div class="mr-buy-now">
-            {{ form | payment_button }}
-          </div>
-        {%- endif -%}
+        <button type="submit" name="checkout" id="BuyNow-{{ section.id }}" class="mr-btn mr-btn--outline" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+          {% if product.selected_or_first_available_variant.available %}
+            COMPRAR AHORA
+          {% else %}
+            AGOTADO
+          {% endif %}
+        </button>
       {%- endform -%}
 
       <div class="mr-trust-icons">
@@ -865,6 +837,7 @@
     const variantHiddenInput = document.getElementById('VariantId-{{ section.id }}');
     const productJsonEl = document.getElementById('ProductJson-{{ section.id }}');
     const addToCartBtn = document.getElementById('AddToCart-{{ section.id }}');
+    const buyNowBtn = document.getElementById('BuyNow-{{ section.id }}');
 
     if (variantRadios.length > 0 && productJsonEl && variantHiddenInput) {
       const productVariants = JSON.parse(productJsonEl.innerHTML);
@@ -879,9 +852,11 @@
             if (matchedVariant.available) {
               addToCartBtn.disabled = false;
               addToCartBtn.innerHTML = 'AÑADIR A LA BOLSA';
+              if (buyNowBtn) { buyNowBtn.disabled = false; buyNowBtn.innerHTML = 'COMPRAR AHORA'; }
             } else {
               addToCartBtn.disabled = true;
               addToCartBtn.innerHTML = 'AGOTADO';
+              if (buyNowBtn) { buyNowBtn.disabled = true; buyNowBtn.innerHTML = 'AGOTADO'; }
             }
           }
         });
