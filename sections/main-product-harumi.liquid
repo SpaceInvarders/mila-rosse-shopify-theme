@@ -136,6 +136,83 @@
     opacity: 0.65;
     text-transform: uppercase;
   }
+
+  .mr-size-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .mr-size-modal.is-open { display: flex; }
+  .mr-size-modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 71, 42, 0.55);
+  }
+  .mr-size-modal__box {
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2.5rem;
+    max-width: 480px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    z-index: 1;
+  }
+  .mr-size-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    background: none;
+    border: none;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--mr-green);
+  }
+  .mr-size-modal__title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--mr-green);
+    margin: 0 0 0.75rem;
+  }
+  .mr-size-modal__note {
+    font-size: 0.82rem;
+    color: rgba(27, 77, 62, 0.7);
+    margin: 0 0 1.25rem;
+    line-height: 1.6;
+  }
+  .mr-size-modal__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.25rem;
+  }
+  .mr-size-modal__table th, .mr-size-modal__table td {
+    text-align: center;
+    padding: 0.6rem 0.4rem;
+    font-size: 0.85rem;
+    border-bottom: 1px solid rgba(27, 77, 62, 0.12);
+  }
+  .mr-size-modal__table th {
+    font-family: 'Inter', sans-serif !important;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 1px;
+    color: var(--mr-green);
+  }
+  .mr-size-modal__tip {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(27, 77, 62, 0.85);
+    background: rgba(184, 115, 51, 0.08);
+    padding: 0.9rem 1rem;
+    border-radius: 10px;
+    margin: 0;
+  }
   .mr-variant-options { display: flex; flex-wrap: wrap; gap: 10px; }
   .mr-variant-pill { display: inline-block; }
   .mr-variant-pill input[type="radio"] { display: none; }
@@ -485,6 +562,7 @@
     .mr-related-info .price { font-size: 1rem; }
     .mr-related-section { padding: 4rem 0; }
     .mr-related-title { padding: 0 1.5rem; }
+    .mr-size-modal__box { padding: 1.75rem; }
     .mr-story { padding: 3rem 1.5rem 1rem; }
     .mr-story__detail-gallery { gap: 0.6rem; margin-top: 1.5rem; }
     .mr-story__phases { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
@@ -517,7 +595,7 @@
               <div class="mr-variant-label-container">
                 <label class="mr-variant-label">{{ option.name }}</label>
                 {% if option.name == 'Talla' or option.name == 'Size' or option.name == 'talla' %}
-                  <span class="mr-size-guide">Guía de tallas</span>
+                  <span class="mr-size-guide" id="SizeGuideTrigger-{{ section.id }}">Guía de tallas</span>
                 {% endif %}
               </div>
               <div class="mr-variant-options" data-option-index="{{ forloop.index0 }}">
@@ -848,6 +926,30 @@
   </product-recommendations>
 </div>
 
+<div class="mr-size-modal" id="SizeGuideModal-{{ section.id }}" aria-hidden="true">
+  <div class="mr-size-modal__overlay"></div>
+  <div class="mr-size-modal__box" role="dialog" aria-modal="true" aria-label="Guía de tallas">
+    <button type="button" class="mr-size-modal__close" aria-label="Cerrar">&times;</button>
+    <h3 class="mr-size-modal__title">Guía de Tallas</h3>
+    <p class="mr-size-modal__note">Medidas de referencia en centímetros, tomadas sobre el cuerpo. Pueden variar ligeramente según el corte de cada prenda.</p>
+    <table class="mr-size-modal__table">
+      <thead>
+        <tr><th>Talla</th><th>Busto</th><th>Cintura</th><th>Cadera</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>XS</td><td>82–86</td><td>62–66</td><td>90–94</td></tr>
+        <tr><td>S</td><td>87–91</td><td>67–71</td><td>95–99</td></tr>
+        <tr><td>M</td><td>92–96</td><td>72–76</td><td>100–104</td></tr>
+        <tr><td>L</td><td>97–102</td><td>77–82</td><td>105–110</td></tr>
+        <tr><td>XL</td><td>103–108</td><td>83–88</td><td>111–116</td></tr>
+      </tbody>
+    </table>
+    {% if faq1_a != blank %}
+    <p class="mr-size-modal__tip"><strong>Para esta prenda:</strong> {{ faq1_a }}</p>
+    {% endif %}
+  </div>
+</div>
+
 <script type="application/json" id="ProductJson-{{ section.id }}">
   {{ product.variants | json }}
 </script>
@@ -898,6 +1000,19 @@
         }
       });
     });
+
+    const sizeGuideTrigger = document.getElementById('SizeGuideTrigger-{{ section.id }}');
+    const sizeGuideModal = document.getElementById('SizeGuideModal-{{ section.id }}');
+    if (sizeGuideTrigger && sizeGuideModal) {
+      const closeBtn = sizeGuideModal.querySelector('.mr-size-modal__close');
+      const overlay = sizeGuideModal.querySelector('.mr-size-modal__overlay');
+      const openSizeModal = () => { sizeGuideModal.classList.add('is-open'); sizeGuideModal.setAttribute('aria-hidden', 'false'); };
+      const closeSizeModal = () => { sizeGuideModal.classList.remove('is-open'); sizeGuideModal.setAttribute('aria-hidden', 'true'); };
+      sizeGuideTrigger.addEventListener('click', openSizeModal);
+      closeBtn.addEventListener('click', closeSizeModal);
+      overlay.addEventListener('click', closeSizeModal);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSizeModal(); });
+    }
 
     const variantRadios = document.querySelectorAll('.mr-variant-selector input[type="radio"]');
     const variantHiddenInput = document.getElementById('VariantId-{{ section.id }}');
