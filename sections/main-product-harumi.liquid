@@ -177,6 +177,48 @@
   }
   .mr-btn:hover { background-color: #123329; color: #fff; }
 
+  .mr-buy-now-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 1.1rem;
+  }
+  .mr-buy-now-divider::before,
+  .mr-buy-now-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--mr-border);
+  }
+  .mr-buy-now-divider span {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mr-green);
+    opacity: 0.5;
+  }
+  .mr-buy-now {
+    margin-bottom: 1.5rem;
+  }
+  .mr-buy-now .shopify-payment-button {
+    width: 100%;
+  }
+  .mr-buy-now .shopify-payment-button__button {
+    border-radius: 4px !important;
+    min-height: 52px !important;
+  }
+  .mr-buy-now .shopify-payment-button__more-options {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--mr-green) !important;
+    opacity: 0.7;
+    margin-top: 0.6rem !important;
+  }
+
   .mr-trust-icons {
     display: flex;
     flex-direction: column;
@@ -495,6 +537,13 @@
             AGOTADO
           {% endif %}
         </button>
+
+        {%- if product.selected_or_first_available_variant.available -%}
+          <div class="mr-buy-now-divider"><span>o</span></div>
+          <div class="mr-buy-now">
+            {{ form | payment_button }}
+          </div>
+        {%- endif -%}
       {%- endform -%}
 
       <div class="mr-trust-icons">
