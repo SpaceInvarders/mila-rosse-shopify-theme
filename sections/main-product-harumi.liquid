@@ -317,6 +317,30 @@
     margin: 0;
   }
 
+  .mr-story__detail-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 2rem 0 0.75rem;
+  }
+  .mr-story__detail-photo {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+  }
+  .mr-story__detail-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .mr-story__detail-caption {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: rgba(27, 77, 62, 0.65);
+    margin: 0 0 3rem;
+  }
+
   .mr-story__phases {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -462,6 +486,7 @@
     .mr-related-section { padding: 4rem 0; }
     .mr-related-title { padding: 0 1.5rem; }
     .mr-story { padding: 3rem 1.5rem 1rem; }
+    .mr-story__detail-gallery { gap: 0.6rem; margin-top: 1.5rem; }
     .mr-story__phases { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
     .mr-story__materials-grid { grid-template-columns: 1fr; gap: 2rem; }
     .mr-faq { padding: 1rem 1.5rem 3rem; }
@@ -586,7 +611,10 @@
 
   {% when 'abrigo-soft-gaban' %}
     {% assign story_title = 'Lana Premium + Costura a Mano' %}
-    {% assign story_desc = 'Cada Gabán Soft Coat nace de un proceso meticuloso que combina telas seleccionadas a mano, patronaje de precisión y costura artesanal. El resultado es una prenda que se siente tan bien como luce, pensada para acompañarte temporada tras temporada.' %}
+    {% assign story_desc = '¿Cansada de elegir entre abrigarte bien o verte elegante? Este gabán está pensado para que no tengas que escoger: te cubre de verdad del frío y se ve tan cuidado que se convierte en la pieza que más vas a usar este otoño.' %}
+    {% assign detail_img1 = 'detalle-gaban-1.jpg' %}
+    {% assign detail_img2 = 'detalle-gaban-2.jpg' %}
+    {% assign detail_caption = 'La caída y el estampado del paño, tal como se ven en persona.' %}
     {% assign mat1_name = 'Paño de Lana Premium' %}
     {% assign mat1_desc = 'Tejido denso y cálido, con caída fluida y resistencia superior al uso diario.' %}
     {% assign mat2_name = 'Forro Interior Satinado' %}
@@ -599,7 +627,10 @@
 
   {% when 'blazer-nebraska-kaki' %}
     {% assign story_title = 'Lana Kaki + Silueta Oversize' %}
-    {% assign story_desc = 'Cada Blazer Nebraska nace de un proceso meticuloso que combina telas seleccionadas a mano, patronaje de precisión y costura artesanal, logrando una silueta oversize que se siente tan bien como luce.' %}
+    {% assign story_desc = 'Sabemos lo que es abrir el clóset sin ganas de pensar en un outfit. Por eso este blazer está pensado para ponerte y listo: te ves profesional al instante, sin esfuerzo y sin dudar frente al espejo.' %}
+    {% assign detail_img1 = 'detalle-nebraska-1.jpg' %}
+    {% assign detail_img2 = 'detalle-nebraska-2.jpg' %}
+    {% assign detail_caption = 'El tono kaki y la caída oversize, en detalle.' %}
     {% assign mat1_name = 'Paño de Lana Kaki Premium' %}
     {% assign mat1_desc = 'Tejido cálido de tono neutro, con caída relajada perfecta para el corte oversize.' %}
     {% assign mat2_name = 'Hombreras Estructuradas' %}
@@ -612,7 +643,10 @@
 
   {% when 'chaqueta-urban-stone-negra' %}
     {% assign story_title = 'Algodón Técnico + Costura Urbana' %}
-    {% assign story_desc = 'La Chaqueta Urban Stone combina un tejido técnico resistente con una confección precisa, pensada para acompañar tu día a día con actitud y estilo.' %}
+    {% assign story_desc = 'Si ya tienes suficiente ropa negra básica que no dice nada de ti, esta chaqueta es la excepción: actitud y calidad que se sienten desde el primer día, no una prenda más que se pierde en el clóset.' %}
+    {% assign detail_img1 = 'detalle-urbanstone-negra-1.jpg' %}
+    {% assign detail_img2 = 'detalle-urbanstone-negra-2.jpg' %}
+    {% assign detail_caption = 'Botones, bolsillos y acabados, de cerca.' %}
     {% assign mat1_name = 'Algodón Técnico Resistente' %}
     {% assign mat1_desc = 'Tejido duradero de tacto suave, ideal para el uso diario sin perder su forma.' %}
     {% assign mat2_name = 'Forro Interior Ligero' %}
@@ -625,7 +659,10 @@
 
   {% when 'chaqueta-torera-urban-stone' %}
     {% assign story_title = 'Paño Clásico + Corte Torero' %}
-    {% assign story_desc = 'La Chaqueta Torera Urban Stone combina la elegancia clásica con un corte contemporáneo, confeccionada a mano para lograr una caída precisa y atemporal.' %}
+    {% assign story_desc = 'No se trata de intentarlo demasiado. Esta chaqueta tiene el corte clásico que se ve bien sin pensarlo, temporada tras temporada, sin necesidad de perseguir la última tendencia.' %}
+    {% assign detail_img1 = 'detalle-torera-1.jpg' %}
+    {% assign detail_img2 = 'detalle-torera-2.jpg' %}
+    {% assign detail_caption = 'El tono stone y la estructura del corte, en detalle.' %}
     {% assign mat1_name = 'Paño Stone Atemporal' %}
     {% assign mat1_desc = 'Tejido de tacto denso y color neutro, fácil de combinar con cualquier look.' %}
     {% assign mat2_name = 'Forro Interior Estructurado' %}
@@ -638,7 +675,10 @@
 
   {% when 'blazer-genova-blanco' %}
     {% assign story_title = 'Paño Blanco Impecable + Manga 3/4' %}
-    {% assign story_desc = 'El Blazer Genova en blanco impecable combina un corte sofisticado con manga 3/4, confeccionado a mano para eventos y ocasiones especiales.' %}
+    {% assign story_desc = '¿Cuántas veces te ha tocado improvisar algo elegante a última hora? Este blazer blanco resuelve ese momento: listo para ponerte y salir, sin que se note el afán.' %}
+    {% assign detail_img1 = 'detalle-genova-blanco-1.jpg' %}
+    {% assign detail_img2 = 'detalle-genova-blanco-2.jpg' %}
+    {% assign detail_caption = 'El blanco impecable y los botones nacarados, sin filtros.' %}
     {% assign mat1_name = 'Paño Blanco Premium' %}
     {% assign mat1_desc = 'Tejido de tacto suave con un blanco uniforme que resalta la caída del blazer.' %}
     {% assign mat2_name = 'Forro de Satín' %}
@@ -651,7 +691,10 @@
 
   {% when 'blazer-genova-rojo' %}
     {% assign story_title = 'Paño Rojo Intenso + Manga 3/4' %}
-    {% assign story_desc = 'El Blazer Genova en rojo intenso es una declaración de estilo, confeccionado a mano con manga 3/4 sofisticada para quienes no temen destacar.' %}
+    {% assign story_desc = 'Destacar da un poco de miedo, lo entendemos. Por eso este blazer rojo está pensado para que llames la atención por las razones correctas: por lo bien que te ves, no por verte exagerada.' %}
+    {% assign detail_img1 = 'detalle-genova-rojo-1.jpg' %}
+    {% assign detail_img2 = 'detalle-genova-rojo-2.jpg' %}
+    {% assign detail_caption = 'El forro interior y los acabados que no se ven en la foto de catálogo.' %}
     {% assign mat1_name = 'Paño Rojo Intenso' %}
     {% assign mat1_desc = 'Color vibrante y uniforme, con caída fluida que resalta la silueta.' %}
     {% assign mat2_name = 'Forro Interior de Satín' %}
@@ -664,7 +707,10 @@
 
   {% when 'chaqueta-manchester-classic' %}
     {% assign story_title = 'Paño Versátil + Costura Torera' %}
-    {% assign story_desc = 'La Chaquetilla Manchester Classic combina un diseño moderno y versátil con una confección artesanal, pensada para elevar cualquier look al instante.' %}
+    {% assign story_desc = 'Nada de comprar algo "de tendencia" que en 3 meses ya no te pones. Esta chaqueta está hecha para convertirse en la que realmente usas, temporada tras temporada, sin pasar de moda.' %}
+    {% assign detail_img1 = 'detalle-manchester-1.jpg' %}
+    {% assign detail_img2 = 'detalle-manchester-2.jpg' %}
+    {% assign detail_caption = 'El estampado a cuadros y la textura del paño, de cerca.' %}
     {% assign mat1_name = 'Paño Manchester Premium' %}
     {% assign mat1_desc = 'Tejido versátil de peso medio, con excelente caída y resistencia.' %}
     {% assign mat2_name = 'Forro Ligero Transpirable' %}
@@ -685,6 +731,14 @@
     <p class="mr-story__desc">{{ story_desc }}</p>
   </div>
 
+  {% if detail_img1 != blank %}
+  <div class="mr-story__detail-gallery">
+    <div class="mr-story__detail-photo"><img src="{{ detail_img1 | asset_url }}" alt="Detalle real de {{ product.title | escape }}" loading="lazy"></div>
+    <div class="mr-story__detail-photo"><img src="{{ detail_img2 | asset_url }}" alt="Detalle real de {{ product.title | escape }}" loading="lazy"></div>
+  </div>
+  {% if detail_caption != blank %}<p class="mr-story__detail-caption">{{ detail_caption }}</p>{% endif %}
+  {% endif %}
+
   <div class="mr-story__phases">
     <div class="mr-story__phase">
       <div class="mr-story__phase-img">
@@ -692,15 +746,15 @@
       </div>
       <span class="mr-story__phase-num">Fase 01</span>
       <h3>Selección de Tela</h3>
-      <p>Elegimos paños de lana premium de tejido cerrado y caída natural, evaluados a mano para verificar densidad, suavidad y resistencia antes de aprobar cada lote.</p>
+      <p>Nada arruina más una prenda que una tela que se ve bien en la percha pero se siente barata puesta. Por eso evaluamos cada paño a mano, uno por uno, antes de aprobar el lote — para que la sientas de calidad desde el primer día y lo siga siendo con el uso.</p>
     </div>
     <div class="mr-story__phase">
       <div class="mr-story__phase-img">
         <img src="{{ 'mr-fase-corte.jpg' | asset_url }}" alt="Corte y patronaje de precisión" loading="lazy">
       </div>
       <span class="mr-story__phase-num">Fase 02</span>
-      <h3>Corte y Patronaje</h3>
-      <p>Cada patrón se traza y ajusta siguiendo el sentido del hilo de la tela, para que la prenda mantenga su forma y caída con el paso del tiempo.</p>
+      <h3>Un Corte Pensado para Ti</h3>
+      <p>¿Te ha pasado que algo se ve perfecto en la percha pero raro puesto? Cada patrón se ajusta pensando en cómo cae sobre el cuerpo real, no solo sobre un maniquí, para que te veas bien tal como eres.</p>
     </div>
     <div class="mr-story__phase">
       <div class="mr-story__phase-img">
@@ -708,7 +762,7 @@
       </div>
       <span class="mr-story__phase-num">Fase 03</span>
       <h3>Costura y Terminación a Mano</h3>
-      <p>Costuras reforzadas, dobladillos internos y botones cosidos a mano garantizan una terminación impecable, hecha para durar.</p>
+      <p>Un botón que se cae o una costura que se abre al segundo uso puede arruinar tu día. Por eso reforzamos cada costura y cosemos los botones a mano, para que la prenda aguante el uso real, no solo la primera puesta.</p>
     </div>
   </div>
 
