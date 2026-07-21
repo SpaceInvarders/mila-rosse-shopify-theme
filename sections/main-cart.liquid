@@ -36,6 +36,11 @@
           <button type="submit" name="checkout" class="mr-btn mr-btn--solid mr-btn--full mr-cart__checkout">Finalizar Compra</button>
         </div>
       </form>
+
+      <div class="mr-cart__recs" id="CartRecsWrap" style="display:none;">
+        <h2 class="mr-cart__recs-title">Completa tu look</h2>
+        <div class="mr-cart__recs-grid" id="CartRecs"></div>
+      </div>
     {% else %}
       <div class="mr-cart__empty">
         <svg class="mr-cart__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -45,6 +50,48 @@
     {% endif %}
   </div>
 </div>
+
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div id="CartRecsSource" style="display:none;">
+    {% for recommendation in recommendations.products limit: 4 %}
+      <a href="{{ recommendation.url }}" class="mr-cart__rec-product">
+        <div class="mr-cart__rec-img">
+          <img src="{{ recommendation.featured_media | image_url: width: 400 }}" alt="{{ recommendation.title | escape }}" loading="lazy">
+        </div>
+        <div class="mr-cart__rec-info">
+          <h4>{{ recommendation.title }}</h4>
+          <div class="price">{{ recommendation.price | money }}</div>
+          <div class='jdgm-widget jdgm-preview-badge' data-id='{{ recommendation.id }}'>{{ recommendation.metafields.judgeme.badge }}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+{%- endif -%}
+
+{% if cart.item_count > 0 %}
+<script>
+(function() {
+  var seedId = {{ cart.items.first.product.id | default: 0 }};
+  var container = document.getElementById('CartRecs');
+  var wrap = document.getElementById('CartRecsWrap');
+  if (!container || !wrap || !seedId) return;
+
+  fetch('{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id=' + seedId + '&limit=4&intent=related')
+    .then(function(r) { return r.text(); })
+    .then(function(html) {
+      var parser = document.createElement('div');
+      parser.innerHTML = html;
+      var source = parser.querySelector('#CartRecsSource');
+      if (!source) return;
+      var items = source.querySelectorAll('.mr-cart__rec-product');
+      if (!items.length) return;
+      items.forEach(function(el) { container.appendChild(el); });
+      wrap.style.display = 'block';
+    })
+    .catch(function(e) { console.error('Error cargando recomendaciones del carrito:', e); });
+})();
+</script>
+{% endif %}
 
 {% schema %}
 { "name": "Carrito", "settings": [] }

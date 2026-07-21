@@ -43,6 +43,7 @@
             <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
             <h3 class="mr-product__title">{{ product.title }}</h3>
             <div class="mr-product__price">{{ product.price | money }}</div>
+            <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
           </a>
         {%- endfor -%}
       </div>

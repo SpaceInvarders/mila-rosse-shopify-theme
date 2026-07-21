@@ -1,12 +1,12 @@
 <header class="mr-header">
   <div class="mr-header__inner">
+    <a href="/" class="mr-header__logo">{{ settings.brand_name | default: shop.name }}</a>
     <nav class="mr-header__nav">
       <a href="/">Home</a>
       <a href="/collections/all">Catálogo</a>
       <a href="/pages/contact">Contacto</a>
       <a href="/pages/preguntas-frecuentes">FAQ</a>
     </nav>
-    <a href="/" class="mr-header__logo">{{ settings.brand_name | default: shop.name }}</a>
     <div class="mr-header__icons">
       <a href="/search" class="mr-header__icon" aria-label="Buscar">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
