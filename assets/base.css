@@ -974,7 +974,8 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 900px) {
   .mr-cart__layout { grid-template-columns: 1fr; }
   .mr-cart__summary { position: static; }
-  .mr-cart__item { grid-template-columns: 70px 1fr; }
+  .mr-cart__item { grid-template-columns: 70px 1fr; gap: 14px; padding: 16px; }
+  .mr-cart__item-image { width: 70px; height: 88px; }
   .mr-cart__item-actions { grid-column: 1 / -1; flex-direction: row; justify-content: space-between; align-items: center; margin-top: 10px; }
 }
 
@@ -989,7 +990,18 @@ h1, h2, h3, h4, h5, h6 {
 .mr-cart__rec-info h4 { font-family: var(--mr-font-serif); font-weight: 400; font-size: 0.95rem; margin: 0 0 4px; color: var(--mr-text); }
 .mr-cart__rec-info .price { font-family: var(--mr-font-sans); font-size: 0.9rem; color: var(--mr-dark-green); font-weight: 500; }
 @media (max-width: 900px) {
-  .mr-cart__recs-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .mr-cart__recs-grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .mr-cart__recs-grid::-webkit-scrollbar { display: none; }
+  .mr-cart__rec-product { flex: 0 0 58%; scroll-snap-align: start; }
 }
 
 /* ===== CONTACTO ===== */
