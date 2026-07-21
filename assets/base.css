@@ -990,18 +990,10 @@ h1, h2, h3, h4, h5, h6 {
 .mr-cart__rec-info h4 { font-family: var(--mr-font-serif); font-weight: 400; font-size: 0.95rem; margin: 0 0 4px; color: var(--mr-text); }
 .mr-cart__rec-info .price { font-family: var(--mr-font-sans); font-size: 0.9rem; color: var(--mr-dark-green); font-weight: 500; }
 @media (max-width: 900px) {
-  .mr-cart__recs-grid {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 16px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 4px;
-  }
-  .mr-cart__recs-grid::-webkit-scrollbar { display: none; }
-  .mr-cart__rec-product { flex: 0 0 58%; scroll-snap-align: start; }
+  .mr-cart__recs-grid { grid-template-columns: repeat(2, 1fr); gap: 1.8rem 1rem; }
+  .mr-cart__rec-img { margin-bottom: 10px; }
+  .mr-cart__rec-info h4 { font-size: 0.85rem; line-height: 1.4; }
+  .mr-cart__rec-info .price { font-size: 0.85rem; }
 }
 
 /* ===== CONTACTO ===== */
