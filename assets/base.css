@@ -156,13 +156,29 @@ h1, h2, h3, h4, h5, h6 {
 .mr-banner {
   position: relative;
   width: 100%;
-  height: 90vh;
-  min-height: 600px;
+  height: 92vh;
+  min-height: 640px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--mr-dark-green) 0%, var(--mr-light-green) 50%, var(--mr-dark-green) 100%);
+  background: var(--mr-dark-green);
+}
+
+.mr-banner__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.mr-banner__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  animation: mrKenBurns 16s ease-out forwards;
 }
 
 .mr-banner__placeholder {
@@ -176,6 +192,15 @@ h1, h2, h3, h4, h5, h6 {
 
 .mr-banner__placeholder svg { width: 100%; height: 100%; fill: var(--mr-cream); }
 
+.mr-banner__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(20, 46, 34, 0.35) 0%, rgba(20, 46, 34, 0.25) 40%, rgba(15, 36, 27, 0.82) 100%),
+    linear-gradient(115deg, rgba(201, 122, 68, 0.28) 0%, rgba(26, 71, 42, 0.15) 45%, rgba(15, 36, 27, 0.55) 100%);
+}
+
 .mr-banner__content {
   position: relative;
   z-index: 2;
@@ -186,21 +211,34 @@ h1, h2, h3, h4, h5, h6 {
   animation: mrFadeUp 1.2s ease-out;
 }
 
+.mr-banner__eyebrow {
+  display: block;
+  font-family: var(--mr-font-sans);
+  font-size: clamp(0.7rem, 1vw, 0.82rem);
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--mr-copper-light);
+  margin-bottom: 1.4rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
 .mr-banner__brand {
   font-family: var(--mr-font-serif);
   font-size: clamp(3rem, 8vw, 5.5rem);
   font-weight: 400;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.22em;
   margin: 0 0 2rem;
   text-transform: uppercase;
   color: var(--mr-white);
   line-height: 1;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
 }
 
 .mr-banner__line {
   width: 60px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--mr-copper-light);
   margin: 0 auto 2rem;
 }
 
@@ -212,6 +250,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 0 3rem;
   text-transform: uppercase;
   opacity: 0.95;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
 }
 
 .mr-banner__cta {
@@ -223,17 +262,54 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  border: 1px solid var(--mr-white);
+  border: 1px solid var(--mr-copper-light);
   border-radius: var(--mr-radius-sm);
-  background: transparent;
+  background: var(--mr-copper);
   transition: all 0.4s ease;
   cursor: pointer;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 }
 
 .mr-banner__cta:hover {
-  background: var(--mr-white);
-  color: var(--mr-dark-green);
+  background: transparent;
+  color: var(--mr-white);
+  border-color: var(--mr-white);
   transform: translateY(-2px);
+}
+
+.mr-banner__scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  width: 22px;
+  height: 36px;
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 12px;
+}
+
+.mr-banner__scroll span {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--mr-copper-light);
+  animation: mrScrollDot 1.8s ease-in-out infinite;
+}
+
+@keyframes mrScrollDot {
+  0% { opacity: 1; top: 6px; }
+  60% { opacity: 0; top: 18px; }
+  100% { opacity: 0; top: 6px; }
+}
+
+@keyframes mrKenBurns {
+  from { transform: scale(1.12); }
+  to { transform: scale(1); }
 }
 
 @keyframes mrFadeUp {

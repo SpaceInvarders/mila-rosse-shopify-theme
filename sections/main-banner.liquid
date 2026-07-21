@@ -1,12 +1,38 @@
+{% assign hero_product = section.settings.hero_product %}
+{% if hero_product == blank %}
+  {% assign hero_product = all_products['abrigo-soft-gaban'] %}
+{% endif %}
+
 <section class="mr-banner">
-  <div class="mr-banner__placeholder">
-    {{ 'lifestyle-1' | placeholder_svg_tag: 'mr-banner__svg' }}
-  </div>
+  {% if hero_product and hero_product.featured_image %}
+    <div class="mr-banner__media">
+      <img
+        src="{{ hero_product.featured_image | image_url: width: 1800 }}"
+        srcset="{{ hero_product.featured_image | image_url: width: 900 }} 900w, {{ hero_product.featured_image | image_url: width: 1800 }} 1800w, {{ hero_product.featured_image | image_url: width: 2400 }} 2400w"
+        sizes="100vw"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      >
+    </div>
+  {% else %}
+    <div class="mr-banner__placeholder">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'mr-banner__svg' }}
+    </div>
+  {% endif %}
+
+  <div class="mr-banner__overlay"></div>
+
   <div class="mr-banner__content">
+    <span class="mr-banner__eyebrow">{{ section.settings.eyebrow | default: 'Sastrería de Autor' }}</span>
     <h1 class="mr-banner__brand">{{ settings.brand_name | default: 'MILA ROSSE' }}</h1>
     <div class="mr-banner__line"></div>
     <p class="mr-banner__sub">{{ section.settings.subtitle }}</p>
-    <a href="{{ section.settings.button_link }}" class="mr-banner__cta">{{ section.settings.button_label }}</a>
+    <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="mr-banner__cta">{{ section.settings.button_label }}</a>
+  </div>
+
+  <div class="mr-banner__scroll" aria-hidden="true">
+    <span></span>
   </div>
 </section>
 
@@ -14,6 +40,17 @@
 {
   "name": "Banner Hero",
   "settings": [
+    {
+      "type": "product",
+      "id": "hero_product",
+      "label": "Producto destacado (imagen de fondo)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Texto pequeño superior",
+      "default": "Sastrería de Autor"
+    },
     {
       "type": "text",
       "id": "subtitle",
