@@ -47,6 +47,19 @@
         "show_scroll_hint": true
       }
     },
+    "testimonials": {
+      "type": "main-testimonials",
+      "settings": {
+        "eyebrow": "Lo que dicen de nosotras",
+        "title": "Reseñas de Clientas"
+      },
+      "blocks": {
+        "t1": { "type": "testimonial", "settings": { "rating": 5, "quote": "Reemplaza este texto con una reseña real de tu primera clienta.", "author": "Nombre pendiente", "location": "Bogotá, Colombia" } },
+        "t2": { "type": "testimonial", "settings": { "rating": 5, "quote": "Reemplaza este texto con una reseña real de tu segunda clienta.", "author": "Nombre pendiente", "location": "Medellín, Colombia" } },
+        "t3": { "type": "testimonial", "settings": { "rating": 5, "quote": "Reemplaza este texto con una reseña real de tu tercera clienta.", "author": "Nombre pendiente", "location": "Cali, Colombia" } }
+      },
+      "block_order": ["t1", "t2", "t3"]
+    },
     "social": {
       "type": "main-social",
       "settings": {
@@ -87,13 +100,5 @@
       }
     }
   },
-  "order": [
-    "banner",
-    "intro",
-    "products",
-    "video_scrub",
-    "social",
-    "advisory",
-    "newsletter"
-  ]
+  "order": ["banner", "intro", "products", "video_scrub", "testimonials", "social", "advisory", "newsletter"]
 }
