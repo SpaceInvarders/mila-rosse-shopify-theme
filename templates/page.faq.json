@@ -1,0 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": { "main": { "type": "main-page-faq", "settings": {}, "blocks": {
+    "f1": { "type": "faq_item", "settings": { "question": "¿Cuánto tarda el envío?", "answer": "<p>Los envíos nacionales dentro de Colombia tardan entre 3 y 5 días hábiles.</p>" } },
+    "f2": { "type": "faq_item", "settings": { "question": "¿Hacen envíos internacionales?", "answer": "<p>Por ahora nuestros envíos están disponibles solo para Colombia. Estamos trabajando para llegar pronto a más países.</p>" } },
+    "f3": { "type": "faq_item", "settings": { "question": "¿Qué métodos de pago aceptan?", "answer": "<p>Aceptamos Mercado Pago y PSE para pagos seguros desde Colombia.</p>" } },
+    "f4": { "type": "faq_item", "settings": { "question": "¿Puedo cambiar o devolver una prenda?", "answer": "<p>Sí, tienes 30 días desde la recepción del pedido para solicitar un cambio o devolución, siempre que la prenda esté en su estado original.</p>" } },
+    "f5": { "type": "faq_item", "settings": { "question": "¿Cómo sé cuál es mi talla?", "answer": "<p>Nuestras tallas van de XS a XL. Escríbenos por WhatsApp y una asesora te ayudará a encontrar tu talla ideal.</p>" } },
+    "f6": { "type": "faq_item", "settings": { "question": "¿Cómo debo cuidar mis prendas?", "answer": "<p>Recomendamos limpieza en seco para conservar la estructura y calidad de los tejidos.</p>" } },
+    "f7": { "type": "faq_item", "settings": { "question": "¿Puedo cambiar mi pedido después de realizarlo?", "answer": "<p>Escríbenos lo antes posible por WhatsApp o correo y con gusto te ayudamos si el pedido aún no ha sido despachado.</p>" } },
+    "f8": { "type": "faq_item", "settings": { "question": "¿Cómo los contacto?", "answer": "<p>Por WhatsApp o mediante nuestro formulario de contacto. Respondemos en 24-48 horas hábiles.</p>" } }
+  }, "block_order": ["f1","f2","f3","f4","f5","f6","f7","f8"] } },
+  "order": ["main"]
+}
