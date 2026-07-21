@@ -1,0 +1,191 @@
+{% comment %}
+  Mila Rosse - Botón flotante de contacto (WhatsApp / Instagram / Email)
+{% endcomment %}
+
+{% if section.settings.enable %}
+<div class="mr-fab" id="MrFab-{{ section.id }}">
+  <div class="mr-fab__menu">
+    {% if section.settings.whatsapp_number != blank %}
+      <a
+        class="mr-fab__item mr-fab__item--whatsapp"
+        href="https://wa.me/{{ section.settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-' }}?text={{ section.settings.whatsapp_message | url_encode }}"
+        target="_blank"
+        rel="noopener"
+        aria-label="WhatsApp"
+      >
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 6.32A7.85 7.85 0 0 0 12.05 4C7.6 4 4 7.6 4 12.05c0 1.42.37 2.8 1.08 4.02L4 20l4.05-1.06a8.03 8.03 0 0 0 3.99 1.07h.01c4.45 0 8.05-3.6 8.05-8.05 0-2.15-.84-4.17-2.5-5.64zm-5.55 12.4h-.01a6.7 6.7 0 0 1-3.4-.93l-.24-.14-2.4.63.64-2.34-.16-.24a6.68 6.68 0 0 1-1.03-3.55c0-3.7 3.01-6.71 6.71-6.71 1.79 0 3.47.7 4.74 1.96a6.65 6.65 0 0 1 1.96 4.74c0 3.7-3.01 6.71-6.71 6.71zm3.68-5.02c-.2-.1-1.18-.58-1.36-.65-.18-.07-.32-.1-.45.1-.13.2-.52.65-.64.78-.12.13-.24.15-.44.05-.2-.1-.86-.32-1.63-1.01-.6-.54-1.01-1.2-1.13-1.4-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.08-.62-1.48-.16-.39-.33-.34-.45-.34-.12 0-.25-.01-.38-.01-.13 0-.35.05-.53.25-.18.2-.7.68-.7 1.66 0 .98.72 1.92.82 2.05.1.13 1.41 2.16 3.42 3.02.48.21.85.33 1.14.43.48.15.92.13 1.26.08.38-.06 1.18-.48 1.35-.95.17-.46.17-.86.12-.95-.05-.09-.18-.14-.38-.24z"/></svg>
+      </a>
+    {% endif %}
+    {% if section.settings.instagram_handle != blank %}
+      <a
+        class="mr-fab__item mr-fab__item--instagram"
+        href="https://www.instagram.com/{{ section.settings.instagram_handle }}"
+        target="_blank"
+        rel="noopener"
+        aria-label="Instagram"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    {% endif %}
+    {% if section.settings.email != blank %}
+      <a
+        class="mr-fab__item mr-fab__item--email"
+        href="mailto:{{ section.settings.email }}"
+        aria-label="Correo"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M2 6l10 7 10-7"></path></svg>
+      </a>
+    {% endif %}
+  </div>
+
+  <button type="button" class="mr-fab__toggle" id="MrFabToggle-{{ section.id }}" aria-label="Abrir menú de contacto" aria-expanded="false">
+    <svg class="mr-fab__icon mr-fab__icon--chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+    <svg class="mr-fab__icon mr-fab__icon--close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+  </button>
+</div>
+
+<style>
+  .mr-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 400;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .mr-fab__menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .mr-fab__item {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    opacity: 0;
+    transform: translateY(10px) scale(0.85);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+  .mr-fab__item svg { width: 22px; height: 22px; }
+
+  .mr-fab.is-open .mr-fab__item {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  .mr-fab.is-open .mr-fab__item:nth-child(1) { transition-delay: 0.02s; }
+  .mr-fab.is-open .mr-fab__item:nth-child(2) { transition-delay: 0.08s; }
+  .mr-fab.is-open .mr-fab__item:nth-child(3) { transition-delay: 0.14s; }
+
+  .mr-fab__item--whatsapp { background: #25D366; }
+  .mr-fab__item--whatsapp:hover { background: #1ebc59; }
+  .mr-fab__item--instagram {
+    background: radial-gradient(circle at 30% 110%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  }
+  .mr-fab__item--instagram:hover { filter: brightness(1.08); }
+  .mr-fab__item--email { background: var(--mr-dark-green, #1a472a); }
+  .mr-fab__item--email:hover { background: var(--mr-light-green, #2d5a3d); }
+
+  .mr-fab__toggle {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background: var(--mr-dark-green, #1a472a);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(26, 71, 42, 0.35);
+    transition: transform 0.25s ease, background 0.25s ease;
+    position: relative;
+  }
+  .mr-fab__toggle:hover { transform: scale(1.06); background: var(--mr-light-green, #2d5a3d); }
+
+  .mr-fab__icon {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .mr-fab__icon--close { opacity: 0; transform: rotate(-45deg) scale(0.6); }
+  .mr-fab__icon--chat { opacity: 1; transform: rotate(0) scale(1); }
+
+  .mr-fab.is-open .mr-fab__icon--chat { opacity: 0; transform: rotate(45deg) scale(0.6); }
+  .mr-fab.is-open .mr-fab__icon--close { opacity: 1; transform: rotate(0) scale(1); }
+
+  @media (max-width: 600px) {
+    .mr-fab { right: 16px; bottom: 16px; }
+    .mr-fab__item { width: 44px; height: 44px; }
+    .mr-fab__toggle { width: 52px; height: 52px; }
+  }
+</style>
+
+<script>
+  (function() {
+    var wrap = document.getElementById('MrFab-{{ section.id }}');
+    var toggle = document.getElementById('MrFabToggle-{{ section.id }}');
+    if (!wrap || !toggle) return;
+    toggle.addEventListener('click', function() {
+      var isOpen = wrap.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e) {
+      if (wrap.classList.contains('is-open') && !wrap.contains(e.target)) {
+        wrap.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  })();
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Botón flotante de contacto",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Activar botón flotante",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_number",
+      "label": "Número de WhatsApp (con código de país)",
+      "default": "+573227786365"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_message",
+      "label": "Mensaje predeterminado de WhatsApp",
+      "default": "Hola, quiero saber más sobre Mila Rosse"
+    },
+    {
+      "type": "text",
+      "id": "instagram_handle",
+      "label": "Usuario de Instagram (sin @)",
+      "default": "milarosse.studio"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Correo de contacto",
+      "default": "pater130049@gmail.com"
+    }
+  ]
+}
+{% endschema %}
