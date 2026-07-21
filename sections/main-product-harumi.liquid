@@ -6,6 +6,7 @@
   - Trust icons
   - Accordions
   - Recommendations
+  - Reseñas reales via Judge.me (fuera del panel sticky, ancho completo)
 {% endcomment %}
 
 <style>
@@ -15,16 +16,10 @@
     --mr-cream: #FBF9F6;
     --mr-green: #1B4D3E;
     --mr-border: rgba(27, 77, 62, 0.15);
-    /* Serif variable kept for legacy compatibility but NEVER used in this section */
     --mr-font-serif: 'Inter', sans-serif;
     --mr-font-sans: 'Inter', sans-serif;
   }
 
-  /* ============================================================
-     SECTION-SCOPED SERIF RESET
-     Override any global theme Serif applied to headings.
-     This block must stay at the top of the section styles.
-  ============================================================ */
   .mr-product-harumi h1,
   .mr-product-harumi h2,
   .mr-product-harumi h3,
@@ -57,7 +52,6 @@
     gap: 3rem;
   }
 
-  /* MEDIA GALLERY (Desktop) */
   .mr-gallery {
     display: flex;
     flex-direction: column;
@@ -71,7 +65,6 @@
     background: #f1ede6;
   }
 
-  /* PRODUCT INFO (Sticky Desktop) */
   .mr-info-wrapper {
     position: sticky;
     top: 2rem;
@@ -83,86 +76,44 @@
     scrollbar-width: thin;
     scrollbar-color: var(--mr-border) transparent;
   }
-  .mr-info-wrapper::-webkit-scrollbar {
-    width: 4px;
-  }
-  .mr-info-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--mr-border);
-    border-radius: 4px;
-  }
+  .mr-info-wrapper::-webkit-scrollbar { width: 4px; }
+  .mr-info-wrapper::-webkit-scrollbar-thumb { background-color: var(--mr-border); border-radius: 4px; }
 
-  /* Minimalism aesthetic stars */
-  .mr-aesthetic-stars {
-    display: inline-flex;
-    gap: 3px;
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-  .mr-aesthetic-stars svg {
-    width: 15px;
-    height: 15px;
-    fill: none;
-    stroke: var(--mr-green);
-    stroke-width: 1.5;
-  }
-  .mr-review-count {
-    font-size: 0.8rem;
-    margin-left: 6px;
-    letter-spacing: 1px;
-    opacity: 0.8;
-  }
+  .mr-aesthetic-stars { display: inline-flex; gap: 3px; margin-bottom: 1rem; align-items: center; }
+  .mr-aesthetic-stars svg { width: 15px; height: 15px; fill: none; stroke: var(--mr-green); stroke-width: 1.5; }
+  .mr-review-count { font-size: 0.8rem; margin-left: 6px; letter-spacing: 1px; opacity: 0.8; }
 
-  /* ============================================================
-     TYPOGRAPHY HIERARCHY
-     Level 1 — Product Title
-     Level 2 — Price
-     Level 3 — UI Labels (TALLA, GUÍA DE TALLAS, tab buttons)
-     Level 4 — Content subtitles (tab text, trust items)
-  ============================================================ */
-
-  /* Level 1: Product Title */
   .mr-product-title {
     font-family: 'Inter', sans-serif !important;
     font-size: clamp(1.7rem, 2.8vw, 2.6rem);
     margin: 0 0 0.6rem 0;
     color: var(--mr-green);
-    line-height: 1.05;          /* Tight line-height for multi-line titles */
+    line-height: 1.05;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: -0.5px;     /* Negative tracking on heavy weight looks premium */
+    letter-spacing: -0.5px;
   }
 
-  /* Level 2: Price */
   .mr-product-price {
     font-family: 'Inter', sans-serif !important;
     font-size: 1.35rem;
     font-weight: 600;
     letter-spacing: 0;
     margin-bottom: 2rem;
-    font-style: normal;         /* Explicitly no italic */
+    font-style: normal;
   }
 
-  /* Form & Variants */
-  .mr-variant-selector {
-    margin-bottom: 2rem;
-  }
-  .mr-variant-label-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.8rem;
-  }
-  /* Level 3: UI Labels (TALLA, etc.) */
+  .mr-variant-selector { margin-bottom: 2rem; }
+  .mr-variant-label-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
   .mr-variant-label {
     font-family: 'Inter', sans-serif !important;
     font-weight: 700;
     display: block;
     text-transform: uppercase;
-    font-size: 0.72rem;          /* ~11.5px */
-    letter-spacing: 1.8px;      /* Open tracking for small caps feel */
+    font-size: 0.72rem;
+    letter-spacing: 1.8px;
     color: var(--mr-green);
   }
-  /* Level 3: Guía de tallas — same hierarchy as label */
   .mr-size-guide {
     font-family: 'Inter', sans-serif !important;
     font-size: 0.72rem;
@@ -173,17 +124,9 @@
     opacity: 0.65;
     text-transform: uppercase;
   }
-  .mr-variant-options {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .mr-variant-pill {
-    display: inline-block;
-  }
-  .mr-variant-pill input[type="radio"] {
-    display: none;
-  }
+  .mr-variant-options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .mr-variant-pill { display: inline-block; }
+  .mr-variant-pill input[type="radio"] { display: none; }
   .mr-variant-pill label {
     font-family: 'Inter', sans-serif !important;
     display: inline-block;
@@ -203,7 +146,6 @@
     border-color: var(--mr-green);
   }
 
-  /* Buttons */
   .mr-btn {
     width: 100%;
     background-color: var(--mr-green);
@@ -221,12 +163,8 @@
     display: block;
     text-align: center;
   }
-  .mr-btn:hover {
-    background-color: #123329;
-    color: #fff;
-  }
+  .mr-btn:hover { background-color: #123329; color: #fff; }
 
-  /* Trust Icons */
   .mr-trust-icons {
     display: flex;
     flex-direction: column;
@@ -236,47 +174,27 @@
     background: rgba(27, 77, 62, 0.03);
     border-radius: 6px;
   }
-  /* Level 4: Trust badge text */
   .mr-trust-item {
     font-family: 'Inter', sans-serif !important;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.75rem;          /* ~12px */
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.8px;
     text-transform: uppercase;
   }
-  .mr-trust-item svg {
-    flex-shrink: 0;
-    width: 17px;
-    height: 17px;
-    fill: none;
-    stroke: var(--mr-green);
-    stroke-width: 1.5;
-  }
+  .mr-trust-item svg { flex-shrink: 0; width: 17px; height: 17px; fill: none; stroke: var(--mr-green); stroke-width: 1.5; }
 
-  /* Tabs */
-  .mr-tabs {
-    border-top: 1px solid var(--mr-border);
-    margin-bottom: 3rem;
-    margin-top: 3rem;
-  }
-  .mr-tabs-header {
-    display: flex;
-    gap: 2rem;
-    border-bottom: 1px solid var(--mr-border);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
+  .mr-tabs { border-top: 1px solid var(--mr-border); margin-bottom: 3rem; margin-top: 3rem; }
+  .mr-tabs-header { display: flex; gap: 2rem; border-bottom: 1px solid var(--mr-border); overflow-x: auto; scrollbar-width: none; }
   .mr-tabs-header::-webkit-scrollbar { display: none; }
-  /* Level 3: Tab buttons */
   .mr-tab-btn {
     font-family: 'Inter', sans-serif !important;
     background: none;
     border: none;
     padding: 1rem 0;
-    font-size: 0.75rem;          /* ~12px — same tier as UI labels */
+    font-size: 0.75rem;
     font-weight: 700;
     color: var(--mr-green);
     opacity: 0.5;
@@ -287,9 +205,7 @@
     white-space: nowrap;
     transition: opacity 0.2s;
   }
-  .mr-tab-btn.active {
-    opacity: 1;
-  }
+  .mr-tab-btn.active { opacity: 1; }
   .mr-tab-btn.active::after {
     content: '';
     position: absolute;
@@ -299,133 +215,24 @@
     height: 2px;
     background: var(--mr-green);
   }
-  /* Level 4: Tab content body text */
   .mr-tab-content {
     font-family: 'Inter', sans-serif !important;
     display: none;
     padding: 1.5rem 0;
-    font-size: 0.93rem;          /* ~15px */
+    font-size: 0.93rem;
     font-weight: 400;
     line-height: 1.75;
     color: rgba(27, 77, 62, 0.8);
   }
-  .mr-tab-content.active {
-    display: block;
+  .mr-tab-content.active { display: block; }
+
+  .mr-reviews-full {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+    background: var(--mr-cream);
   }
 
-  /* Review Minimalist UI / Testimonials */
-  .mr-pdp__testimonials {
-    margin-top: 4rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--mr-border);
-    font-family: 'Inter', sans-serif !important;
-  }
-  .mr-pdp__testimonials-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.8px;
-  }
-  .mr-pdp__testimonials-title {
-    text-align: center;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--mr-text, #1a1a1a);
-    margin: 0 0 15px;
-  }
-  .mr-pdp__testimonials-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .mr-pdp__testimonials-stars {
-    display: flex;
-    align-items: center;
-    color: var(--mr-copper, #c97a44);
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-  }
-  .mr-pdp__testimonials-stars .half { opacity: 0.5; }
-  .mr-pdp__testimonials-score {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--mr-text-light, #666);
-    margin-left: 10px;
-  }
-  .mr-pdp__testimonials-count {
-    font-size: 0.75rem;
-    color: var(--mr-text-light, #666);
-    margin: 0;
-  }
-  .mr-pdp__testimonials-bars {
-    max-width: 320px;
-    margin: 0 auto 30px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .mr-pdp__testimonials-bar-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.75rem;
-    color: var(--mr-text-light, #666);
-  }
-  .mr-pdp__testimonials-bar-stars {
-    color: var(--mr-copper, #c97a44);
-    width: 60px;
-    text-align: right;
-    letter-spacing: 2px;
-  }
-  .mr-pdp__testimonials-bar-stars .empty { color: var(--mr-border, #e8e4de); }
-  .mr-pdp__testimonials-bar-track {
-    flex: 1;
-    height: 8px;
-    background: var(--mr-cream, #faf8f6);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .mr-pdp__testimonials-bar-fill {
-    height: 100%;
-    background: var(--mr-dark-green, #1a472a);
-    border-radius: 4px;
-  }
-  .mr-pdp__testimonials-bar-count {
-    width: 30px;
-    text-align: left;
-  }
-  .mr-pdp__testimonials-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .mr-pdp__testimonials-btn {
-    width: 100%;
-    padding: 12px;
-    border-radius: 30px;
-    font-family: 'Inter', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .mr-pdp__testimonials-btn--dark {
-    background: #333333;
-    color: #ffffff;
-    border: none;
-  }
-  .mr-pdp__testimonials-btn--dark:hover { background: #000000; }
-  .mr-pdp__testimonials-btn--light {
-    background: #ffffff;
-    color: var(--mr-text-light, #666);
-    border: 1px solid var(--mr-border, #e8e4de);
-  }
-  .mr-pdp__testimonials-btn--light:hover { background: var(--mr-cream, #faf8f6); }
-
-  /* Related Products */
   .mr-related-section {
     border-top: 1px solid var(--mr-border);
     margin-top: 2rem;
@@ -440,92 +247,29 @@
     font-weight: 400;
     color: var(--mr-green);
   }
-  .mr-related-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  .mr-related-product {
-    text-decoration: none;
-    color: var(--mr-green);
-    group;
-  }
-  .mr-related-img-wrap {
-    width: 100%;
-    aspect-ratio: 3/4;
-    overflow: hidden;
-    margin-bottom: 1.2rem;
-    background: #f1ede6;
-  }
-  .mr-related-img-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.6s ease;
-  }
-  .mr-related-product:hover .mr-related-img-wrap img {
-    transform: scale(1.04);
-  }
-  .mr-related-info h4 {
-    font-family: var(--mr-font-sans);
-    font-weight: 400;
-    font-size: 0.95rem;
-    margin: 0 0 0.4rem 0;
-  }
-  .mr-related-info .price {
-    font-family: var(--mr-font-serif);
-    font-weight: 400;
-    font-size: 1.1rem;
-  }
+  .mr-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1400px; margin: 0 auto; }
+  .mr-related-product { text-decoration: none; color: var(--mr-green); }
+  .mr-related-img-wrap { width: 100%; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 1.2rem; background: #f1ede6; }
+  .mr-related-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+  .mr-related-product:hover .mr-related-img-wrap img { transform: scale(1.04); }
+  .mr-related-info h4 { font-family: var(--mr-font-sans); font-weight: 400; font-size: 0.95rem; margin: 0 0 0.4rem 0; }
+  .mr-related-info .price { font-family: var(--mr-font-serif); font-weight: 400; font-size: 1.1rem; }
 
-  /* MOBILE RESPONSIVE */
   @media screen and (max-width: 989px) {
-    .mr-product-harumi__container {
-      grid-template-columns: 1fr;
-      padding: 0;
-      gap: 0;
-    }
-    
-    .mr-gallery {
-      flex-direction: row;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-    }
-    .mr-gallery::-webkit-scrollbar {
-      display: none;
-    }
-    .mr-gallery img {
-      width: 100vw;
-      flex-shrink: 0;
-      scroll-snap-align: start;
-      border-radius: 0;
-    }
-    
-    .mr-info-wrapper {
-      position: relative;
-      top: 0;
-      max-height: none;
-      padding: 2.5rem 1.5rem;
-      overflow: visible;
-    }
-    
-    .mr-related-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-    .mr-related-section {
-      padding: 4rem 1.5rem;
-    }
+    .mr-product-harumi__container { grid-template-columns: 1fr; padding: 0; gap: 0; }
+    .mr-gallery { flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .mr-gallery::-webkit-scrollbar { display: none; }
+    .mr-gallery img { width: 100vw; flex-shrink: 0; scroll-snap-align: start; border-radius: 0; }
+    .mr-info-wrapper { position: relative; top: 0; max-height: none; padding: 2.5rem 1.5rem; overflow: visible; }
+    .mr-reviews-full { padding: 0 1.5rem 3rem; }
+    .mr-related-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .mr-related-section { padding: 4rem 1.5rem; }
   }
 </style>
 
 <div class="mr-product-harumi">
   <div class="mr-product-harumi__container">
-    
-    <!-- LEFT: GALLERY -->
+
     <div class="mr-gallery">
       {% for media in product.media %}
         {% if media.media_type == 'image' %}
@@ -534,24 +278,11 @@
       {% endfor %}
     </div>
 
-    <!-- RIGHT: PRODUCT INFO -->
     <div class="mr-info-wrapper">
-      
-      <!-- 1. Minimalist Review UI / Testimonials (Moved to top) -->
-      <div class="mr-pdp__testimonials" style="margin-top: 0; padding-top: 0; border-top: none; margin-bottom: 1rem;">
-        <div class="mr-pdp__testimonials-summary" style="flex-direction: row; justify-content: flex-start; gap: 10px; margin-bottom: 0;">
-          <div class="mr-pdp__testimonials-stars" style="margin-bottom: 0;">
-            <span>★</span><span>★</span><span>★</span><span>★</span><span class="half">★</span>
-          </div>
-          <span class="mr-review-count" style="text-decoration: underline; cursor: pointer;">4.66 / 5 (458 reseñas)</span>
-        </div>
-      </div>
 
-      <!-- 2. Title & Price -->
       <h1 class="mr-product-title">{{ product.title }}</h1>
       <div class="mr-product-price">{{ product.price | money }}</div>
 
-      <!-- 3. Add to Cart Form & Variants -->
       {%- form 'product', product, id: 'product-form-harumi', class: 'form' -%}
         {% unless product.has_only_default_variant %}
           <div class="mr-variant-selector">
@@ -575,7 +306,7 @@
         {% endunless %}
 
         <input type="hidden" name="id" id="VariantId-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
-        
+
         <button type="submit" name="add" id="AddToCart-{{ section.id }}" class="mr-btn" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
           {% if product.selected_or_first_available_variant.available %}
             AÑADIR A LA BOLSA
@@ -585,7 +316,6 @@
         </button>
       {%- endform -%}
 
-      <!-- 4. Trust Sidebar Icons -->
       <div class="mr-trust-icons">
         <div class="mr-trust-item">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -609,28 +339,27 @@
         </div>
       </div>
 
-      <!-- 5. Description Tabs -->
       <div class="mr-tabs" id="ProductTabs-{{ section.id }}">
         <div class="mr-tabs-header">
           <button class="mr-tab-btn active" data-tab="detalles">Detalles</button>
           <button class="mr-tab-btn" data-tab="envio">Envío</button>
           <button class="mr-tab-btn" data-tab="devoluciones">Devoluciones</button>
         </div>
-        
+
         <div class="mr-tab-content active" id="tab-detalles">
           {% if product.description != blank %}
             {{ product.description }}
           {% else %}
-            <p>Un artículo de sastrería excepcional, diseñado meticulosamente para la mujer contemporánea. Confeccionado con técnicas artesanales y los mejores materiales del mercado para garantizar durabilidad, estructura y un ajuste sencillamente impecable.</p>
+            <p>Un artículo de sastrería excepcional, diseñado meticulosamente para la mujer contemporánea.</p>
           {% endif %}
         </div>
-        
+
         <div class="mr-tab-content" id="tab-envio">
-          <p>Ofrecemos envíos a nivel nacional e internacional. Los pedidos se procesan en un plazo de 24 a 48 horas hábiles. Recibirás un número de seguimiento tan pronto como tu paquete haya sido despachado.</p>
+          <p>Envío gratis a toda Colombia. Los pedidos se procesan en un plazo de 24 a 48 horas hábiles.</p>
         </div>
-        
+
         <div class="mr-tab-content" id="tab-devoluciones">
-          <p>Queremos que ames tu compra. Si no estás completamente satisfecha, aceptamos cambios y devoluciones dentro de los 30 días posteriores a la recepción, siempre y cuando el artículo esté sin usar y en su estado original.</p>
+          <p>Queremos que ames tu compra. Aceptamos cambios y devoluciones dentro de los 30 días posteriores a la recepción, siempre y cuando el artículo esté sin usar y en su estado original.</p>
         </div>
       </div>
 
@@ -638,10 +367,16 @@
   </div>
 </div>
 
-<!-- Related Products -->
+<div class="mr-reviews-full">
+  {% if product %}
+    <!-- Start of Judge.me code -->
+    {% assign has_legacy = false %}{% if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}<div style='clear:both'></div><div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}' data-product-id='{{ product.id }}' data-widget='review' data-auto-install='false' data-shop-reviews-count='{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}' data-entry-point='review_widget.js' data-entry-key='review-widget/main.js'>{% if has_legacy %}<div class='jdgm-legacy-widget-content' style='display: none;'>{{ product.metafields.judgeme.widget }}</div>{% endif %}</div>{% if product.metafields.judgeme.review_widget_data %}<script>jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}</script>{% endif %}
+    <!-- End of Judge.me code -->
+  {% endif %}
+</div>
+
 <div class="mr-related-section">
   <h2 class="mr-related-title">Más para descubrir</h2>
-  
   <product-recommendations class="mr-related-grid" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4">
     {%- if recommendations.performed and recommendations.products_count > 0 -%}
       {% for recommendation in recommendations.products limit: 4 %}
@@ -665,43 +400,34 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // 1. Recommendations Script
     const handleRecommendations = () => {
       const recommendationsContainer = document.querySelector('product-recommendations');
       if (!recommendationsContainer) return;
-      
       fetch(recommendationsContainer.dataset.url)
         .then(response => response.text())
         .then(text => {
           const html = document.createElement('div');
           html.innerHTML = text;
           const recommendations = html.querySelector('product-recommendations');
-          
           if (recommendations && recommendations.innerHTML.trim().length) {
             recommendationsContainer.innerHTML = recommendations.innerHTML;
           }
         })
-        .catch(e => {
-          console.error('Error fetching recommendations:', e);
-        });
+        .catch(e => { console.error('Error fetching recommendations:', e); });
     };
     handleRecommendations();
 
-    // 2. Tabs Script
     const tabs = document.querySelectorAll('#ProductTabs-{{ section.id }} .mr-tab-btn');
     const contents = document.querySelectorAll('#ProductTabs-{{ section.id }} .mr-tab-content');
-    
     tabs.forEach(tab => {
       tab.addEventListener('click', () => {
         tabs.forEach(t => t.classList.remove('active'));
         contents.forEach(c => c.classList.remove('active'));
-        
         tab.classList.add('active');
         document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
       });
     });
 
-    // 3. Variant Radio Logic
     const variantRadios = document.querySelectorAll('.mr-variant-selector input[type="radio"]');
     const variantHiddenInput = document.getElementById('VariantId-{{ section.id }}');
     const productJsonEl = document.getElementById('ProductJson-{{ section.id }}');
@@ -709,23 +435,14 @@
 
     if (variantRadios.length > 0 && productJsonEl && variantHiddenInput) {
       const productVariants = JSON.parse(productJsonEl.innerHTML);
-
       variantRadios.forEach(radio => {
         radio.addEventListener('change', () => {
-          // Get current selected options
           const selectedOptions = Array.from(document.querySelectorAll('.mr-variant-selector input[type="radio"]:checked')).map(el => el.value);
-          
-          // Find the matching variant
           const matchedVariant = productVariants.find(variant => {
-            return selectedOptions.every((option, index) => {
-              return variant.options[index] === option;
-            });
+            return selectedOptions.every((option, index) => variant.options[index] === option);
           });
-
           if (matchedVariant) {
             variantHiddenInput.value = matchedVariant.id;
-            
-            // Update button state
             if (matchedVariant.available) {
               addToCartBtn.disabled = false;
               addToCartBtn.innerHTML = 'AÑADIR A LA BOLSA';
@@ -747,9 +464,7 @@
   "class": "section",
   "settings": [],
   "presets": [
-    {
-      "name": "Producto Harumi V3"
-    }
+    { "name": "Producto Harumi V3" }
   ]
 }
 {% endschema %}
