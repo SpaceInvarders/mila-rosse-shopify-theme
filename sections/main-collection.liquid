@@ -3,7 +3,7 @@
 
     <div class="mr-collection__header">
       <div class="mr-collection__eyebrow">COLECCIÓN</div>
-      <h1 class="mr-collection__title">{{ collection.title | default: 'Catálogo' }}</h1>
+      <h1 class="mr-collection__title">{%- if collection.handle == 'all' or collection.title == 'Products' -%}OTOÑO 2026{%- else -%}{{ collection.title | default: 'Catálogo' }}{%- endif -%}</h1>
       <div class="mr-collection__divider"></div>
       {%- if collection.description != blank -%}
         <div class="mr-collection__description">{{ collection.description }}</div>
