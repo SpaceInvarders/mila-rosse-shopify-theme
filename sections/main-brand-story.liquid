@@ -1,0 +1,31 @@
+<section class="mr-brand-story">
+  <div class="mr-brand-story__container">
+    <div class="mr-brand-story__eyebrow">{{ section.settings.eyebrow }}</div>
+    <p class="mr-brand-story__text">{{ section.settings.text }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia de Marca (SEO)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MILA ROSSE"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "MILA ROSSE es una marca de sastrería femenina de autor, diseñada y confeccionada en Colombia para la mujer que valora la calidad sobre la tendencia pasajera. Cada blazer, chaqueta y gabán que creamos nace de un proceso propio de diseño, selección cuidadosa de tejidos premium y confección artesanal, pensado para acompañar el ritmo real de tu día a día, de la oficina a una cena, sin perder elegancia ni comodidad. No trabajamos con moda desechable: cada prenda está pensada para durar, sentirse bien puesta y verse impecable temporada tras temporada. Nuestra colección Otoño 2026 reúne piezas versátiles en tonos neutros y statement, con el mismo estándar de sastrería premium que nos define. Si buscas un blazer o una chaqueta que combine diseño, calidad y sello propio, MILA ROSSE es tu sastrería de confianza en Colombia."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Historia de Marca (SEO)"
+    }
+  ]
+}
+{% endschema %}

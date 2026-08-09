@@ -10,7 +10,7 @@
         src="{{ hero_product.featured_image | image_url: width: 1800 }}"
         srcset="{{ hero_product.featured_image | image_url: width: 900 }} 900w, {{ hero_product.featured_image | image_url: width: 1800 }} 1800w, {{ hero_product.featured_image | image_url: width: 2400 }} 2400w"
         sizes="100vw"
-        alt=""
+        alt="{{ hero_product.featured_image.alt | escape | default: hero_product.title }}"
         loading="eager"
         fetchpriority="high"
       >

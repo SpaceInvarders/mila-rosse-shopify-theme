@@ -1050,3 +1050,30 @@ h1, h2, h3, h4, h5, h6 {
 .mr-faq__cta { text-align: center; margin-top: 50px; }
 .mr-faq__cta p { font-family: var(--mr-font-sans); color: var(--mr-text-light); margin-bottom: 16px; }
 @media (max-width: 768px) { .mr-story, .mr-faq { padding: 60px 20px; } }
+
+/* ===== BRAND STORY (texto real para SEO, discreto por diseño) ===== */
+.mr-brand-story {
+  padding: 50px 30px;
+  background: var(--mr-cream);
+  border-top: 1px solid var(--mr-border);
+}
+.mr-brand-story__container {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.mr-brand-story__eyebrow {
+  font-family: var(--mr-font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--mr-copper);
+  margin-bottom: 10px;
+}
+.mr-brand-story__text {
+  font-family: var(--mr-font-sans);
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--mr-text-light);
+  margin: 0;
+}
