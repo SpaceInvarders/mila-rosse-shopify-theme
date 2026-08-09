@@ -586,7 +586,9 @@
 
       <h1 class="mr-product-title">{{ product.title }}</h1>
       <div class="mr-product-price">{{ product.price | money }}</div>
-      <div class="mr-product-rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+      <!-- Start of Judge.me code -->
+      <div class="mr-product-rating jdgm-widget jdgm-preview-badge" style='{{ jm_style }}' data-id="{{ product.id }}" data-auto-install='false'>{{ product.metafields.judgeme.badge }}</div>
+      <!-- End of Judge.me code -->
 
       {%- form 'product', product, id: 'product-form-harumi', class: 'form' -%}
         {% unless product.has_only_default_variant %}
