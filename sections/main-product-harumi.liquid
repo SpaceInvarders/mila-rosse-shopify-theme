@@ -6,33 +6,15 @@
   - Trust icons
   - Accordions
   - Recommendations
-  - Reseñas reales via Judge.me (fuera del panel sticky, ancho completo)
 {% endcomment %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
   :root {
     --mr-cream: #FBF9F6;
     --mr-green: #1B4D3E;
     --mr-border: rgba(27, 77, 62, 0.15);
-    --mr-font-serif: 'Inter', sans-serif;
+    --mr-font-serif: 'Playfair Display', serif;
     --mr-font-sans: 'Inter', sans-serif;
-  }
-
-  .mr-product-harumi h1,
-  .mr-product-harumi h2,
-  .mr-product-harumi h3,
-  .mr-product-harumi h4,
-  .mr-product-harumi h5,
-  .mr-product-harumi h6,
-  .mr-product-harumi p,
-  .mr-product-harumi span,
-  .mr-product-harumi label,
-  .mr-product-harumi button,
-  .mr-product-harumi a,
-  .mr-product-harumi li {
-    font-family: 'Inter', sans-serif !important;
   }
 
   .mr-product-harumi {
@@ -52,27 +34,21 @@
     gap: 3rem;
   }
 
+  /* MEDIA GALLERY (Desktop) */
   .mr-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
   .mr-gallery img {
     width: 100%;
-    height: 100%;
-    display: block;
+    height: auto;
     object-fit: cover;
     border-radius: 4px;
     background: #f1ede6;
   }
-  .mr-gallery img:first-child {
-    grid-column: 1 / -1;
-    aspect-ratio: 4 / 3;
-  }
-  .mr-gallery img:not(:first-child) {
-    aspect-ratio: 3 / 4;
-  }
 
+  /* PRODUCT INFO (Sticky Desktop) */
   .mr-info-wrapper {
     position: sticky;
     top: 2rem;
@@ -84,257 +60,212 @@
     scrollbar-width: thin;
     scrollbar-color: var(--mr-border) transparent;
   }
-  .mr-info-wrapper::-webkit-scrollbar { width: 4px; }
-  .mr-info-wrapper::-webkit-scrollbar-thumb { background-color: var(--mr-border); border-radius: 4px; }
+  .mr-info-wrapper::-webkit-scrollbar {
+    width: 4px;
+  }
+  .mr-info-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--mr-border);
+    border-radius: 4px;
+  }
 
-  .mr-aesthetic-stars { display: inline-flex; gap: 3px; margin-bottom: 1rem; align-items: center; }
-  .mr-aesthetic-stars svg { width: 15px; height: 15px; fill: none; stroke: var(--mr-green); stroke-width: 1.5; }
-  .mr-review-count { font-size: 0.8rem; margin-left: 6px; letter-spacing: 1px; opacity: 0.8; }
+  /* Minimalism aesthetic stars */
+  .mr-aesthetic-stars {
+    display: inline-flex;
+    gap: 3px;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .mr-aesthetic-stars svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: var(--mr-green);
+    stroke-width: 1.5;
+  }
+  .mr-review-count {
+    font-size: 0.8rem;
+    margin-left: 6px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+  }
 
+  /* Typography */
   .mr-product-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: clamp(1.7rem, 2.8vw, 2.6rem);
-    margin: 0 0 0.6rem 0;
+    font-family: var(--mr-font-serif);
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    margin: 0 0 0.5rem 0;
     color: var(--mr-green);
-    line-height: 1.05;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: -0.5px;
+    line-height: 1.1;
+    font-weight: 400;
   }
 
   .mr-product-price {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 1.35rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    margin-bottom: 0.7rem;
-    font-style: normal;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    font-family: var(--mr-font-serif);
   }
 
-  .mr-product-rating {
+  /* Form & Variants */
+  .mr-variant-selector {
     margin-bottom: 2rem;
   }
-
-  .mr-variant-selector { margin-bottom: 2rem; }
-  .mr-variant-label-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
   .mr-variant-label {
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 700;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
     display: block;
     text-transform: uppercase;
-    font-size: 0.72rem;
-    letter-spacing: 1.8px;
-    color: var(--mr-green);
-  }
-  .mr-size-guide {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 1.2px;
-    text-decoration: underline;
-    cursor: pointer;
-    opacity: 0.65;
-    text-transform: uppercase;
-  }
-
-  .mr-size-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
-    display: none;
-    align-items: center;
-    justify-content: center;
-  }
-  .mr-size-modal.is-open { display: flex; }
-  .mr-size-modal__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(26, 71, 42, 0.55);
-  }
-  .mr-size-modal__box {
-    position: relative;
-    background: #fff;
-    border-radius: 16px;
-    padding: 2.5rem;
-    max-width: 480px;
-    width: 90%;
-    max-height: 85vh;
-    overflow-y: auto;
-    z-index: 1;
-  }
-  .mr-size-modal__close {
-    position: absolute;
-    top: 1rem;
-    right: 1.2rem;
-    background: none;
-    border: none;
-    font-size: 1.8rem;
-    line-height: 1;
-    cursor: pointer;
-    color: var(--mr-green);
-  }
-  .mr-size-modal__title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--mr-green);
-    margin: 0 0 0.75rem;
-  }
-  .mr-size-modal__note {
-    font-size: 0.82rem;
-    color: rgba(27, 77, 62, 0.7);
-    margin: 0 0 1.25rem;
-    line-height: 1.6;
-  }
-  .mr-size-modal__table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1.25rem;
-  }
-  .mr-size-modal__table th, .mr-size-modal__table td {
-    text-align: center;
-    padding: 0.6rem 0.4rem;
-    font-size: 0.85rem;
-    border-bottom: 1px solid rgba(27, 77, 62, 0.12);
-  }
-  .mr-size-modal__table th {
-    font-family: 'Inter', sans-serif !important;
-    text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     letter-spacing: 1px;
-    color: var(--mr-green);
+    opacity: 0.8;
   }
-  .mr-size-modal__tip {
-    font-size: 0.85rem;
-    line-height: 1.6;
-    color: rgba(27, 77, 62, 0.85);
-    background: rgba(184, 115, 51, 0.08);
-    padding: 0.9rem 1rem;
-    border-radius: 10px;
-    margin: 0;
-  }
-  .mr-variant-options { display: flex; flex-wrap: wrap; gap: 10px; }
-  .mr-variant-pill { display: inline-block; }
-  .mr-variant-pill input[type="radio"] { display: none; }
-  .mr-variant-pill label {
-    font-family: 'Inter', sans-serif !important;
-    display: inline-block;
-    padding: 10px 20px;
+  .mr-variant-select {
+    width: 100%;
+    padding: 12px;
     border: 1px solid var(--mr-border);
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    transition: all 0.2s ease;
-    border-radius: 4px;
     background: transparent;
-  }
-  .mr-variant-pill input[type="radio"]:checked + label {
-    background: var(--mr-green);
-    color: var(--mr-cream);
-    border-color: var(--mr-green);
+    font-family: inherit;
+    color: var(--mr-green);
+    border-radius: 0;
+    appearance: none;
   }
 
+  /* Buttons */
   .mr-btn {
     width: 100%;
     background-color: var(--mr-green);
     color: #fff;
     border: 1px solid var(--mr-green);
-    padding: 1.3rem;
-    font-size: 1rem;
-    font-weight: 700;
+    padding: 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
     transition: all 0.3s;
-    border-radius: 4px;
+    border-radius: 2px;
     margin-bottom: 1.5rem;
-    display: block;
-    text-align: center;
   }
-  .mr-btn:hover { background-color: #123329; color: #fff; }
-
-  .mr-btn--outline {
+  .mr-btn:hover {
     background-color: transparent;
     color: var(--mr-green);
-    border: 1px solid var(--mr-green);
   }
-  .mr-btn--outline:hover { background-color: var(--mr-green); color: var(--mr-cream); }
-  .mr-btn--outline:disabled,
-  .mr-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .mr-btn--outline:disabled:hover { background-color: transparent; color: var(--mr-green); }
 
+  /* Trust Icons */
   .mr-trust-icons {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
+    gap: 1rem;
     margin-bottom: 3rem;
-    padding: 1.5rem;
-    background: rgba(27, 77, 62, 0.03);
-    border-radius: 6px;
   }
   .mr-trust-item {
-    font-family: 'Inter', sans-serif !important;
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.8px;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
   }
-  .mr-trust-item svg { flex-shrink: 0; width: 17px; height: 17px; fill: none; stroke: var(--mr-green); stroke-width: 1.5; }
+  .mr-trust-item svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: var(--mr-green);
+    stroke-width: 1.5;
+  }
 
-  .mr-tabs { border-top: 1px solid var(--mr-border); margin-bottom: 3rem; margin-top: 3rem; }
-  .mr-tabs-header { display: flex; gap: 2rem; border-bottom: 1px solid var(--mr-border); overflow-x: auto; scrollbar-width: none; }
-  .mr-tabs-header::-webkit-scrollbar { display: none; }
-  .mr-tab-btn {
-    font-family: 'Inter', sans-serif !important;
-    background: none;
-    border: none;
-    padding: 1rem 0;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--mr-green);
-    opacity: 0.5;
+  /* Accordions */
+  .mr-accordions {
+    border-top: 1px solid var(--mr-border);
+    margin-bottom: 3rem;
+  }
+  .mr-accordion {
+    border-bottom: 1px solid var(--mr-border);
+  }
+  .mr-accordion summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 0;
     cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: relative;
-    white-space: nowrap;
-    transition: opacity 0.2s;
-  }
-  .mr-tab-btn.active { opacity: 1; }
-  .mr-tab-btn.active::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: var(--mr-green);
-  }
-  .mr-tab-content {
-    font-family: 'Inter', sans-serif !important;
-    display: none;
-    padding: 1.5rem 0;
-    font-size: 0.93rem;
+    font-family: var(--mr-font-serif);
+    font-size: 1.1rem;
     font-weight: 400;
-    line-height: 1.75;
+    list-style: none;
+    color: var(--mr-green);
+  }
+  .mr-accordion summary::-webkit-details-marker {
+    display: none;
+  }
+  .mr-accordion summary::after {
+    content: '+';
+    font-size: 1.2rem;
+    font-weight: 300;
+    transition: transform 0.3s ease;
+  }
+  .mr-accordion[open] summary::after {
+    transform: rotate(45deg);
+  }
+  .mr-accordion-content {
+    padding-bottom: 1.5rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
     color: rgba(27, 77, 62, 0.8);
   }
-  .mr-tab-content.active { display: block; }
 
-  .mr-reviews-full {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 2rem 5rem;
-    background: var(--mr-cream);
+  /* Review Minimalist UI */
+  .mr-reviews-section {
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--mr-border);
+  }
+  .mr-reviews-title {
+    font-family: var(--mr-font-serif);
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+  .mr-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .mr-review-item {
+    border-bottom: 1px solid rgba(27, 77, 62, 0.05);
+    padding-bottom: 1.5rem;
+  }
+  .mr-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+  }
+  .mr-review-author {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mr-review-verified {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.6;
+    font-weight: 400;
+  }
+  .mr-review-date {
+    font-size: 0.8rem;
+    opacity: 0.6;
+  }
+  .mr-review-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.9;
   }
 
+  /* Related Products */
   .mr-related-section {
     border-top: 1px solid var(--mr-border);
     margin-top: 2rem;
@@ -349,231 +280,92 @@
     font-weight: 400;
     color: var(--mr-green);
   }
-  .mr-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1400px; margin: 0 auto; }
-  .mr-related-product { text-decoration: none; color: var(--mr-green); }
-  .mr-related-img-wrap { width: 100%; aspect-ratio: 3/4; overflow: hidden; margin-bottom: 1.2rem; background: #f1ede6; }
-  .mr-related-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-  .mr-related-product:hover .mr-related-img-wrap img { transform: scale(1.04); }
-  .mr-related-info h4 { font-family: var(--mr-font-sans); font-weight: 400; font-size: 0.95rem; margin: 0 0 0.4rem 0; }
-  .mr-related-info .price { font-family: var(--mr-font-serif); font-weight: 400; font-size: 1.1rem; }
-
-
-  /* ===== CONFECCION ARTESANAL (ficha rica) ===== */
-  .mr-story {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 5rem 2rem 2rem;
-  }
-  .mr-story__intro {
-    max-width: 720px;
-    margin: 0 auto 4rem;
-    text-align: center;
-  }
-  .mr-story__eyebrow {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: var(--mr-green);
-    opacity: 0.65;
-    margin-bottom: 0.8rem;
-  }
-  .mr-story__title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: clamp(1.5rem, 2.4vw, 2.1rem);
-    font-weight: 800;
-    color: var(--mr-green);
-    margin: 0 0 1.2rem;
-    line-height: 1.2;
-  }
-  .mr-story__desc {
-    font-size: 0.98rem;
-    line-height: 1.8;
-    color: rgba(27, 77, 62, 0.85);
-    margin: 0;
-  }
-
-  .mr-story__detail-gallery {
+  .mr-related-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin: 2rem 0 0.75rem;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
   }
-  .mr-story__detail-photo {
-    border-radius: 12px;
-    overflow: hidden;
+  .mr-related-product {
+    text-decoration: none;
+    color: var(--mr-green);
+    group;
+  }
+  .mr-related-img-wrap {
+    width: 100%;
     aspect-ratio: 3/4;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+    background: #f1ede6;
   }
-  .mr-story__detail-photo img {
+  .mr-related-img-wrap img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    transition: transform 0.6s ease;
   }
-  .mr-story__detail-caption {
-    font-size: 0.85rem;
-    font-style: italic;
-    color: rgba(27, 77, 62, 0.65);
-    margin: 0 0 3rem;
+  .mr-related-product:hover .mr-related-img-wrap img {
+    transform: scale(1.04);
   }
-
-  .mr-story__phases {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-    margin-bottom: 5rem;
-  }
-  .mr-story__phase-img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 6px;
-    margin-bottom: 1.4rem;
-    background: #f1ede6;
-  }
-  .mr-story__phase-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .mr-story__phase-num {
-    display: block;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--mr-copper, #c97a44);
-    margin-bottom: 0.5rem;
-  }
-  .mr-story__phase h3 {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 1.08rem;
-    font-weight: 700;
-    color: var(--mr-green);
-    margin: 0 0 0.6rem;
-  }
-  .mr-story__phase p {
-    font-size: 0.9rem;
-    line-height: 1.7;
-    color: rgba(27, 77, 62, 0.8);
-    margin: 0;
-  }
-
-  .mr-story__materials {
-    border-top: 1px solid var(--mr-border);
-    padding-top: 3.5rem;
-  }
-  .mr-story__materials-title {
-    font-family: 'Inter', sans-serif !important;
-    text-align: center;
-    font-size: 1.3rem;
-    font-weight: 800;
-    color: var(--mr-green);
-    margin: 0 0 2.5rem;
-  }
-  .mr-story__materials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
-  }
-  .mr-story__material { text-align: center; }
-  .mr-story__material-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 1.2rem;
-    border-radius: 50%;
-    background: rgba(27, 77, 62, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .mr-story__material-icon svg { width: 28px; height: 28px; fill: none; stroke: var(--mr-green); stroke-width: 1.5; }
-  .mr-story__material h4 {
-    font-family: 'Inter', sans-serif !important;
+  .mr-related-info h4 {
+    font-family: var(--mr-font-sans);
+    font-weight: 400;
     font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--mr-green);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.4rem 0;
   }
-  .mr-story__material p {
-    font-size: 0.85rem;
-    line-height: 1.65;
-    color: rgba(27, 77, 62, 0.78);
-    margin: 0;
+  .mr-related-info .price {
+    font-family: var(--mr-font-serif);
+    font-weight: 400;
+    font-size: 1.1rem;
   }
 
-  /* ===== PREGUNTAS FRECUENTES (producto) ===== */
-  .mr-faq {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 5rem;
-  }
-  .mr-faq__title {
-    font-family: 'Inter', sans-serif !important;
-    text-align: center;
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--mr-green);
-    margin: 0 0 2.5rem;
-  }
-  .mr-faq__item { border-bottom: 1px solid var(--mr-border); }
-  .mr-faq__question {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: left;
-    padding: 1.3rem 0;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 0.98rem;
-    font-weight: 700;
-    color: var(--mr-green);
-  }
-  .mr-faq__icon { flex-shrink: 0; font-size: 1.2rem; font-weight: 400; transition: transform 0.25s ease; }
-  .mr-faq__item.active .mr-faq__icon { transform: rotate(45deg); }
-  .mr-faq__answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-  }
-  .mr-faq__answer p {
-    font-size: 0.92rem;
-    line-height: 1.75;
-    color: rgba(27, 77, 62, 0.85);
-    margin: 0 0 1.4rem;
-  }
-
+  /* MOBILE RESPONSIVE */
   @media screen and (max-width: 989px) {
-    .mr-product-harumi__container { grid-template-columns: 1fr; padding: 0; gap: 0; }
-    .mr-gallery { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
-    .mr-gallery::-webkit-scrollbar { display: none; }
-    .mr-gallery img { width: 100vw; flex-shrink: 0; scroll-snap-align: start; border-radius: 0; aspect-ratio: unset; }
-    .mr-gallery img:first-child { grid-column: unset; aspect-ratio: unset; }
-    .mr-info-wrapper { position: relative; top: 0; max-height: none; padding: 2.5rem 1.5rem; overflow: visible; }
-    .mr-reviews-full { padding: 0 1.5rem 3rem; }
+    .mr-product-harumi__container {
+      grid-template-columns: 1fr;
+      padding: 0;
+      gap: 0;
+    }
+    
+    .mr-gallery {
+      flex-direction: row;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+    }
+    .mr-gallery::-webkit-scrollbar {
+      display: none;
+    }
+    .mr-gallery img {
+      width: 100vw;
+      flex-shrink: 0;
+      scroll-snap-align: start;
+      border-radius: 0;
+    }
+    
+    .mr-info-wrapper {
+      position: relative;
+      top: 0;
+      max-height: none;
+      padding: 2.5rem 1.5rem;
+      overflow: visible;
+    }
+    
     .mr-related-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 2rem 1.1rem;
-      padding: 0 1.5rem;
+      gap: 1rem;
     }
-    .mr-related-img-wrap { margin-bottom: 0.9rem; }
-    .mr-related-info h4 { font-size: 0.85rem; line-height: 1.4; }
-    .mr-related-info .price { font-size: 1rem; }
-    .mr-related-section { padding: 4rem 0; }
-    .mr-related-title { padding: 0 1.5rem; }
-    .mr-size-modal__box { padding: 1.75rem; }
-    .mr-story { padding: 3rem 1.5rem 1rem; }
-    .mr-story__detail-gallery { gap: 0.6rem; margin-top: 1.5rem; }
-    .mr-story__phases { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
-    .mr-story__materials-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .mr-faq { padding: 1rem 1.5rem 3rem; }
+    .mr-related-section {
+      padding: 4rem 1.5rem;
+    }
   }
 </style>
 
 <div class="mr-product-harumi">
   <div class="mr-product-harumi__container">
-
+    
+    <!-- LEFT: GALLERY -->
     <div class="mr-gallery">
       {% for media in product.media %}
         {% if media.media_type == 'image' %}
@@ -582,53 +374,49 @@
       {% endfor %}
     </div>
 
+    <!-- RIGHT: PRODUCT INFO -->
     <div class="mr-info-wrapper">
+      
+      <!-- Minimalist Rating -->
+      <div class="mr-aesthetic-stars">
+        {%- for i in (1..5) -%}
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        {%- endfor -%}
+        <span class="mr-review-count">4.9 / 5 (Reseñas comprobadas)</span>
+      </div>
 
       <h1 class="mr-product-title">{{ product.title }}</h1>
       <div class="mr-product-price">{{ product.price | money }}</div>
-      <div class="mr-product-rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
 
+      <!-- Add to Cart Form -->
       {%- form 'product', product, id: 'product-form-harumi', class: 'form' -%}
         {% unless product.has_only_default_variant %}
           <div class="mr-variant-selector">
             {% for option in product.options_with_values %}
-              <div class="mr-variant-label-container">
-                <label class="mr-variant-label">{{ option.name }}</label>
-                {% if option.name == 'Talla' or option.name == 'Size' or option.name == 'talla' %}
-                  <span class="mr-size-guide" id="SizeGuideTrigger-{{ section.id }}">Guía de tallas</span>
-                {% endif %}
-              </div>
-              <div class="mr-variant-options" data-option-index="{{ forloop.index0 }}">
+              <label class="mr-variant-label">{{ option.name }}</label>
+              <select name="options[{{ option.name | escape }}]" class="mr-variant-select">
                 {% for value in option.values %}
-                  <div class="mr-variant-pill">
-                    <input type="radio" id="Option-{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}" name="options[{{ option.name | escape }}]" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
-                    <label for="Option-{{ section.id }}-{{ option.name }}-{{ forloop.index0 }}">{{ value }}</label>
-                  </div>
+                  <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
+                    {{ value }}
+                  </option>
                 {% endfor %}
-              </div>
+              </select>
             {% endfor %}
           </div>
         {% endunless %}
 
-        <input type="hidden" name="id" id="VariantId-{{ section.id }}" value="{{ product.selected_or_first_available_variant.id }}">
-
-        <button type="submit" name="add" id="AddToCart-{{ section.id }}" class="mr-btn" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        
+        <button type="submit" name="add" class="mr-btn" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
           {% if product.selected_or_first_available_variant.available %}
-            AÑADIR A LA BOLSA
+            Añadir a la bolsa
           {% else %}
-            AGOTADO
-          {% endif %}
-        </button>
-
-        <button type="submit" name="checkout" id="BuyNow-{{ section.id }}" class="mr-btn mr-btn--outline" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
-          {% if product.selected_or_first_available_variant.available %}
-            COMPRAR AHORA
-          {% else %}
-            AGOTADO
+            Agotado
           {% endif %}
         </button>
       {%- endform -%}
 
+      <!-- Trust Sidebar Icons (Minimalist stroke SVG) -->
       <div class="mr-trust-icons">
         <div class="mr-trust-item">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -637,10 +425,6 @@
         <div class="mr-trust-item">
           <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
           <span>Pago 100% encriptado y seguro</span>
-        </div>
-        <div class="mr-trust-item">
-          <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><line x1="6" y1="9" x2="6.01" y2="9"></line><line x1="18" y1="15" x2="18.01" y2="15"></line></svg>
-          <span>Pago Contra Entrega Disponible</span>
         </div>
         <div class="mr-trust-item">
           <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
@@ -656,27 +440,82 @@
         </div>
       </div>
 
-      <div class="mr-tabs" id="ProductTabs-{{ section.id }}">
-        <div class="mr-tabs-header">
-          <button class="mr-tab-btn active" data-tab="detalles">Detalles</button>
-          <button class="mr-tab-btn" data-tab="envio">Envío</button>
-          <button class="mr-tab-btn" data-tab="devoluciones">Devoluciones</button>
-        </div>
+      <!-- Accordions -->
+      <div class="mr-accordions">
+        <details class="mr-accordion" open>
+          <summary>Descripción del Producto</summary>
+          <div class="mr-accordion-content">
+            {% if product.description != blank %}
+              {{ product.description }}
+            {% else %}
+              <p>Un artículo de sastrería excepcional, diseñado meticulosamente para la mujer contemporánea. Confeccionado con técnicas artesanales y los mejores materiales del mercado para garantizar durabilidad, estructura y un ajuste sencillamente impecable.</p>
+            {% endif %}
+          </div>
+        </details>
+        
+        <details class="mr-accordion">
+          <summary>Modo de Uso & Estilismo</summary>
+          <div class="mr-accordion-content">
+            <p>Ideal para elevar cualquier conjunto. Combínalo con pantalones de pinzas para un look corporativo imponente, o úsalo sobre unos jeans ajustados para un estilo casual-chic. El balance perfecto entre lo formal y lo versátil.</p>
+          </div>
+        </details>
 
-        <div class="mr-tab-content active" id="tab-detalles">
-          {% if product.description != blank %}
-            {{ product.description }}
-          {% else %}
-            <p>Un artículo de sastrería excepcional, diseñado meticulosamente para la mujer contemporánea.</p>
-          {% endif %}
-        </div>
+        <details class="mr-accordion">
+          <summary>Recomendado para (Tipo de silueta)</summary>
+          <div class="mr-accordion-content">
+            <p>Gracias a su corte estructurado y proporciones estudiadas, favorece y equilibra la figura, aportando elegancia y definiendo sutilmente las líneas del cuerpo femenino sin sacrificar comodidad.</p>
+          </div>
+        </details>
 
-        <div class="mr-tab-content" id="tab-envio">
-          <p>Envío gratis a toda Colombia. Los pedidos se procesan en un plazo de 24 a 48 horas hábiles.</p>
-        </div>
+        <details class="mr-accordion">
+          <summary>Composición & Forro</summary>
+          <div class="mr-accordion-content">
+            <p>Tejido exterior premium seleccionado cuidadosamente. Forro interno de alta transpirabilidad (fibras que no generan estática) diseñado para acariciar la piel y aportar estructura interna.</p>
+          </div>
+        </details>
 
-        <div class="mr-tab-content" id="tab-devoluciones">
-          <p>Queremos que ames tu compra. Aceptamos cambios y devoluciones dentro de los 30 días posteriores a la recepción, siempre y cuando el artículo esté sin usar y en su estado original.</p>
+        <details class="mr-accordion">
+          <summary>Alertas & Cuidados Especiales</summary>
+          <div class="mr-accordion-content">
+            <p>Recomendamos limpieza en seco únicamente. No usar lejía ni secadora. Planchar a baja temperatura utilizando un paño protector de algodón. Guardar siempre en percha estructurada para mantener la forma intacta.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Minimalist Review UI -->
+      <div class="mr-reviews-section">
+        <h2 class="mr-reviews-title">Voces de Clientas</h2>
+        
+        <div class="mr-review-list">
+          <div class="mr-review-item">
+            <div class="mr-review-header">
+              <div class="mr-aesthetic-stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="mr-review-date">Hace 2 semanas</span>
+            </div>
+            <div class="mr-review-author">María Fernanda <span class="mr-review-verified">| Compra verificada</span></div>
+            <div class="mr-review-text">La calidad de la tela es increíble. El corte me quedó perfecto, realmente se nota la atención al detalle en la sastrería y los acabados a mano. Definitivamente una inversión que vale la pena.</div>
+          </div>
+
+          <div class="mr-review-item">
+            <div class="mr-review-header">
+              <div class="mr-aesthetic-stars">
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              </div>
+              <span class="mr-review-date">Hace 1 mes</span>
+            </div>
+            <div class="mr-review-author">Camila R. <span class="mr-review-verified">| Compra verificada</span></div>
+            <div class="mr-review-text">Súper elegante. Me lo puse para una presentación importante en la oficina y me sentí muy segura de mi misma. El forro interno se siente muy premium contra la piel.</div>
+          </div>
         </div>
       </div>
 
@@ -684,231 +523,10 @@
   </div>
 </div>
 
-{% assign story_title = blank %}
-{% case product.handle %}
-
-  {% when 'abrigo-soft-gaban' %}
-    {% assign story_title = 'Lana Premium + Costura a Mano' %}
-    {% assign story_desc = '¿Cansada de elegir entre abrigarte bien o verte elegante? Este gabán está pensado para que no tengas que escoger: te cubre de verdad del frío y se ve tan cuidado que se convierte en la pieza que más vas a usar este otoño.' %}
-    {% assign detail_img1 = 'detalle-gaban-1.jpg' %}
-    {% assign detail_img2 = 'detalle-gaban-2.jpg' %}
-    {% assign detail_caption = 'La caída y el estampado del paño, tal como se ven en persona.' %}
-    {% assign mat1_name = 'Paño de Lana Premium' %}
-    {% assign mat1_desc = 'Tejido denso y cálido, con caída fluida y resistencia superior al uso diario.' %}
-    {% assign mat2_name = 'Forro Interior Satinado' %}
-    {% assign mat2_desc = 'Desliza con suavidad sobre cualquier prenda y añade una terminación de lujo discreta.' %}
-    {% assign mat3_name = 'Botones de Cuerno Natural' %}
-    {% assign mat3_desc = 'Detalles cosidos a mano que aportan carácter y una sensación auténticamente artesanal.' %}
-    {% assign faq1_a = 'Nuestros Gabanes tienen un corte oversize pensado para llevarse holgado. Si estás entre dos tallas, te recomendamos elegir la más pequeña para un ajuste más entallado, o la más grande para un efecto oversize total. Consulta la guía de tallas junto al selector de talla.' %}
-    {% assign faq5_q = '¿Qué tan abrigado es el Gabán Soft Coat?' %}
-    {% assign faq5_a = 'Su paño de lana premium ofrece un abrigo medio-alto, ideal para clima frío y noches frescas. Es versátil para llevar solo o sobre otras capas.' %}
-
-  {% when 'blazer-nebraska-kaki' %}
-    {% assign story_title = 'Lana Kaki + Silueta Oversize' %}
-    {% assign story_desc = 'Sabemos lo que es abrir el clóset sin ganas de pensar en un outfit. Por eso este blazer está pensado para ponerte y listo: te ves profesional al instante, sin esfuerzo y sin dudar frente al espejo.' %}
-    {% assign detail_img1 = 'detalle-nebraska-1.jpg' %}
-    {% assign detail_img2 = 'detalle-nebraska-2.jpg' %}
-    {% assign detail_caption = 'El tono kaki y la caída oversize, en detalle.' %}
-    {% assign mat1_name = 'Paño de Lana Kaki Premium' %}
-    {% assign mat1_desc = 'Tejido cálido de tono neutro, con caída relajada perfecta para el corte oversize.' %}
-    {% assign mat2_name = 'Hombreras Estructuradas' %}
-    {% assign mat2_desc = 'Definen la silueta y aportan una caída impecable sobre los hombros.' %}
-    {% assign mat3_name = 'Botones Metálicos Mate' %}
-    {% assign mat3_desc = 'Detalles de acabado mate que aportan un toque moderno y sofisticado.' %}
-    {% assign faq1_a = 'El Blazer Nebraska tiene un corte oversize pensado para llevarse holgado. Si estás entre dos tallas, elige la más pequeña para un ajuste más entallado, o la más grande para un efecto oversize total. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Es una prenda de uso diario?' %}
-    {% assign faq5_a = 'Sí, su corte oversize y tejido versátil lo hacen ideal tanto para la oficina como para looks casuales. Combínalo con jeans o pantalón de sastre según la ocasión.' %}
-
-  {% when 'chaqueta-urban-stone-negra' %}
-    {% assign story_title = 'Algodón Técnico + Costura Urbana' %}
-    {% assign story_desc = 'Si ya tienes suficiente ropa negra básica que no dice nada de ti, esta chaqueta es la excepción: actitud y calidad que se sienten desde el primer día, no una prenda más que se pierde en el clóset.' %}
-    {% assign detail_img1 = 'detalle-urbanstone-negra-1.jpg' %}
-    {% assign detail_img2 = 'detalle-urbanstone-negra-2.jpg' %}
-    {% assign detail_caption = 'Botones, bolsillos y acabados, de cerca.' %}
-    {% assign mat1_name = 'Algodón Técnico Resistente' %}
-    {% assign mat1_desc = 'Tejido duradero de tacto suave, ideal para el uso diario sin perder su forma.' %}
-    {% assign mat2_name = 'Forro Interior Ligero' %}
-    {% assign mat2_desc = 'Aporta comodidad y una caída limpia sin sumar peso a la prenda.' %}
-    {% assign mat3_name = 'Cierres Metálicos Reforzados' %}
-    {% assign mat3_desc = 'Herrajes de alta durabilidad con acabado en negro mate.' %}
-    {% assign faq1_a = 'La Chaqueta Urban Stone tiene un corte entallado a la cintura. Si prefieres un ajuste más relajado, te recomendamos elegir una talla más. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Para qué ocasiones es ideal?' %}
-    {% assign faq5_a = 'Es una pieza versátil, perfecta para looks urbanos de día y noche. Combínala con jeans, vestidos o pantalón de cuero para un resultado con actitud.' %}
-
-  {% when 'chaqueta-torera-urban-stone' %}
-    {% assign story_title = 'Paño Clásico + Corte Torero' %}
-    {% assign story_desc = 'No se trata de intentarlo demasiado. Esta chaqueta tiene el corte clásico que se ve bien sin pensarlo, temporada tras temporada, sin necesidad de perseguir la última tendencia.' %}
-    {% assign detail_img1 = 'detalle-torera-1.jpg' %}
-    {% assign detail_img2 = 'detalle-torera-2.jpg' %}
-    {% assign detail_caption = 'El tono stone y la estructura del corte, en detalle.' %}
-    {% assign mat1_name = 'Paño Stone Atemporal' %}
-    {% assign mat1_desc = 'Tejido de tacto denso y color neutro, fácil de combinar con cualquier look.' %}
-    {% assign mat2_name = 'Forro Interior Estructurado' %}
-    {% assign mat2_desc = 'Ayuda a mantener la forma torera y una caída impecable.' %}
-    {% assign mat3_name = 'Botones Clásicos' %}
-    {% assign mat3_desc = 'Acabado tradicional que aporta un toque elegante y atemporal.' %}
-    {% assign faq1_a = 'La Chaqueta Torera tiene un corte entallado y corto. Si buscas un ajuste más suelto, sube una talla. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Es una prenda de entretiempo?' %}
-    {% assign faq5_a = 'Sí, su paño de peso medio la hace ideal para clima templado y como capa de transición en cualquier temporada.' %}
-
-  {% when 'blazer-genova-blanco' %}
-    {% assign story_title = 'Paño Blanco Impecable + Manga 3/4' %}
-    {% assign story_desc = '¿Cuántas veces te ha tocado improvisar algo elegante a última hora? Este blazer blanco resuelve ese momento: listo para ponerte y salir, sin que se note el afán.' %}
-    {% assign detail_img1 = 'detalle-genova-blanco-1.jpg' %}
-    {% assign detail_img2 = 'detalle-genova-blanco-2.jpg' %}
-    {% assign detail_caption = 'El blanco impecable y los botones nacarados, sin filtros.' %}
-    {% assign mat1_name = 'Paño Blanco Premium' %}
-    {% assign mat1_desc = 'Tejido de tacto suave con un blanco uniforme que resalta la caída del blazer.' %}
-    {% assign mat2_name = 'Forro de Satín' %}
-    {% assign mat2_desc = 'Desliza con suavidad y aporta una terminación de lujo discreta.' %}
-    {% assign mat3_name = 'Botones Nacarados' %}
-    {% assign mat3_desc = 'Detalles delicados cosidos a mano que elevan el acabado de la prenda.' %}
-    {% assign faq1_a = 'El Blazer Genova tiene un corte entallado y elegante. Te recomendamos elegir tu talla habitual. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Es ideal para eventos especiales?' %}
-    {% assign faq5_a = 'Sí, su color blanco impecable y corte sofisticado lo convierten en la pieza perfecta para bodas, cócteles y eventos formales.' %}
-
-  {% when 'blazer-genova-rojo' %}
-    {% assign story_title = 'Paño Rojo Intenso + Manga 3/4' %}
-    {% assign story_desc = 'Destacar da un poco de miedo, lo entendemos. Por eso este blazer rojo está pensado para que llames la atención por las razones correctas: por lo bien que te ves, no por verte exagerada.' %}
-    {% assign detail_img1 = 'detalle-genova-rojo-1.jpg' %}
-    {% assign detail_img2 = 'detalle-genova-rojo-2.jpg' %}
-    {% assign detail_caption = 'El forro interior y los acabados que no se ven en la foto de catálogo.' %}
-    {% assign mat1_name = 'Paño Rojo Intenso' %}
-    {% assign mat1_desc = 'Color vibrante y uniforme, con caída fluida que resalta la silueta.' %}
-    {% assign mat2_name = 'Forro Interior de Satín' %}
-    {% assign mat2_desc = 'Desliza con suavidad y aporta una terminación de lujo discreta.' %}
-    {% assign mat3_name = 'Botones Metálicos Dorados' %}
-    {% assign mat3_desc = 'Detalles cosidos a mano que aportan un brillo sutil y sofisticado.' %}
-    {% assign faq1_a = 'El Blazer Genova tiene un corte entallado y elegante. Te recomendamos elegir tu talla habitual. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Cómo lo puedo combinar?' %}
-    {% assign faq5_a = 'Es una pieza statement: combínala con negro para un contraste elegante, o con tonos neutros para dejar que el rojo sea el protagonista del look.' %}
-
-  {% when 'chaqueta-manchester-classic' %}
-    {% assign story_title = 'Paño Versátil + Costura Torera' %}
-    {% assign story_desc = 'Nada de comprar algo "de tendencia" que en 3 meses ya no te pones. Esta chaqueta está hecha para convertirse en la que realmente usas, temporada tras temporada, sin pasar de moda.' %}
-    {% assign detail_img1 = 'detalle-manchester-1.jpg' %}
-    {% assign detail_img2 = 'detalle-manchester-2.jpg' %}
-    {% assign detail_caption = 'El estampado a cuadros y la textura del paño, de cerca.' %}
-    {% assign mat1_name = 'Paño Manchester Premium' %}
-    {% assign mat1_desc = 'Tejido versátil de peso medio, con excelente caída y resistencia.' %}
-    {% assign mat2_name = 'Forro Ligero Transpirable' %}
-    {% assign mat2_desc = 'Aporta comodidad durante todo el día sin sumar peso.' %}
-    {% assign mat3_name = 'Botones Clásicos' %}
-    {% assign mat3_desc = 'Acabado atemporal que combina con cualquier estilo.' %}
-    {% assign faq1_a = 'La Chaqueta Manchester tiene un corte torero entallado. Si prefieres un ajuste más relajado, sube una talla. Consulta la guía de tallas junto al selector.' %}
-    {% assign faq5_q = '¿Con qué la puedo combinar?' %}
-    {% assign faq5_a = 'Es muy versátil: llévala con jeans y botas para un look casual, o con vestido para un toque más elegante.' %}
-
-{% endcase %}
-
-{% if story_title != blank %}
-<div class="mr-story">
-  <div class="mr-story__intro">
-    <span class="mr-story__eyebrow">Confección Artesanal</span>
-    <h2 class="mr-story__title">{{ story_title }}</h2>
-    <p class="mr-story__desc">{{ story_desc }}</p>
-  </div>
-
-  {% if detail_img1 != blank %}
-  <div class="mr-story__detail-gallery">
-    <div class="mr-story__detail-photo"><img src="{{ detail_img1 | asset_url }}" alt="Detalle real de {{ product.title | escape }}" loading="lazy"></div>
-    <div class="mr-story__detail-photo"><img src="{{ detail_img2 | asset_url }}" alt="Detalle real de {{ product.title | escape }}" loading="lazy"></div>
-  </div>
-  {% if detail_caption != blank %}<p class="mr-story__detail-caption">{{ detail_caption }}</p>{% endif %}
-  {% endif %}
-
-  <div class="mr-story__phases">
-    <div class="mr-story__phase">
-      <div class="mr-story__phase-img">
-        <img src="{{ 'mr-fase-tela.jpg' | asset_url }}" alt="Selección de tela premium" loading="lazy">
-      </div>
-      <span class="mr-story__phase-num">Fase 01</span>
-      <h3>Selección de Tela</h3>
-      <p>Nada arruina más una prenda que una tela que se ve bien en la percha pero se siente barata puesta. Por eso evaluamos cada paño a mano, uno por uno, antes de aprobar el lote — para que la sientas de calidad desde el primer día y lo siga siendo con el uso.</p>
-    </div>
-    <div class="mr-story__phase">
-      <div class="mr-story__phase-img">
-        <img src="{{ 'mr-fase-corte.jpg' | asset_url }}" alt="Corte y patronaje de precisión" loading="lazy">
-      </div>
-      <span class="mr-story__phase-num">Fase 02</span>
-      <h3>Un Corte Pensado para Ti</h3>
-      <p>¿Te ha pasado que algo se ve perfecto en la percha pero raro puesto? Cada patrón se ajusta pensando en cómo cae sobre el cuerpo real, no solo sobre un maniquí, para que te veas bien tal como eres.</p>
-    </div>
-    <div class="mr-story__phase">
-      <div class="mr-story__phase-img">
-        <img src="{{ 'mr-fase-costura.jpg' | asset_url }}" alt="Costura y terminación a mano" loading="lazy">
-      </div>
-      <span class="mr-story__phase-num">Fase 03</span>
-      <h3>Costura y Terminación a Mano</h3>
-      <p>Un botón que se cae o una costura que se abre al segundo uso puede arruinar tu día. Por eso reforzamos cada costura y cosemos los botones a mano, para que la prenda aguante el uso real, no solo la primera puesta.</p>
-    </div>
-  </div>
-
-  <div class="mr-story__materials">
-    <h3 class="mr-story__materials-title">Materiales que Marcan la Diferencia</h3>
-    <div class="mr-story__materials-grid">
-      <div class="mr-story__material">
-        <div class="mr-story__material-icon">
-          <svg viewBox="0 0 24 24"><path d="M3 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0"></path><path d="M3 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0"></path><path d="M3 6c2-3 4-3 6 0s4 3 6 0 4-3 6 0"></path></svg>
-        </div>
-        <h4>{{ mat1_name }}</h4>
-        <p>{{ mat1_desc }}</p>
-      </div>
-      <div class="mr-story__material">
-        <div class="mr-story__material-icon">
-          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="9"></rect><path d="M8 12h8"></path></svg>
-        </div>
-        <h4>{{ mat2_name }}</h4>
-        <p>{{ mat2_desc }}</p>
-      </div>
-      <div class="mr-story__material">
-        <div class="mr-story__material-icon">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><circle cx="9" cy="9" r="1"></circle><circle cx="15" cy="9" r="1"></circle><circle cx="9" cy="15" r="1"></circle><circle cx="15" cy="15" r="1"></circle></svg>
-        </div>
-        <h4>{{ mat3_name }}</h4>
-        <p>{{ mat3_desc }}</p>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="mr-faq" id="ProductFaq-{{ section.id }}">
-  <h2 class="mr-faq__title">Preguntas Frecuentes</h2>
-  <div class="mr-faq__list">
-    <div class="mr-faq__item">
-      <button class="mr-faq__question" type="button">¿Cuál es la talla correcta para mí?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>{{ faq1_a }}</p></div>
-    </div>
-    <div class="mr-faq__item">
-      <button class="mr-faq__question" type="button">¿Cómo debo lavar o cuidar esta prenda?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Recomendamos limpieza en seco para conservar la caída y textura de la lana. Entre usos, airea la prenda y guárdala en gancho. Evita el contacto prolongado con la humedad.</p></div>
-    </div>
-    <div class="mr-faq__item">
-      <button class="mr-faq__question" type="button">¿Cuánto tarda el envío?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Envío gratis a toda Colombia. Los pedidos se procesan en 24 a 48 horas hábiles y llegan en un plazo de 3 a 5 días hábiles después del despacho.</p></div>
-    </div>
-    <div class="mr-faq__item">
-      <button class="mr-faq__question" type="button">¿Puedo cambiar o devolver mi pedido?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Sí. Aceptamos cambios y devoluciones dentro de los 30 días posteriores a la recepción, siempre que la prenda esté sin usar y con sus etiquetas originales.</p></div>
-    </div>
-    <div class="mr-faq__item">
-      <button class="mr-faq__question" type="button">{{ faq5_q }}<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>{{ faq5_a }}</p></div>
-    </div>
-  </div>
-</div>
-{% endif %}
-
-<div class="mr-reviews-full">
-  {% if product %}
-    <!-- Start of Judge.me code -->
-    {% assign has_legacy = false %}{% if product.metafields.judgeme.widget.size > 20 %}{% assign has_legacy = true %}{% endif %}<div style='clear:both'></div><div id='judgeme_product_reviews' class='jdgm-widget jdgm-review-widget' data-product-title='{{ product.title | escape }}' data-id='{{ product.id }}' data-product-id='{{ product.id }}' data-widget='review' data-auto-install='false' data-shop-reviews-count='{{ shop.metafields.judgeme.shop_reviews_count | default: 0 | escape }}' data-entry-point='review_widget.js' data-entry-key='review-widget/main.js'>{% if has_legacy %}<div class='jdgm-legacy-widget-content' style='display: none;'>{{ product.metafields.judgeme.widget }}</div>{% endif %}</div>{% if product.metafields.judgeme.review_widget_data %}<script>jdgm.data ||= {}; jdgm.data.reviewWidget ||= {}; jdgm.data.reviewWidget[{{ product.id }}] = {{ product.metafields.judgeme.review_widget_data }}</script>{% endif %}
-    <!-- End of Judge.me code -->
-  {% endif %}
-</div>
-
+<!-- Related Products -->
 <div class="mr-related-section">
   <h2 class="mr-related-title">Más para descubrir</h2>
+  
   <product-recommendations class="mr-related-grid" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=4">
     {%- if recommendations.performed and recommendations.products_count > 0 -%}
       {% for recommendation in recommendations.products limit: 4 %}
@@ -926,123 +544,29 @@
   </product-recommendations>
 </div>
 
-<div class="mr-size-modal" id="SizeGuideModal-{{ section.id }}" aria-hidden="true">
-  <div class="mr-size-modal__overlay"></div>
-  <div class="mr-size-modal__box" role="dialog" aria-modal="true" aria-label="Guía de tallas">
-    <button type="button" class="mr-size-modal__close" aria-label="Cerrar">&times;</button>
-    <h3 class="mr-size-modal__title">Guía de Tallas</h3>
-    <p class="mr-size-modal__note">Medidas de referencia en centímetros, tomadas sobre el cuerpo. Pueden variar ligeramente según el corte de cada prenda.</p>
-    <table class="mr-size-modal__table">
-      <thead>
-        <tr><th>Talla</th><th>Busto</th><th>Cintura</th><th>Cadera</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>XS</td><td>82–86</td><td>62–66</td><td>90–94</td></tr>
-        <tr><td>S</td><td>87–91</td><td>67–71</td><td>95–99</td></tr>
-        <tr><td>M</td><td>92–96</td><td>72–76</td><td>100–104</td></tr>
-        <tr><td>L</td><td>97–102</td><td>77–82</td><td>105–110</td></tr>
-        <tr><td>XL</td><td>103–108</td><td>83–88</td><td>111–116</td></tr>
-      </tbody>
-    </table>
-    {% if faq1_a != blank %}
-    <p class="mr-size-modal__tip"><strong>Para esta prenda:</strong> {{ faq1_a }}</p>
-    {% endif %}
-  </div>
-</div>
-
-<script type="application/json" id="ProductJson-{{ section.id }}">
-  {{ product.variants | json }}
-</script>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Native Shopify related products script fetcher
     const handleRecommendations = () => {
       const recommendationsContainer = document.querySelector('product-recommendations');
       if (!recommendationsContainer) return;
+      
       fetch(recommendationsContainer.dataset.url)
         .then(response => response.text())
         .then(text => {
           const html = document.createElement('div');
           html.innerHTML = text;
           const recommendations = html.querySelector('product-recommendations');
+          
           if (recommendations && recommendations.innerHTML.trim().length) {
             recommendationsContainer.innerHTML = recommendations.innerHTML;
           }
         })
-        .catch(e => { console.error('Error fetching recommendations:', e); });
+        .catch(e => {
+          console.error('Error fetching recommendations:', e);
+        });
     };
     handleRecommendations();
-
-    const tabs = document.querySelectorAll('#ProductTabs-{{ section.id }} .mr-tab-btn');
-    const contents = document.querySelectorAll('#ProductTabs-{{ section.id }} .mr-tab-content');
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
-        tab.classList.add('active');
-        document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
-      });
-    });
-
-    const faqItems = document.querySelectorAll('.mr-faq__item');
-    faqItems.forEach(item => {
-      const question = item.querySelector('.mr-faq__question');
-      const answer = item.querySelector('.mr-faq__answer');
-      question.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
-        faqItems.forEach(other => {
-          other.classList.remove('active');
-          other.querySelector('.mr-faq__answer').style.maxHeight = null;
-        });
-        if (!isActive) {
-          item.classList.add('active');
-          answer.style.maxHeight = answer.scrollHeight + 'px';
-        }
-      });
-    });
-
-    const sizeGuideTrigger = document.getElementById('SizeGuideTrigger-{{ section.id }}');
-    const sizeGuideModal = document.getElementById('SizeGuideModal-{{ section.id }}');
-    if (sizeGuideTrigger && sizeGuideModal) {
-      const closeBtn = sizeGuideModal.querySelector('.mr-size-modal__close');
-      const overlay = sizeGuideModal.querySelector('.mr-size-modal__overlay');
-      const openSizeModal = () => { sizeGuideModal.classList.add('is-open'); sizeGuideModal.setAttribute('aria-hidden', 'false'); };
-      const closeSizeModal = () => { sizeGuideModal.classList.remove('is-open'); sizeGuideModal.setAttribute('aria-hidden', 'true'); };
-      sizeGuideTrigger.addEventListener('click', openSizeModal);
-      closeBtn.addEventListener('click', closeSizeModal);
-      overlay.addEventListener('click', closeSizeModal);
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSizeModal(); });
-    }
-
-    const variantRadios = document.querySelectorAll('.mr-variant-selector input[type="radio"]');
-    const variantHiddenInput = document.getElementById('VariantId-{{ section.id }}');
-    const productJsonEl = document.getElementById('ProductJson-{{ section.id }}');
-    const addToCartBtn = document.getElementById('AddToCart-{{ section.id }}');
-    const buyNowBtn = document.getElementById('BuyNow-{{ section.id }}');
-
-    if (variantRadios.length > 0 && productJsonEl && variantHiddenInput) {
-      const productVariants = JSON.parse(productJsonEl.innerHTML);
-      variantRadios.forEach(radio => {
-        radio.addEventListener('change', () => {
-          const selectedOptions = Array.from(document.querySelectorAll('.mr-variant-selector input[type="radio"]:checked')).map(el => el.value);
-          const matchedVariant = productVariants.find(variant => {
-            return selectedOptions.every((option, index) => variant.options[index] === option);
-          });
-          if (matchedVariant) {
-            variantHiddenInput.value = matchedVariant.id;
-            if (matchedVariant.available) {
-              addToCartBtn.disabled = false;
-              addToCartBtn.innerHTML = 'AÑADIR A LA BOLSA';
-              if (buyNowBtn) { buyNowBtn.disabled = false; buyNowBtn.innerHTML = 'COMPRAR AHORA'; }
-            } else {
-              addToCartBtn.disabled = true;
-              addToCartBtn.innerHTML = 'AGOTADO';
-              if (buyNowBtn) { buyNowBtn.disabled = true; buyNowBtn.innerHTML = 'AGOTADO'; }
-            }
-          }
-        });
-      });
-    }
   });
 </script>
 
@@ -1053,7 +577,9 @@
   "class": "section",
   "settings": [],
   "presets": [
-    { "name": "Producto Harumi V3" }
+    {
+      "name": "Producto Harumi V3"
+    }
   ]
 }
 {% endschema %}
