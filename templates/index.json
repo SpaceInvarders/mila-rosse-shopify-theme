@@ -13,9 +13,9 @@
       "type": "main-banner",
       "settings": {
         "hero_product": "",
-        "eyebrow": "Sastrería de Autor",
-        "subtitle": "Sastrería Femenina · Colección Otoño 2026",
-        "button_label": "Ver Colección",
+        "eyebrow": "Sastrería de Autor · Hecha a Mano en Bogotá",
+        "subtitle": "Piezas que se sienten tan bien como se ven · Pago contra entrega en toda Colombia",
+        "button_label": "Ver Colección Otoño 2026",
         "button_link": ""
       }
     },
@@ -58,36 +58,16 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "Reemplaza este texto con una reseña real de tu primera clienta.",
-            "author": "Nombre pendiente",
-            "location": "Bogotá, Colombia"
-          }
-        },
-        "t2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Reemplaza este texto con una reseña real de tu segunda clienta.",
-            "author": "Nombre pendiente",
-            "location": "Medellín, Colombia"
-          }
-        },
-        "t3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Reemplaza este texto con una reseña real de tu tercera clienta.",
-            "author": "Nombre pendiente",
-            "location": "Cali, Colombia"
+            "quote": "Excelente calidad y producto, la atención del servicio es muy buena. La chaqueta está muy bien confeccionada y con bolsillo que no los he visto en otras chaquetas. Hermosa.",
+            "author": "Laura Castañeda",
+            "location": "Cliente verificada"
           }
         }
       },
       "block_order": [
-        "t1",
-        "t2",
-        "t3"
+        "t1"
       ],
-      "disabled": true,
+      "disabled": false,
       "settings": {
         "eyebrow": "Lo que dicen de nosotras",
         "title": "Reseñas de Clientas"
