@@ -1024,6 +1024,7 @@ h1, h2, h3, h4, h5, h6 {
 .mr-testimonials__eyebrow { font-family: var(--mr-font-sans); font-size: 0.75rem; color: var(--mr-copper); letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
 .mr-testimonials__title { font-family: var(--mr-font-serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; letter-spacing: 0.15em; color: var(--mr-dark-green); margin: 0; text-transform: uppercase; }
 .mr-testimonials__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+.mr-intro { padding-bottom: 60px; }
 .mr-testimonial { background: var(--mr-white); padding: 40px 35px; border-radius: var(--mr-radius-md); box-shadow: var(--mr-shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .mr-testimonial:hover { transform: translateY(-4px); box-shadow: var(--mr-shadow-md); }
 .mr-testimonial__stars { color: var(--mr-copper); font-size: 1rem; letter-spacing: 3px; margin-bottom: 18px; }
@@ -1031,7 +1032,28 @@ h1, h2, h3, h4, h5, h6 {
 .mr-testimonial__author { font-family: var(--mr-font-sans); font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em; color: var(--mr-dark-green); text-transform: uppercase; }
 .mr-testimonial__location { font-family: var(--mr-font-sans); font-size: 0.8rem; color: var(--mr-text-light); margin-top: 2px; }
 @media (max-width: 1024px) { .mr-testimonials__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 640px) { .mr-testimonials__grid { grid-template-columns: 1fr; } }
+@media (max-width: 768px) {
+  .mr-testimonials__grid {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    margin: 0 -20px;
+    padding: 0 20px 6px;
+    scrollbar-width: none;
+  }
+  .mr-testimonials__grid::-webkit-scrollbar { display: none; }
+  .mr-testimonials__grid .mr-testimonial {
+    scroll-snap-align: start;
+    flex: 0 0 82%;
+    min-width: 82%;
+  }
+}
+@media (max-width: 480px) {
+  .mr-testimonials__grid .mr-testimonial { flex: 0 0 88%; min-width: 88%; }
+}
 
 /* ===== CARRITO ===== */
 .mr-cart { background: var(--mr-cream); padding: 80px 20px; min-height: 60vh; }

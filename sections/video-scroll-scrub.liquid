@@ -1,34 +1,33 @@
 {%- comment -%}
   ============================================================================
-  VIDEO SCROLL SCRUB · MILA ROSSE
+  VIDEO EN VIEWPORT · MILA ROSSE
   ----------------------------------------------------------------------------
-  Sección de Video Scrubbing on Scroll (estilo Apple Product Pages).
-  El video avanza/retrocede frame a frame mientras el usuario hace scroll.
+  Sección de video ambiental: se reproduce solo (loop, silencioso) cuando el
+  visitante llega a esta sección, y se pausa cuando sale del viewport. No hay
+  scroll-scrubbing ni scroll-jacking (efecto anterior, descartado): la altura
+  de la sección es fija, el usuario simplemente hace scroll normal.
 
   Características:
   - Video nativo de Shopify (sube el archivo desde el customizer)
-  - Position sticky con altura configurable
-  - JavaScript optimizado con requestAnimationFrame
-  - IntersectionObserver para activar solo cuando está en viewport
+  - IntersectionObserver: play() al entrar, pause() al salir
   - 100% compatible con iOS (muted + playsinline)
-  - Video con preload="none": no descarga nada hasta que el usuario está por
-    llegar a la sección (mejora LCP/FCP del homepage, antes competía con la
-    imagen del hero por ancho de banda desde el primer segundo)
+  - preload="none": no descarga nada hasta que el usuario está por llegar a
+    la sección (protege el LCP/FCP del homepage)
+  - Tarjeta oscura semitransparente detrás del texto ("glass card") para que
+    el título se lea nítido y grande sin importar el color/contraste del
+    frame del video en ese momento
   - Fallback elegante cuando el video aún no se ha subido
-
-  Uso: Sube un video MP4 de 5-15 segundos optimizado (max 10MB recomendado)
   ============================================================================
 {%- endcomment -%}
 
 {%- liquid
   assign s_id = section.id
-  assign scroll_height = section.settings.scroll_height | default: 300
+  assign section_height = section.settings.section_height | default: 90
   assign object_fit = section.settings.object_fit | default: 'cover'
   assign bg_color = section.settings.background_color | default: '#1a472a'
   assign text_color = section.settings.text_color | default: '#ffffff'
-  assign overlay_opacity = section.settings.overlay_opacity | default: 30
+  assign overlay_opacity = section.settings.overlay_opacity | default: 35
 
-  # Buscar la mejor fuente MP4 del video (mejor compatibilidad para scrubbing)
   assign mp4_url = ''
   if section.settings.video_source
     for source in section.settings.video_source.sources
@@ -47,17 +46,11 @@
     background: {{ bg_color }};
   }
 
-  #VideoScrub-{{ s_id }} .vs__parent {
+  #VideoScrub-{{ s_id }} .vs__frame {
     position: relative;
     width: 100%;
-    height: {{ scroll_height }}vh;
-  }
-
-  #VideoScrub-{{ s_id }} .vs__sticky {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
+    height: {{ section_height }}vh;
+    min-height: 460px;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -73,11 +66,13 @@
     height: 100%;
     object-fit: {{ object_fit }};
     object-position: center;
-    /* Hint al navegador para optimizar */
-    will-change: contents;
-    /* Aceleración por hardware */
     transform: translateZ(0);
     backface-visibility: hidden;
+    transition: opacity 0.6s ease;
+  }
+
+  #VideoScrub-{{ s_id }} .vs__video[data-loading="true"] {
+    opacity: 0;
   }
 
   #VideoScrub-{{ s_id }} .vs__overlay {
@@ -91,14 +86,22 @@
     pointer-events: none;
   }
 
+  /* Tarjeta oscura semitransparente detrás del texto: garantiza contraste
+     sin importar qué tan claro/oscuro sea el frame del video en ese momento */
   #VideoScrub-{{ s_id }} .vs__content {
     position: relative;
     z-index: 2;
     text-align: center;
     color: {{ text_color }};
-    padding: 2rem;
-    max-width: 800px;
+    padding: 2.75rem 3rem;
+    max-width: 720px;
+    margin: 0 24px;
     pointer-events: none;
+    background: rgba(15, 36, 27, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
   }
 
   #VideoScrub-{{ s_id }} .vs__eyebrow {
@@ -107,23 +110,17 @@
     letter-spacing: 0.35em;
     text-transform: uppercase;
     margin: 0 0 20px;
-    font-weight: 500;
-    opacity: 0.85;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    font-weight: 600;
   }
 
   #VideoScrub-{{ s_id }} .vs__heading {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2rem, 5vw, 4rem);
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    margin: 0 0 25px;
+    font-size: clamp(2.1rem, 5vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    margin: 0 0 22px;
     text-transform: uppercase;
-    line-height: 1.1;
-    /* Sombra para que el título se lea bien sin importar qué tan clara sea
-       la tela/fondo del video en ese frame (antes se perdía contra telas
-       claras o estampados con mucho contraste interno) */
-    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55), 0 1px 4px rgba(0, 0, 0, 0.4);
+    line-height: 1.15;
   }
 
   #VideoScrub-{{ s_id }} .vs__divider {
@@ -131,13 +128,13 @@
     height: 1px;
     background: currentColor;
     opacity: 0.5;
-    margin: 0 auto 25px;
+    margin: 0 auto 22px;
   }
 
   #VideoScrub-{{ s_id }} .vs__subtitle {
     font-family: 'Inter', -apple-system, sans-serif;
-    font-size: clamp(0.85rem, 1.3vw, 1rem);
-    letter-spacing: 0.15em;
+    font-size: clamp(0.9rem, 1.3vw, 1.05rem);
+    letter-spacing: 0.05em;
     line-height: 1.7;
     margin: 0;
     opacity: 0.95;
@@ -165,113 +162,75 @@
     opacity: 0.4;
   }
 
-  /* Loading state */
-  #VideoScrub-{{ s_id }} .vs__video[data-loading="true"] {
-    opacity: 0;
-  }
-
-  #VideoScrub-{{ s_id }} .vs__video {
-    transition: opacity 0.6s ease;
-  }
-
-  /* Indicador visual de scroll en mobile */
-  #VideoScrub-{{ s_id }} .vs__hint {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: {{ text_color }};
-    font-family: 'Inter', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    z-index: 3;
-    opacity: 0.7;
-    animation: vsBounce 2s infinite;
-    pointer-events: none;
-  }
-
-  @keyframes vsBounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
-  }
-
   @media (max-width: 768px) {
+    #VideoScrub-{{ s_id }} .vs__frame {
+      height: auto;
+      min-height: 70vh;
+    }
     #VideoScrub-{{ s_id }} .vs__heading {
-      font-size: 2rem;
-      letter-spacing: 0.15em;
+      font-size: 1.9rem;
+      letter-spacing: 0.05em;
     }
     #VideoScrub-{{ s_id }} .vs__content {
-      padding: 1.5rem;
-    }
-  }
-
-  /* Reducir movimiento si el usuario lo prefiere (accesibilidad) */
-  @media (prefers-reduced-motion: reduce) {
-    #VideoScrub-{{ s_id }} .vs__hint {
-      animation: none;
+      padding: 2rem 1.75rem;
+      margin: 0 16px;
     }
   }
 </style>
 
 <section id="VideoScrub-{{ s_id }}" class="vs-section">
-  <div class="vs__parent">
-    <div class="vs__sticky">
+  <div class="vs__frame">
 
-      {%- if mp4_url != blank -%}
-        {%- comment -%} VIDEO REAL - configurado desde Shopify Customizer {%- endcomment -%}
-        <video
-          class="vs__video"
-          data-loading="true"
-          muted
-          playsinline
-          preload="none"
-          disablepictureinpicture
-          disableremoteplayback
-          webkit-playsinline
-          aria-hidden="true"
-        >
-          <source src="{{ mp4_url }}" type="video/mp4">
-          Tu navegador no soporta video HTML5.
-        </video>
-      {%- else -%}
-        {%- comment -%} PLACEHOLDER - aparece cuando no hay video subido {%- endcomment -%}
-        <div class="vs__placeholder">
-          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-          <p style="font-family: 'Inter', sans-serif; letter-spacing: 0.2em; font-size: 0.8rem; text-transform: uppercase;">
-            Sube un video desde el Customizer
-          </p>
-        </div>
-      {%- endif -%}
+    {%- if mp4_url != blank -%}
+      {%- comment -%} VIDEO REAL - configurado desde Shopify Customizer {%- endcomment -%}
+      <video
+        class="vs__video"
+        data-loading="true"
+        muted
+        loop
+        playsinline
+        preload="none"
+        disablepictureinpicture
+        disableremoteplayback
+        webkit-playsinline
+        aria-hidden="true"
+      >
+        <source src="{{ mp4_url }}" type="video/mp4">
+        Tu navegador no soporta video HTML5.
+      </video>
+    {%- else -%}
+      {%- comment -%} PLACEHOLDER - aparece cuando no hay video subido {%- endcomment -%}
+      <div class="vs__placeholder">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <p style="font-family: 'Inter', sans-serif; letter-spacing: 0.2em; font-size: 0.8rem; text-transform: uppercase;">
+          Sube un video desde el Customizer
+        </p>
+      </div>
+    {%- endif -%}
 
-      {%- if section.settings.show_overlay -%}
-        <div class="vs__overlay"></div>
-      {%- endif -%}
+    {%- if section.settings.show_overlay -%}
+      <div class="vs__overlay"></div>
+    {%- endif -%}
 
-      {%- if section.settings.heading != blank or section.settings.subtitle != blank or section.settings.eyebrow != blank -%}
-        <div class="vs__content">
-          {%- if section.settings.eyebrow != blank -%}
-            <div class="vs__eyebrow">{{ section.settings.eyebrow }}</div>
-          {%- endif -%}
+    {%- if section.settings.heading != blank or section.settings.subtitle != blank or section.settings.eyebrow != blank -%}
+      <div class="vs__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="vs__eyebrow">{{ section.settings.eyebrow }}</div>
+        {%- endif -%}
 
-          {%- if section.settings.heading != blank -%}
-            <h2 class="vs__heading">{{ section.settings.heading }}</h2>
-            <div class="vs__divider"></div>
-          {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="vs__heading">{{ section.settings.heading }}</h2>
+          <div class="vs__divider"></div>
+        {%- endif -%}
 
-          {%- if section.settings.subtitle != blank -%}
-            <p class="vs__subtitle">{{ section.settings.subtitle }}</p>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+        {%- if section.settings.subtitle != blank -%}
+          <p class="vs__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
 
-      {%- if section.settings.show_scroll_hint -%}
-        <div class="vs__hint">Scroll ↓</div>
-      {%- endif -%}
-
-    </div>
   </div>
 </section>
 
@@ -280,16 +239,11 @@
     'use strict';
 
     /**
-     * VIDEO SCROLL SCRUB CONTROLLER
+     * VIDEO EN VIEWPORT · CONTROLLER
      * --------------------------------------------------------------
-     * Mapea la posición de scroll dentro del contenedor padre al
-     * currentTime del video, creando un efecto de scrubbing fluido.
-     *
-     * Optimizaciones:
-     * - requestAnimationFrame para sincronizar con el repaint del browser
-     * - IntersectionObserver para evitar cálculos cuando no está visible
-     * - Flag `ticking` para evitar llamadas múltiples a rAF
-     * - passive scroll listener para no bloquear el thread principal
+     * Reproduce el video (loop, silencioso) solo cuando la sección está
+     * visible en el viewport, y lo pausa cuando el usuario sigue de largo.
+     * No hay atado al scroll: es un simple play/pause por visibilidad.
      * --------------------------------------------------------------
      */
 
@@ -297,155 +251,57 @@
     if (!sectionEl) return;
 
     var video = sectionEl.querySelector('.vs__video');
-    var parent = sectionEl.querySelector('.vs__parent');
-    if (!video || !parent) return;
+    if (!video || !video.querySelector('source')) return;
 
-    var ticking = false;          // Flag para rAF debouncing
-    var inViewport = false;       // Solo actualizar cuando esté visible
-    var videoReady = false;       // El metadata del video está cargado
-    var videoDuration = 0;        // Duración total del video (en segundos)
-    var videoLoadStarted = false; // Evita llamar video.load() más de una vez
+    var videoLoadStarted = false;
 
-    /**
-     * Actualiza el currentTime del video según la posición de scroll.
-     * Llamado dentro de requestAnimationFrame para máximo rendimiento.
-     */
-    function updateVideoTime() {
-      ticking = false;
-
-      if (!videoReady || videoDuration === 0) return;
-
-      // Posición actual del contenedor padre relativo al viewport
-      var rect = parent.getBoundingClientRect();
-
-      // Cantidad total de scroll disponible dentro de este contenedor
-      // (la diferencia entre la altura del contenedor y la altura del viewport)
-      var totalScrollable = parent.offsetHeight - window.innerHeight;
-
-      if (totalScrollable <= 0) return;
-
-      // Cuánto hemos scrolleado dentro del contenedor (en píxeles)
-      var scrolledAmount = Math.max(0, -rect.top);
-
-      // Convertir a porcentaje (0 = inicio, 1 = final)
-      var progress = Math.min(1, Math.max(0, scrolledAmount / totalScrollable));
-
-      // Mapear porcentaje al tiempo del video
-      var targetTime = progress * videoDuration;
-
-      // Asignar el tiempo (esto fuerza al video a mostrar el frame correspondiente)
-      try {
-        video.currentTime = targetTime;
-      } catch (err) {
-        // Algunos navegadores fallan si el video aún no está completamente cargado
-        // Silencioso porque el siguiente rAF lo intentará de nuevo
-      }
+    function ensureVideoLoaded() {
+      if (videoLoadStarted) return;
+      videoLoadStarted = true;
+      video.load();
     }
 
-    /**
-     * Handler del scroll - usa rAF para throttling
-     */
-    function handleScroll() {
-      if (!inViewport || ticking) return;
-      ticking = true;
-      requestAnimationFrame(updateVideoTime);
-    }
+    video.addEventListener('loadeddata', function() {
+      video.removeAttribute('data-loading');
+    });
 
-    /**
-     * Inicializa el video y prepara los eventos
-     */
-    function init() {
-      // Cuando los metadatos del video estén disponibles, guardar duración
-      video.addEventListener('loadedmetadata', function() {
-        videoDuration = video.duration;
-        videoReady = true;
-        video.removeAttribute('data-loading');
+    video.addEventListener('error', function() {
+      console.warn('[VideoScrub] Error cargando el video');
+      video.removeAttribute('data-loading');
+    });
 
-        // Setear al primer frame
-        try {
-          video.currentTime = 0;
-        } catch (err) {}
-
-        // Trigger una actualización inicial por si ya estamos en viewport
-        if (inViewport) updateVideoTime();
-      });
-
-      // iOS HACK: Algunos iPhones requieren un play()/pause() inicial
-      // para "desbloquear" la manipulación del video via currentTime
-      video.addEventListener('canplay', function unlockIOS() {
-        var playPromise = video.play();
-        if (playPromise !== undefined) {
-          playPromise.then(function() {
-            video.pause();
-            video.currentTime = 0;
-          }).catch(function() {
-            // Silencioso - en muchos casos no es necesario
-          });
-        }
-        video.removeEventListener('canplay', unlockIOS);
-      });
-
-      // Manejo de errores del video
-      video.addEventListener('error', function() {
-        console.warn('[VideoScrub] Error cargando el video');
-        video.removeAttribute('data-loading');
-      });
-
-      // Carga el video bajo demanda (solo la primera vez que se necesita).
-      // Antes se llamaba en cuanto cargaba la página (preload="auto" + load()
-      // inmediato), compitiendo por ancho de banda con la imagen del hero y
-      // empeorando el LCP/FCP del homepage. Ahora solo se descarga cuando el
-      // usuario está a punto de llegar a esta sección.
-      function ensureVideoLoaded() {
-        if (videoLoadStarted) return;
-        videoLoadStarted = true;
-        video.load();
-      }
-
-      // IntersectionObserver para activar/desactivar el listener
-      if ('IntersectionObserver' in window) {
-        var observer = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            inViewport = entry.isIntersecting;
-            if (inViewport) {
-              ensureVideoLoaded();
-              handleScroll(); // Actualizar inmediatamente al entrar
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            ensureVideoLoaded();
+            var playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(function() {
+                // Autoplay bloqueado por el navegador: no es crítico, el
+                // usuario ve el primer frame / placeholder igualmente.
+              });
             }
-          });
-        }, {
-          // Activar un poco antes de que sea visible para precargar
-          rootMargin: '600px 0px',
-          threshold: 0
+          } else {
+            video.pause();
+          }
         });
-        observer.observe(sectionEl);
-      } else {
-        // Fallback para navegadores antiguos
-        inViewport = true;
-        ensureVideoLoaded();
-      }
-
-      // Listener de scroll (passive para no bloquear)
-      window.addEventListener('scroll', handleScroll, { passive: true });
-
-      // También actualizar al redimensionar la ventana
-      window.addEventListener('resize', handleScroll, { passive: true });
-    }
-
-    // Solo inicializar si hay un video real (no placeholder)
-    if (video.querySelector('source')) {
-      // Esperar a que el DOM esté listo
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-      } else {
-        init();
-      }
+      }, {
+        rootMargin: '200px 0px',
+        threshold: 0.35
+      });
+      observer.observe(sectionEl);
+    } else {
+      // Fallback para navegadores antiguos: cargar y reproducir directo
+      ensureVideoLoaded();
+      video.play().catch(function() {});
     }
   })();
 </script>
 
 {% schema %}
 {
-  "name": "Video Scroll Scrub",
+  "name": "Video en Viewport",
   "tag": "section",
   "class": "section-video-scroll-scrub",
   "settings": [
@@ -457,18 +313,18 @@
       "type": "video",
       "id": "video_source",
       "label": "Archivo de Video",
-      "info": "MP4 recomendado, 5-15 segundos. Máx 10MB para mejor rendimiento."
+      "info": "MP4 recomendado, 5-15 segundos, en loop. Máx 10MB para mejor rendimiento."
     },
     {
       "type": "range",
-      "id": "scroll_height",
-      "label": "Largo del scroll",
-      "info": "Mayor valor = scrubbing más lento. 300vh = 3x la altura de pantalla.",
-      "min": 150,
-      "max": 600,
-      "step": 50,
+      "id": "section_height",
+      "label": "Alto de la sección",
+      "info": "Alto de la sección en desktop. En mobile se ajusta automáticamente.",
+      "min": 60,
+      "max": 100,
+      "step": 5,
       "unit": "vh",
-      "default": 300
+      "default": 90
     },
     {
       "type": "select",
@@ -508,10 +364,10 @@
       "id": "overlay_opacity",
       "label": "Opacidad del overlay",
       "min": 0,
-      "max": 80,
+      "max": 70,
       "step": 5,
       "unit": "%",
-      "default": 30
+      "default": 35
     },
     {
       "type": "header",
@@ -540,24 +396,13 @@
       "id": "text_color",
       "label": "Color del texto",
       "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Indicador de Scroll"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_scroll_hint",
-      "label": "Mostrar indicador 'Scroll ↓'",
-      "default": true
     }
   ],
   "presets": [
     {
-      "name": "Video Scroll Scrub",
+      "name": "Video en Viewport",
       "category": "MILA ROSSE"
     }
   ]
 }
 {% endschema %}
-

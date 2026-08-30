@@ -50,16 +50,15 @@
       "type": "video-scroll-scrub",
       "settings": {
         "video_source": "shopify://files/videos/puedes_hacer_una_video_de_se.mp4",
-        "scroll_height": 300,
+        "section_height": 90,
         "object_fit": "cover",
         "background_color": "#1a472a",
         "show_overlay": true,
-        "overlay_opacity": 25,
+        "overlay_opacity": 35,
         "eyebrow": "DETALLES",
         "heading": "Blazer Nebraska",
         "subtitle": "Cada costura cuenta una historia de elegancia y artesanía premium.",
-        "text_color": "#ffffff",
-        "show_scroll_hint": true
+        "text_color": "#ffffff"
       }
     },
     "testimonials": {
@@ -171,11 +170,11 @@
     "value_props",
     "intro",
     "products",
+    "video_scrub",
+    "social",
     "how_it_works",
     "testimonials",
-    "video_scrub",
     "advisory",
-    "social",
     "brand_story",
     "newsletter"
   ]
