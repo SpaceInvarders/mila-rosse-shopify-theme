@@ -3,6 +3,25 @@
   {% assign hero_product = all_products['abrigo-soft-gaban'] %}
 {% endif %}
 
+{% if hero_product and hero_product.featured_image %}
+  {%- comment -%}
+    Pista de precarga para la imagen del hero (elemento LCP del homepage).
+    Colocada aquí, antes de la sección, para que el "preload scanner" del
+    navegador la descubra apenas empieza a leer el HTML del body, sin esperar
+    a llegar hasta el <img>. En navegadores modernos esto funciona igual de
+    bien fuera del <head>. Usa el mismo srcset/sizes que el <img> real para
+    que el navegador elija exactamente el mismo recurso (evita doble descarga).
+  {%- endcomment -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ hero_product.featured_image | image_url: width: 1800 }}"
+    imagesrcset="{{ hero_product.featured_image | image_url: width: 900 }} 900w, {{ hero_product.featured_image | image_url: width: 1800 }} 1800w, {{ hero_product.featured_image | image_url: width: 2400 }} 2400w"
+    imagesizes="100vw"
+    fetchpriority="high"
+  >
+{% endif %}
+
 <section class="mr-banner">
   {% if hero_product and hero_product.featured_image %}
     <div class="mr-banner__media">
