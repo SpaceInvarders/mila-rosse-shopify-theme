@@ -19,6 +19,17 @@
         "button_link": ""
       }
     },
+    "value_props": {
+      "type": "main-value-props",
+      "blocks": {
+        "v1": { "type": "item", "settings": { "title": "Sastrería para Mujer", "text": "Blazers, chaquetas y gabanes de diseño propio" } },
+        "v2": { "type": "item", "settings": { "title": "100% Hecho a Mano", "text": "Confeccionado por artesanos colombianos en Bogotá" } },
+        "v3": { "type": "item", "settings": { "title": "Envío Gratis Nacional", "text": "A toda Colombia, sin letra pequeña" } },
+        "v4": { "type": "item", "settings": { "title": "Pago Contra Entrega", "text": "Paga cuando recibas tu pedido" } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"],
+      "settings": {}
+    },
     "intro": {
       "type": "main-intro",
       "settings": {
@@ -157,6 +168,7 @@
   },
   "order": [
     "banner",
+    "value_props",
     "intro",
     "products",
     "how_it_works",

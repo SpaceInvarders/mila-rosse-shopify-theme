@@ -242,7 +242,7 @@ h1, h2, h3, h4, h5, h6 {
   inset: 0;
   z-index: 1;
   background:
-    linear-gradient(180deg, rgba(20, 46, 34, 0.35) 0%, rgba(20, 46, 34, 0.25) 40%, rgba(15, 36, 27, 0.82) 100%),
+    linear-gradient(180deg, rgba(15, 36, 27, 0.5) 0%, rgba(20, 46, 34, 0.32) 40%, rgba(15, 36, 27, 0.82) 100%),
     linear-gradient(115deg, rgba(201, 122, 68, 0.28) 0%, rgba(26, 71, 42, 0.15) 45%, rgba(15, 36, 27, 0.55) 100%);
 }
 
@@ -257,15 +257,21 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .mr-banner__eyebrow {
-  display: block;
+  display: inline-block;
   font-family: var(--mr-font-sans);
   font-size: clamp(0.7rem, 1vw, 0.82rem);
   font-weight: 600;
   letter-spacing: 0.35em;
   text-transform: uppercase;
-  color: var(--mr-copper-light);
+  color: var(--mr-white);
   margin-bottom: 1.4rem;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  /* Resaltado oscuro detrás del texto: garantiza contraste sin importar
+     qué tan clara sea la zona de la foto de fondo en ese momento (antes el
+     texto copper casi desaparecía contra fondos claros) */
+  background: rgba(15, 36, 27, 0.55);
+  padding: 0.6em 1.4em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .mr-banner__brand {
@@ -970,6 +976,21 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 480px) {
   .mr-products__grid { grid-template-columns: 1fr; }
   .mr-reel__embed-wrap { height: 500px; }
+}
+
+/* ===== PROPUESTA DE VALOR (franja bajo el hero) ===== */
+.mr-valueprops { background: var(--mr-dark-green); padding: 34px 20px; }
+.mr-valueprops__container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.mr-valueprop { text-align: center; padding: 0 10px; border-left: 1px solid rgba(255, 255, 255, 0.15); }
+.mr-valueprop:first-child { border-left: none; }
+.mr-valueprop__title { font-family: var(--mr-font-serif); font-size: 1rem; font-weight: 600; color: var(--mr-white); margin: 0 0 6px; letter-spacing: 0.02em; }
+.mr-valueprop__text { font-family: var(--mr-font-sans); font-size: 0.78rem; color: rgba(255, 255, 255, 0.75); margin: 0; line-height: 1.5; }
+@media (max-width: 900px) {
+  .mr-valueprops__container { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
+  .mr-valueprop:nth-child(3) { border-left: none; }
+}
+@media (max-width: 480px) {
+  .mr-valueprops { padding: 28px 20px; }
 }
 
 /* ===== TESTIMONIOS HOMEPAGE ===== */

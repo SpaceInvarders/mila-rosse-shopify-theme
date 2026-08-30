@@ -1,0 +1,38 @@
+<div class="mr-valueprops">
+  <div class="mr-valueprops__container">
+    {% for block in section.blocks %}
+      <div class="mr-valueprop" {{ block.shopify_attributes }}>
+        <h3 class="mr-valueprop__title">{{ block.settings.title }}</h3>
+        <p class="mr-valueprop__text">{{ block.settings.text }}</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Propuesta de Valor",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Punto",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "text", "id": "text", "label": "Descripción" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Propuesta de Valor",
+      "blocks": [
+        { "type": "item", "settings": { "title": "Sastrería para Mujer", "text": "Blazers, chaquetas y gabanes de diseño propio" } },
+        { "type": "item", "settings": { "title": "100% Hecho a Mano", "text": "Confeccionado por artesanos colombianos en Bogotá" } },
+        { "type": "item", "settings": { "title": "Envío Gratis Nacional", "text": "A toda Colombia, sin letra pequeña" } },
+        { "type": "item", "settings": { "title": "Pago Contra Entrega", "text": "Paga cuando recibas tu pedido" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
