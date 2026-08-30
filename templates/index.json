@@ -157,14 +157,14 @@
   },
   "order": [
     "banner",
-    "testimonials",
     "intro",
     "products",
-    "social",
+    "how_it_works",
+    "testimonials",
     "video_scrub",
     "advisory",
+    "social",
     "brand_story",
-    "how_it_works",
     "newsletter"
   ]
 }
