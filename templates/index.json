@@ -54,15 +54,6 @@
     "testimonials": {
       "type": "main-testimonials",
       "blocks": {
-        "t1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Excelente calidad y producto, la atención del servicio es muy buena. La chaqueta está muy bien confeccionada y con bolsillo que no los he visto en otras chaquetas. Hermosa.",
-            "author": "Laura Castañeda",
-            "location": "Cliente verificada"
-          }
-        },
         "t2": {
           "type": "testimonial",
           "settings": {
@@ -92,7 +83,6 @@
         }
       },
       "block_order": [
-        "t1",
         "t2",
         "t3",
         "t4"
@@ -152,7 +142,7 @@
       "settings": {
         "eyebrow": "CONFECCIÓN ARTESANAL",
         "title": "Cómo Nace Cada Prenda",
-        "text": "Fotos reales de nuestro taller en Bogotá. Nada de fábricas anónimas: cada chaqueta pasa por manos colombianas, paso a paso."
+        "text": "Fotos reales de nuestro taller en Bogotá. Nada de fábricas anónimas: cada chaqueta pasa por manos de artesanos colombianos, paso a paso."
       }
     },
     "newsletter": {
