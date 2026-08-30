@@ -15,7 +15,17 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    {%- assign mr_fonts_url = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap' -%}
+    {%- comment -%}
+      Carga la tipografía sin bloquear el renderizado: se precarga como
+      "style" y se activa como hoja de estilos real solo cuando llega
+      (patrón estándar de Google Fonts async). Antes era un <link rel="stylesheet">
+      normal, que retrasa el primer render mientras el navegador espera esa
+      respuesta — esto ayuda directamente al LCP/FCP del homepage.
+    {%- endcomment -%}
+    <link rel="preload" as="style" href="{{ mr_fonts_url }}">
+    <link rel="stylesheet" href="{{ mr_fonts_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ mr_fonts_url }}"></noscript>
 
     {%- assign mr_page_title = page_title -%}
     {%- assign mr_is_all_collection = false -%}

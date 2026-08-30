@@ -10,7 +10,10 @@
   - Position sticky con altura configurable
   - JavaScript optimizado con requestAnimationFrame
   - IntersectionObserver para activar solo cuando está en viewport
-  - 100% compatible con iOS (muted + playsinline + preload="auto")
+  - 100% compatible con iOS (muted + playsinline)
+  - Video con preload="none": no descarga nada hasta que el usuario está por
+    llegar a la sección (mejora LCP/FCP del homepage, antes competía con la
+    imagen del hero por ancho de banda desde el primer segundo)
   - Fallback elegante cuando el video aún no se ha subido
 
   Uso: Sube un video MP4 de 5-15 segundos optimizado (max 10MB recomendado)
@@ -217,7 +220,7 @@
           data-loading="true"
           muted
           playsinline
-          preload="auto"
+          preload="none"
           disablepictureinpicture
           disableremoteplayback
           webkit-playsinline
@@ -296,6 +299,7 @@
     var inViewport = false;       // Solo actualizar cuando esté visible
     var videoReady = false;       // El metadata del video está cargado
     var videoDuration = 0;        // Duración total del video (en segundos)
+    var videoLoadStarted = false; // Evita llamar video.load() más de una vez
 
     /**
      * Actualiza el currentTime del video según la posición de scroll.
@@ -382,24 +386,37 @@
         video.removeAttribute('data-loading');
       });
 
+      // Carga el video bajo demanda (solo la primera vez que se necesita).
+      // Antes se llamaba en cuanto cargaba la página (preload="auto" + load()
+      // inmediato), compitiendo por ancho de banda con la imagen del hero y
+      // empeorando el LCP/FCP del homepage. Ahora solo se descarga cuando el
+      // usuario está a punto de llegar a esta sección.
+      function ensureVideoLoaded() {
+        if (videoLoadStarted) return;
+        videoLoadStarted = true;
+        video.load();
+      }
+
       // IntersectionObserver para activar/desactivar el listener
       if ('IntersectionObserver' in window) {
         var observer = new IntersectionObserver(function(entries) {
           entries.forEach(function(entry) {
             inViewport = entry.isIntersecting;
             if (inViewport) {
+              ensureVideoLoaded();
               handleScroll(); // Actualizar inmediatamente al entrar
             }
           });
         }, {
           // Activar un poco antes de que sea visible para precargar
-          rootMargin: '50px 0px',
+          rootMargin: '600px 0px',
           threshold: 0
         });
         observer.observe(sectionEl);
       } else {
         // Fallback para navegadores antiguos
         inViewport = true;
+        ensureVideoLoaded();
       }
 
       // Listener de scroll (passive para no bloquear)
@@ -407,9 +424,6 @@
 
       // También actualizar al redimensionar la ventana
       window.addEventListener('resize', handleScroll, { passive: true });
-
-      // Forzar carga del video (preload="auto" no siempre es suficiente en iOS)
-      video.load();
     }
 
     // Solo inicializar si hay un video real (no placeholder)
