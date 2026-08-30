@@ -55,9 +55,9 @@
         "background_color": "#1a472a",
         "show_overlay": true,
         "overlay_opacity": 35,
-        "eyebrow": "DETALLES",
-        "heading": "Blazer Nebraska",
-        "subtitle": "Cada costura cuenta una historia de elegancia y artesanía premium.",
+        "eyebrow": "",
+        "heading": "Calidad y Elegancia a Primera Vista",
+        "subtitle": "",
         "text_color": "#ffffff"
       }
     },

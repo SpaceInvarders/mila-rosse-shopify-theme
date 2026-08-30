@@ -986,7 +986,9 @@ h1, h2, h3, h4, h5, h6 {
   .mr-advisory__features { grid-template-columns: 1fr; gap: 25px; padding-top: 40px; margin-top: 40px; }
   .mr-newsletter__form { flex-direction: column; }
   .mr-footer__inner { grid-template-columns: 1fr; gap: 30px; text-align: center; }
-  .mr-intro, .mr-products, .mr-social, .mr-advisory, .mr-newsletter { padding: 60px 20px; }
+  .mr-intro { padding: 60px 20px 16px; }
+  .mr-products { padding: 16px 20px 60px; }
+  .mr-social, .mr-advisory, .mr-newsletter { padding: 60px 20px; }
 }
 
 @media (max-width: 480px) {
@@ -1024,7 +1026,6 @@ h1, h2, h3, h4, h5, h6 {
 .mr-testimonials__eyebrow { font-family: var(--mr-font-sans); font-size: 0.75rem; color: var(--mr-copper); letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
 .mr-testimonials__title { font-family: var(--mr-font-serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; letter-spacing: 0.15em; color: var(--mr-dark-green); margin: 0; text-transform: uppercase; }
 .mr-testimonials__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
-.mr-intro { padding-bottom: 60px; }
 .mr-testimonial { background: var(--mr-white); padding: 40px 35px; border-radius: var(--mr-radius-md); box-shadow: var(--mr-shadow-sm); transition: transform 0.3s ease, box-shadow 0.3s ease; }
 .mr-testimonial:hover { transform: translateY(-4px); box-shadow: var(--mr-shadow-md); }
 .mr-testimonial__stars { color: var(--mr-copper); font-size: 1rem; letter-spacing: 3px; margin-bottom: 18px; }

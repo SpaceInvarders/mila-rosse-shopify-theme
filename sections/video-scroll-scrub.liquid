@@ -86,22 +86,14 @@
     pointer-events: none;
   }
 
-  /* Tarjeta oscura semitransparente detrás del texto: garantiza contraste
-     sin importar qué tan claro/oscuro sea el frame del video en ese momento */
   #VideoScrub-{{ s_id }} .vs__content {
     position: relative;
     z-index: 2;
     text-align: center;
-    color: {{ text_color }};
-    padding: 2.75rem 3rem;
+    padding: 0 2rem;
     max-width: 720px;
     margin: 0 24px;
     pointer-events: none;
-    background: rgba(15, 36, 27, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    border-radius: 20px;
-    backdrop-filter: blur(3px);
-    -webkit-backdrop-filter: blur(3px);
   }
 
   #VideoScrub-{{ s_id }} .vs__eyebrow {
@@ -111,24 +103,28 @@
     text-transform: uppercase;
     margin: 0 0 20px;
     font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   }
 
   #VideoScrub-{{ s_id }} .vs__heading {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: clamp(2.1rem, 5vw, 4rem);
-    font-weight: 400;
-    letter-spacing: 0.08em;
-    margin: 0 0 22px;
-    text-transform: uppercase;
-    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-transform: none;
+    line-height: 1.2;
+    color: #ffffff;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.45);
   }
 
   #VideoScrub-{{ s_id }} .vs__divider {
     width: 60px;
     height: 1px;
-    background: currentColor;
+    background: #ffffff;
     opacity: 0.5;
-    margin: 0 auto 22px;
+    margin: 22px auto;
   }
 
   #VideoScrub-{{ s_id }} .vs__subtitle {
@@ -137,8 +133,9 @@
     letter-spacing: 0.05em;
     line-height: 1.7;
     margin: 0;
-    opacity: 0.95;
     font-weight: 300;
+    color: #ffffff;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   }
 
   /* Placeholder cuando no hay video */
@@ -172,7 +169,7 @@
       letter-spacing: 0.05em;
     }
     #VideoScrub-{{ s_id }} .vs__content {
-      padding: 2rem 1.75rem;
+      padding: 0 1.25rem;
       margin: 0 16px;
     }
   }
