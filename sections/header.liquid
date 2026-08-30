@@ -1,5 +1,9 @@
 <header class="mr-header">
   <div class="mr-header__inner">
+    <button type="button" class="mr-header__menu-toggle" id="MrMenuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="MrMobileNav">
+      <svg class="mr-header__menu-icon mr-header__menu-icon--bars" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <svg class="mr-header__menu-icon mr-header__menu-icon--close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+    </button>
     <a href="/" class="mr-header__logo">{{ settings.brand_name | default: shop.name }}</a>
     <nav class="mr-header__nav">
       <a href="/">Home</a>
@@ -28,7 +32,39 @@
       </a>
     </div>
   </div>
+
+  <nav class="mr-header__mobile-nav" id="MrMobileNav">
+    <a href="/">Home</a>
+    <a href="/collections/all">Catálogo</a>
+    <a href="/pages/nuestra-historia">Nuestra Historia</a>
+    <a href="/pages/preguntas-frecuentes">FAQ</a>
+  </nav>
 </header>
+
+<script>
+  (function() {
+    var toggle = document.getElementById('MrMenuToggle');
+    var mobileNav = document.getElementById('MrMobileNav');
+    if (!toggle || !mobileNav) return;
+
+    toggle.addEventListener('click', function() {
+      var isOpen = mobileNav.classList.toggle('is-open');
+      toggle.classList.toggle('is-open', isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      document.body.classList.toggle('mr-nav-open', isOpen);
+    });
+
+    // Cerrar el menú al navegar a un link
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileNav.classList.remove('is-open');
+        toggle.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('mr-nav-open');
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
