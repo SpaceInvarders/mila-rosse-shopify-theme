@@ -6,19 +6,52 @@
     <div class="mr-story__body">
       {% if section.settings.image %}
         <div class="mr-story__image">
-          <img src="{{ section.settings.image | image_url: width: 700 }}" alt="{{ section.settings.image.alt | escape }}">
+          <img src="{{ section.settings.image | image_url: width: 700 }}" alt="{{ section.settings.image.alt | escape }}" loading="lazy">
+        </div>
+      {% elsif section.settings.image_asset != blank %}
+        <div class="mr-story__image">
+          <img src="{{ section.settings.image_asset | asset_url }}" alt="{{ section.settings.title | escape }}" loading="lazy">
         </div>
       {% endif %}
       <div class="mr-story__text">{{ section.settings.story }}</div>
     </div>
     <div class="mr-story__pillars">
       {% for block in section.blocks %}
-        <div class="mr-story__pillar" {{ block.shopify_attributes }}>
-          <div class="mr-story__pillar-num">{{ block.settings.label }}</div>
-          <div class="mr-story__pillar-text">{{ block.settings.text }}</div>
-        </div>
+        {% if block.type == 'pillar' %}
+          <div class="mr-story__pillar" {{ block.shopify_attributes }}>
+            <div class="mr-story__pillar-num">{{ block.settings.label }}</div>
+            <div class="mr-story__pillar-text">{{ block.settings.text }}</div>
+          </div>
+        {% endif %}
       {% endfor %}
     </div>
+
+    {% assign has_photos = false %}
+    {% for block in section.blocks %}
+      {% if block.type == 'photo' %}{% assign has_photos = true %}{% endif %}
+    {% endfor %}
+    {% if has_photos %}
+      <div class="mr-story__gallery-head">
+        {% if section.settings.gallery_eyebrow != blank %}<div class="mr-story__eyebrow">{{ section.settings.gallery_eyebrow }}</div>{% endif %}
+        {% if section.settings.gallery_title != blank %}<h2 class="mr-story__gallery-title">{{ section.settings.gallery_title }}</h2>{% endif %}
+      </div>
+      <div class="mr-story__gallery">
+        {% for block in section.blocks %}
+          {% if block.type == 'photo' %}
+            <figure class="mr-story__gallery-item" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <img src="{{ block.settings.image | image_url: width: 700 }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+              {% elsif block.settings.image_asset != blank %}
+                <img src="{{ block.settings.image_asset | asset_url }}" alt="{{ block.settings.caption | escape }}" loading="lazy">
+              {% endif %}
+              {% if block.settings.caption != blank %}
+                <figcaption>{{ block.settings.caption }}</figcaption>
+              {% endif %}
+            </figure>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </div>
 
@@ -28,8 +61,11 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "DESDE EL CORAZÓN DE COLOMBIA" },
     { "type": "text", "id": "title", "label": "Título", "default": "Nuestra Historia" },
-    { "type": "image_picker", "id": "image", "label": "Imagen" },
-    { "type": "richtext", "id": "story", "label": "Historia", "default": "<p>MILA ROSSE nació de una idea simple: la mujer colombiana merece sastrería de la más alta calidad, diseñada y confeccionada pensando en su cuerpo, su estilo y su vida real.</p><p>Cada blazer, chaqueta y gabán que creamos pasa por un proceso cuidadoso de diseño propio, selección de tejidos premium y confección artesanal, buscando que cada prenda se sienta tan bien como se ve.</p><p>Hoy seguimos creciendo gracias a la confianza de cada clienta que elige vestir MILA ROSSE.</p>" }
+    { "type": "image_picker", "id": "image", "label": "Imagen (prioriza sobre la de Assets)" },
+    { "type": "text", "id": "image_asset", "label": "Imagen desde Assets (ej: mr-historia-hero.jpg)" },
+    { "type": "richtext", "id": "story", "label": "Historia", "default": "<p>MILA ROSSE nació de una idea simple: la mujer colombiana merece sastrería de la más alta calidad, diseñada y confeccionada pensando en su cuerpo, su estilo y su vida real.</p><p>Cada blazer, chaqueta y gabán que creamos pasa por un proceso cuidadoso de diseño propio, selección de tejidos premium y confección artesanal, buscando que cada prenda se sienta tan bien como se ve.</p><p>Hoy seguimos creciendo gracias a la confianza de cada clienta que elige vestir MILA ROSSE.</p>" },
+    { "type": "text", "id": "gallery_eyebrow", "label": "Eyebrow de la galería", "default": "NUESTRO TALLER" },
+    { "type": "text", "id": "gallery_title", "label": "Título de la galería", "default": "Así Se Hace Cada Prenda" }
   ],
   "blocks": [
     {
@@ -38,6 +74,15 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Número/Etiqueta" },
         { "type": "text", "id": "text", "label": "Descripción" }
+      ]
+    },
+    {
+      "type": "photo",
+      "name": "Foto de galería",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen (prioriza sobre la de Assets)" },
+        { "type": "text", "id": "image_asset", "label": "Imagen desde Assets (ej: mr-historia-1.jpg)" },
+        { "type": "text", "id": "caption", "label": "Leyenda" }
       ]
     }
   ],

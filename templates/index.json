@@ -62,10 +62,40 @@
             "author": "Laura Castañeda",
             "location": "Cliente verificada"
           }
+        },
+        "t2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Me encanta la tela, súper suave y se ajusta a la figura. Hermosa.",
+            "author": "Clienta Mila Rosse",
+            "location": "Compra verificada"
+          }
+        },
+        "t3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Hermosa chaqueta, color y material exclusivo. Bolsillos útiles. Súper la calidad.",
+            "author": "Laura Castañeda H.",
+            "location": "Cliente verificada"
+          }
+        },
+        "t4": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Es muy cómoda y con estilo. Fácil de combinar con cualquier prenda.",
+            "author": "Lina",
+            "location": "Cliente verificada"
+          }
         }
       },
       "block_order": [
-        "t1"
+        "t1",
+        "t2",
+        "t3",
+        "t4"
       ],
       "disabled": false,
       "settings": {

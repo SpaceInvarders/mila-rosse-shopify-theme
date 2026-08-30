@@ -1,8 +1,19 @@
 {
-  "sections": { "main": { "type": "main-page-about", "settings": {}, "blocks": {
+  "sections": { "main": { "type": "main-page-about", "settings": {
+    "eyebrow": "DESDE EL CORAZÓN DE COLOMBIA",
+    "title": "Nuestra Historia",
+    "image_asset": "mr-historia-hero.jpg",
+    "story": "<p>MILA ROSSE nació de una idea simple: la mujer colombiana merece sastrería de la más alta calidad, diseñada y confeccionada pensando en su cuerpo, su estilo y su vida real.</p><p>Cada blazer, chaqueta y gabán que creamos se corta y se cose a mano en nuestro taller en Bogotá, prenda por prenda, sin líneas de producción en masa. Detrás de cada costura hay un equipo de maestros sastres colombianos con años de oficio, que revisan cada tela, cada patrón y cada acabado antes de que la prenda salga del taller.</p><p>No trabajamos con fábricas anónimas ni moda desechable: cada pieza está pensada para durar, sentirse bien puesta y verse impecable temporada tras temporada. Hoy seguimos creciendo gracias a la confianza de cada clienta que elige vestir MILA ROSSE.</p>",
+    "gallery_eyebrow": "NUESTRO TALLER",
+    "gallery_title": "Así Se Hace Cada Prenda"
+  }, "blocks": {
     "p1": { "type": "pillar", "settings": { "label": "100%", "text": "Diseño Propio" } },
     "p2": { "type": "pillar", "settings": { "label": "Premium", "text": "Tejidos Seleccionados" } },
-    "p3": { "type": "pillar", "settings": { "label": "1:1", "text": "Asesoría Personalizada" } }
-  }, "block_order": ["p1", "p2", "p3"] } },
+    "p3": { "type": "pillar", "settings": { "label": "1:1", "text": "Asesoría Personalizada" } },
+    "g1": { "type": "photo", "settings": { "image_asset": "mr-historia-1.jpg", "caption": "Cada prenda se revisa a mano antes de salir del taller." } },
+    "g2": { "type": "photo", "settings": { "image_asset": "mr-historia-2.jpg", "caption": "Patronaje y medición de precisión, ajustado al cuerpo real." } },
+    "g3": { "type": "photo", "settings": { "image_asset": "mr-historia-3.jpg", "caption": "Acabados y botones cosidos a mano." } },
+    "g4": { "type": "photo", "settings": { "image_asset": "mr-historia-4.jpg", "caption": "El resultado: prendas hechas para durar." } }
+  }, "block_order": ["p1", "p2", "p3", "g1", "g2", "g3", "g4"] } },
   "order": ["main"]
 }
