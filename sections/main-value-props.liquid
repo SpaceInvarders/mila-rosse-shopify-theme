@@ -1,36 +1,90 @@
-<div class="mr-valueprops">
-  <div class="mr-valueprops__container">
-    {% for block in section.blocks %}
-      <div class="mr-valueprop" {{ block.shopify_attributes }}>
-        <h3 class="mr-valueprop__title">{{ block.settings.title }}</h3>
-        <p class="mr-valueprop__text">{{ block.settings.text }}</p>
-      </div>
-    {% endfor %}
+{%- capture icon_truck -%}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 3h13v13H1z"/><path d="M14 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.8"/><circle cx="17.5" cy="18.5" r="1.8"/></svg>
+{%- endcapture -%}
+{%- capture icon_box -%}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+{%- endcapture -%}
+{%- capture icon_needle -%}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M19 5L9 15"/><circle cx="20.5" cy="3.5" r="1.5"/><path d="M9 15l-2 6 6-2"/><path d="M13 11l3 3"/></svg>
+{%- endcapture -%}
+{%- capture icon_hanger -%}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="4.5" r="1.5"/><path d="M12 6v2"/><path d="M12 8l-9 6a2 2 0 0 0 1 3.7h16a2 2 0 0 0 1-3.7l-9-6z"/></svg>
+{%- endcapture -%}
+{%- capture icon_heart -%}
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.35-9.5-8.5C.8 8 2 4.5 5.5 4c2-.3 3.7.8 4.5 2.3C10.8 4.8 12.5 3.7 14.5 4c3.5.5 4.7 4 3 7.5C19 15.65 12 20 12 20z"/></svg>
+{%- endcapture -%}
+
+<div class="mr-ticker">
+  <div class="mr-ticker__track">
+    <div class="mr-ticker__group">
+      {% for block in section.blocks %}
+        <span class="mr-ticker__item" {{ block.shopify_attributes }}>
+          <span class="mr-ticker__icon">
+            {% case block.settings.icon %}
+              {% when 'truck' %}{{ icon_truck }}
+              {% when 'box' %}{{ icon_box }}
+              {% when 'needle' %}{{ icon_needle }}
+              {% when 'hanger' %}{{ icon_hanger }}
+              {% when 'heart' %}{{ icon_heart }}
+            {% endcase %}
+          </span>
+          {{ block.settings.text }}
+        </span>
+      {% endfor %}
+    </div>
+    <div class="mr-ticker__group" aria-hidden="true">
+      {% for block in section.blocks %}
+        <span class="mr-ticker__item">
+          <span class="mr-ticker__icon">
+            {% case block.settings.icon %}
+              {% when 'truck' %}{{ icon_truck }}
+              {% when 'box' %}{{ icon_box }}
+              {% when 'needle' %}{{ icon_needle }}
+              {% when 'hanger' %}{{ icon_hanger }}
+              {% when 'heart' %}{{ icon_heart }}
+            {% endcase %}
+          </span>
+          {{ block.settings.text }}
+        </span>
+      {% endfor %}
+    </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Propuesta de Valor",
+  "name": "Franja de Beneficios",
   "settings": [],
   "blocks": [
     {
       "type": "item",
       "name": "Punto",
       "settings": [
-        { "type": "text", "id": "title", "label": "Título" },
-        { "type": "text", "id": "text", "label": "Descripción" }
+        { "type": "text", "id": "text", "label": "Texto" },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Ícono",
+          "options": [
+            { "value": "truck", "label": "Camión (envío)" },
+            { "value": "box", "label": "Caja (pago contra entrega)" },
+            { "value": "needle", "label": "Aguja (hecho a mano)" },
+            { "value": "hanger", "label": "Percha (sastrería)" },
+            { "value": "heart", "label": "Corazón (reseñas)" }
+          ],
+          "default": "truck"
+        }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Propuesta de Valor",
+      "name": "Franja de Beneficios",
       "blocks": [
-        { "type": "item", "settings": { "title": "Sastrería para Mujer", "text": "Blazers, chaquetas y gabanes de diseño propio" } },
-        { "type": "item", "settings": { "title": "100% Hecho a Mano", "text": "Confeccionado por artesanos colombianos en Bogotá" } },
-        { "type": "item", "settings": { "title": "Envío Gratis Nacional", "text": "A toda Colombia, sin letra pequeña" } },
-        { "type": "item", "settings": { "title": "Pago Contra Entrega", "text": "Paga cuando recibas tu pedido" } }
+        { "type": "item", "settings": { "icon": "hanger", "text": "Sastrería para Mujer: Blazers · Chaquetas · Gabanes" } },
+        { "type": "item", "settings": { "icon": "needle", "text": "100% Hecho a Mano en Bogotá" } },
+        { "type": "item", "settings": { "icon": "truck", "text": "Envío Gratis Nacional" } },
+        { "type": "item", "settings": { "icon": "box", "text": "Pago Contra Entrega" } }
       ]
     }
   ]

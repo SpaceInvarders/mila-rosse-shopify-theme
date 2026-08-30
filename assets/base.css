@@ -978,19 +978,27 @@ h1, h2, h3, h4, h5, h6 {
   .mr-reel__embed-wrap { height: 500px; }
 }
 
-/* ===== PROPUESTA DE VALOR (franja bajo el hero) ===== */
-.mr-valueprops { background: var(--mr-dark-green); padding: 34px 20px; }
-.mr-valueprops__container { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.mr-valueprop { text-align: center; padding: 0 10px; border-left: 1px solid rgba(255, 255, 255, 0.15); }
-.mr-valueprop:first-child { border-left: none; }
-.mr-valueprop__title { font-family: var(--mr-font-serif); font-size: 1rem; font-weight: 600; color: var(--mr-white); margin: 0 0 6px; letter-spacing: 0.02em; }
-.mr-valueprop__text { font-family: var(--mr-font-sans); font-size: 0.78rem; color: rgba(255, 255, 255, 0.75); margin: 0; line-height: 1.5; }
-@media (max-width: 900px) {
-  .mr-valueprops__container { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
-  .mr-valueprop:nth-child(3) { border-left: none; }
+/* ===== FRANJA DE BENEFICIOS (ticker/marquee bajo el hero) ===== */
+.mr-ticker { background: var(--mr-dark-green); padding: 16px 0; overflow: hidden; border-top: 1px solid rgba(255, 255, 255, 0.12); border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.mr-ticker__track { display: flex; width: max-content; animation: mrTickerScroll 28s linear infinite; }
+.mr-ticker__group { display: flex; align-items: center; flex-shrink: 0; }
+.mr-ticker__item { display: flex; align-items: center; gap: 12px; font-family: var(--mr-font-sans); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; color: var(--mr-white); white-space: nowrap; padding: 0 32px; position: relative; }
+.mr-ticker__item::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 4px; border-radius: 50%; background: var(--mr-copper-light); }
+.mr-ticker__icon { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.4); color: var(--mr-copper-light); flex-shrink: 0; }
+.mr-ticker__icon svg { width: 14px; height: 14px; }
+@keyframes mrTickerScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
-@media (max-width: 480px) {
-  .mr-valueprops { padding: 28px 20px; }
+@media (prefers-reduced-motion: reduce) {
+  .mr-ticker__track { animation: none; }
+  .mr-ticker__group:nth-child(2) { display: none; }
+}
+@media (max-width: 600px) {
+  .mr-ticker { padding: 13px 0; }
+  .mr-ticker__item { font-size: 0.7rem; letter-spacing: 0.12em; padding: 0 20px; gap: 8px; }
+  .mr-ticker__icon { width: 22px; height: 22px; }
+  .mr-ticker__icon svg { width: 12px; height: 12px; }
 }
 
 /* ===== TESTIMONIOS HOMEPAGE ===== */
