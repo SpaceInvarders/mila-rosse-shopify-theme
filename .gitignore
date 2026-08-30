@@ -1,0 +1,7 @@
+.DS_Store
+assets/.DS_Store
+
+# Material crudo (fotos/videos originales sin procesar) - NO subir a git,
+# son archivos pesados (HEIC/MOV, varios GB). Las versiones finales optimizadas
+# ya usadas en el sitio viven directamente en assets/ (mr-fase-*.jpg).
+assets/artesania/

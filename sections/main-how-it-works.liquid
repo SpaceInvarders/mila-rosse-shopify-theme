@@ -1,0 +1,62 @@
+<div class="mr-how">
+  <div class="mr-how__container">
+    <div class="mr-how__head">
+      <div class="mr-how__eyebrow">{{ section.settings.eyebrow }}</div>
+      <h2 class="mr-how__title">{{ section.settings.title }}</h2>
+      {% if section.settings.text != blank %}
+        <p class="mr-how__intro">{{ section.settings.text }}</p>
+      {% endif %}
+    </div>
+    <div class="mr-how__grid">
+      {% for block in section.blocks %}
+        <div class="mr-how__step" {{ block.shopify_attributes }}>
+          <div class="mr-how__step-img">
+            {% if block.settings.image != blank %}
+              <img src="{{ block.settings.image | image_url: width: 700 }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="700" height="525">
+            {% else %}
+              <img src="{{ block.settings.image_asset | asset_url }}" alt="{{ block.settings.title | escape }}" loading="lazy" width="700" height="525">
+            {% endif %}
+          </div>
+          <span class="mr-how__step-num">{{ block.settings.number }}</span>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Cómo Funciona",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "CONFECCIÓN ARTESANAL" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Cómo Nace Cada Prenda" },
+    { "type": "textarea", "id": "text", "label": "Texto introductorio", "default": "Fotos reales de nuestro taller en Bogotá. Nada de fábricas anónimas: cada chaqueta pasa por manos colombianas, paso a paso." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen (opcional, prioriza sobre la de abajo)" },
+        { "type": "text", "id": "image_asset", "label": "Nombre de archivo en Assets (ej: mr-fase-tela.jpg)" },
+        { "type": "text", "id": "number", "label": "Número", "default": "01" },
+        { "type": "text", "id": "title", "label": "Título" },
+        { "type": "textarea", "id": "text", "label": "Descripción" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cómo Funciona",
+      "blocks": [
+        { "type": "step", "settings": { "image_asset": "mr-fase-tela.jpg", "number": "01", "title": "Selección de Tela", "text": "Evaluamos cada paño a mano, uno por uno, antes de aprobar el lote — para que la sientas de calidad desde el primer día." } },
+        { "type": "step", "settings": { "image_asset": "mr-fase-corte.jpg", "number": "02", "title": "Corte y Patronaje", "text": "Cada patrón se ajusta pensando en cómo cae la prenda sobre el cuerpo real, no solo sobre un maniquí." } },
+        { "type": "step", "settings": { "image_asset": "mr-fase-costura.jpg", "number": "03", "title": "Costura a Mano", "text": "Reforzamos cada costura y cosemos los botones a mano, para que la prenda aguante el uso real." } },
+        { "type": "step", "settings": { "image_asset": "mr-fase-calidad.jpg", "number": "04", "title": "Control de Calidad", "text": "Antes de salir del taller, cada prenda pasa una revisión final de acabados, caída y terminaciones." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

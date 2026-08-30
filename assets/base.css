@@ -1077,3 +1077,19 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--mr-text-light);
   margin: 0;
 }
+
+/* ===== CÓMO FUNCIONA / PROCESO ARTESANAL ===== */
+.mr-how { background: var(--mr-white); padding: 100px 20px; }
+.mr-how__container { max-width: 1400px; margin: 0 auto; }
+.mr-how__head { text-align: center; max-width: 640px; margin: 0 auto 60px; }
+.mr-how__eyebrow { font-family: var(--mr-font-sans); font-size: 0.75rem; color: var(--mr-copper); letter-spacing: 0.35em; text-transform: uppercase; margin-bottom: 20px; font-weight: 500; }
+.mr-how__title { font-family: var(--mr-font-serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 400; letter-spacing: 0.1em; color: var(--mr-dark-green); margin: 0 0 18px; text-transform: uppercase; }
+.mr-how__intro { font-family: var(--mr-font-sans); font-size: 0.95rem; line-height: 1.7; color: var(--mr-text-light); margin: 0; }
+.mr-how__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+.mr-how__step-img { width: 100%; aspect-ratio: 4/3; border-radius: var(--mr-radius-md); overflow: hidden; box-shadow: var(--mr-shadow-sm); margin-bottom: 20px; }
+.mr-how__step-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mr-how__step-num { display: block; font-family: var(--mr-font-sans); font-size: 0.75rem; letter-spacing: 0.2em; color: var(--mr-copper); font-weight: 600; margin-bottom: 8px; }
+.mr-how__step h3 { font-family: var(--mr-font-serif); font-size: 1.15rem; font-weight: 600; color: var(--mr-dark-green); margin: 0 0 10px; }
+.mr-how__step p { font-family: var(--mr-font-sans); font-size: 0.88rem; line-height: 1.7; color: var(--mr-text-light); margin: 0; }
+@media (max-width: 1024px) { .mr-how__grid { grid-template-columns: repeat(2, 1fr); gap: 36px; } }
+@media (max-width: 640px) { .mr-how { padding: 60px 20px; } .mr-how__grid { grid-template-columns: 1fr; gap: 32px; } .mr-how__head { margin-bottom: 40px; } }

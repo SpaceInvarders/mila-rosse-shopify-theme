@@ -14,7 +14,7 @@
       "settings": {
         "hero_product": "",
         "eyebrow": "Sastrería de Autor · Hecha a Mano en Bogotá",
-        "subtitle": "Piezas que se sienten tan bien como se ven · Pago contra entrega en toda Colombia",
+        "subtitle": "Confección 100% artesanal, pieza por pieza — no fast fashion",
         "button_label": "Ver Colección Otoño 2026",
         "button_link": ""
       }
@@ -110,6 +110,21 @@
         "text": "MILA ROSSE es una marca de sastrería femenina de autor, diseñada y confeccionada en Colombia para la mujer que valora la calidad sobre la tendencia pasajera. Cada blazer, chaqueta y gabán que creamos nace de un proceso propio de diseño, selección cuidadosa de tejidos premium y confección artesanal, pensado para acompañar el ritmo real de tu día a día, de la oficina a una cena, sin perder elegancia ni comodidad. No trabajamos con moda desechable: cada prenda está pensada para durar, sentirse bien puesta y verse impecable temporada tras temporada. Nuestra colección Otoño 2026 reúne piezas versátiles en tonos neutros y statement, con el mismo estándar de sastrería premium que nos define. Si buscas un blazer o una chaqueta que combine diseño, calidad y sello propio, MILA ROSSE es tu sastrería de confianza en Colombia."
       }
     },
+    "how_it_works": {
+      "type": "main-how-it-works",
+      "blocks": {
+        "s1": { "type": "step", "settings": { "image_asset": "mr-fase-tela.jpg", "number": "01", "title": "Selección de Tela", "text": "Evaluamos cada paño a mano, uno por uno, antes de aprobar el lote — para que la sientas de calidad desde el primer día." } },
+        "s2": { "type": "step", "settings": { "image_asset": "mr-fase-corte.jpg", "number": "02", "title": "Corte y Patronaje", "text": "Cada patrón se ajusta pensando en cómo cae la prenda sobre el cuerpo real, no solo sobre un maniquí." } },
+        "s3": { "type": "step", "settings": { "image_asset": "mr-fase-costura.jpg", "number": "03", "title": "Costura a Mano", "text": "Reforzamos cada costura y cosemos los botones a mano, para que la prenda aguante el uso real." } },
+        "s4": { "type": "step", "settings": { "image_asset": "mr-fase-calidad.jpg", "number": "04", "title": "Control de Calidad", "text": "Antes de salir del taller, cada prenda pasa una revisión final de acabados, caída y terminaciones." } }
+      },
+      "block_order": ["s1", "s2", "s3", "s4"],
+      "settings": {
+        "eyebrow": "CONFECCIÓN ARTESANAL",
+        "title": "Cómo Nace Cada Prenda",
+        "text": "Fotos reales de nuestro taller en Bogotá. Nada de fábricas anónimas: cada chaqueta pasa por manos colombianas, paso a paso."
+      }
+    },
     "newsletter": {
       "type": "main-newsletter",
       "settings": {
@@ -122,13 +137,14 @@
   },
   "order": [
     "banner",
+    "testimonials",
     "intro",
     "products",
     "social",
     "video_scrub",
-    "testimonials",
     "advisory",
     "brand_story",
+    "how_it_works",
     "newsletter"
   ]
 }
