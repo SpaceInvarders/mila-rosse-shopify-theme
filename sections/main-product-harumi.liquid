@@ -358,6 +358,56 @@
     .mr-gallery__dot.is-active { background: var(--mr-green); transform: scale(1.35); }
   }
 
+  /* Selector de color (solo cuando existe otro producto real del mismo modelo en otro color) */
+  .mr-color-selector { margin-bottom: 1.6rem; }
+  .mr-color-options { display: flex; gap: 10px; margin-top: 0.6rem; }
+  .mr-color-swatch {
+    display: block;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 2px;
+  }
+  .mr-color-swatch img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .mr-color-swatch.is-active { border-color: var(--mr-green); }
+
+  /* Barra fija inferior (mobile): precio + botón de compra siempre visible */
+  .mr-sticky-bar { display: none; }
+  @media screen and (max-width: 989px) {
+    .mr-sticky-bar {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 40;
+      background: #fff;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+      border-top: 1px solid var(--mr-border);
+    }
+    .mr-sticky-bar__price {
+      flex-shrink: 0;
+      font-family: 'Inter', sans-serif !important;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--mr-copper);
+      line-height: 1.25;
+    }
+    .mr-sticky-bar__compare {
+      display: block;
+      text-decoration: line-through;
+      font-size: 0.68rem;
+      font-weight: 400;
+      color: rgba(27, 77, 62, 0.4);
+    }
+    .mr-sticky-bar__btn { flex: 1; margin: 0; padding: 0.95rem; font-size: 0.82rem; }
+  }
+
   /* Mini carrusel de reseñas reales, arriba de la ficha */
   .mr-mini-reviews { margin: 0 0 2.2rem; }
   .mr-mini-reviews__title {
@@ -375,8 +425,8 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
-    margin: 0 -0.25rem;
-    padding: 0 0.25rem 4px;
+    max-width: 100%;
+    padding: 0 0 4px;
   }
   .mr-mini-reviews__track::-webkit-scrollbar { display: none; }
   .mr-mini-review {
@@ -590,13 +640,13 @@
     border: none;
     cursor: pointer;
     text-align: left;
-    padding: 1.3rem 0;
+    padding: 1.5rem 0;
     font-family: 'Inter', sans-serif !important;
-    font-size: 0.98rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: var(--mr-green);
   }
-  .mr-faq__icon { flex-shrink: 0; font-size: 1.2rem; font-weight: 400; transition: transform 0.25s ease; }
+  .mr-faq__icon { flex-shrink: 0; font-size: 1.5rem; font-weight: 400; transition: transform 0.25s ease; }
   .mr-faq__item.active .mr-faq__icon { transform: rotate(45deg); }
   .mr-faq__answer {
     max-height: 0;
@@ -604,17 +654,18 @@
     transition: max-height 0.3s ease;
   }
   .mr-faq__answer p {
-    font-size: 0.92rem;
-    line-height: 1.75;
+    font-size: 1.02rem;
+    line-height: 1.65;
     color: var(--mr-ink);
-    margin: 0 0 1.4rem;
+    margin: 0 0 1.5rem;
   }
 
   @media screen and (max-width: 989px) {
     .mr-product-harumi__container { grid-template-columns: 1fr; padding: 0; gap: 0; }
-    .mr-gallery { display: flex; flex-direction: row; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .mr-product-harumi { max-width: 100vw; overflow-x: hidden; }
+    .mr-gallery { display: flex; flex-direction: row; width: 100%; max-width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .mr-gallery::-webkit-scrollbar { display: none; }
-    .mr-gallery img { width: 100vw; flex-shrink: 0; scroll-snap-align: start; border-radius: 0; aspect-ratio: unset; }
+    .mr-gallery img { width: 100%; max-width: 100%; flex-shrink: 0; scroll-snap-align: start; border-radius: 0; aspect-ratio: unset; }
     .mr-gallery img:first-child { grid-column: unset; aspect-ratio: unset; }
     .mr-info-wrapper { position: relative; top: 0; max-height: none; padding: 2.5rem 1.5rem; overflow: visible; }
     .mr-reviews-full { padding: 0 1.5rem 3rem; }
@@ -626,7 +677,7 @@
     .mr-related-img-wrap { margin-bottom: 0.9rem; }
     .mr-related-info h4 { font-size: 0.85rem; line-height: 1.4; }
     .mr-related-info .price { font-size: 1rem; }
-    .mr-related-section { padding: 4rem 0; }
+    .mr-related-section { padding: 4rem 0 7.5rem; }
     .mr-related-title { padding: 0 1.5rem; }
     .mr-size-modal__box { padding: 1.75rem; }
     .mr-story { padding: 3rem 1.5rem 1rem; }
@@ -636,6 +687,13 @@
     .mr-faq { padding: 1rem 1.5rem 3rem; }
   }
 </style>
+
+{%- liquid
+  assign color_siblings = ''
+  if product.handle == 'blazer-genova-blanco' or product.handle == 'blazer-genova-rojo'
+    assign color_siblings = 'blazer-genova-blanco,blazer-genova-rojo' | split: ','
+  endif
+-%}
 
 <div class="mr-product-harumi">
   <div class="mr-product-harumi__container">
@@ -671,6 +729,22 @@
       <!-- Start of Judge.me code -->
       <div class="mr-product-rating jdgm-widget jdgm-preview-badge" style='{{ jm_style }}' data-id="{{ product.id }}" data-auto-install='false'>{{ product.metafields.judgeme.badge }}</div>
       <!-- End of Judge.me code -->
+
+      {%- if color_siblings.size > 1 -%}
+        <div class="mr-color-selector">
+          <label class="mr-variant-label">Color</label>
+          <div class="mr-color-options">
+            {%- for sib_handle in color_siblings -%}
+              {%- assign sib = all_products[sib_handle] -%}
+              {%- if sib -%}
+                <a href="{{ sib.url }}" class="mr-color-swatch{% if sib.handle == product.handle %} is-active{% endif %}" title="{{ sib.title | escape }}">
+                  <img src="{{ sib.featured_image | image_url: width: 100 }}" alt="{{ sib.title | escape }}">
+                </a>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
 
       <div class="mr-mini-reviews">
         <div class="mr-mini-reviews__title">Lo que dicen nuestras clientas</div>
@@ -733,6 +807,24 @@
           {% endif %}
         </button>
       {%- endform -%}
+
+      <div class="mr-sticky-bar" id="MrStickyBar-{{ section.id }}">
+        <div class="mr-sticky-bar__price">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="mr-sticky-bar__compare">{{ product.compare_at_price | money }}</span>
+            <span>{{ product.price | money }}</span>
+          {%- else -%}
+            {{ product.price | money }}
+          {%- endif -%}
+        </div>
+        <button type="submit" name="add" form="product-form-harumi" id="StickyAddToCart-{{ section.id }}" class="mr-btn mr-sticky-bar__btn" {% if product.selected_or_first_available_variant.available == false %}disabled{% endif %}>
+          {% if product.selected_or_first_available_variant.available %}
+            Añadir a la Bolsa
+          {% else %}
+            Agotado
+          {% endif %}
+        </button>
+      </div>
 
       <div class="mr-trust-icons">
         <div class="mr-trust-item">
@@ -804,9 +896,9 @@
     {% assign mat2_desc = 'Desliza con suavidad sobre cualquier prenda y añade una terminación de lujo discreta.' %}
     {% assign mat3_name = 'Botones de Cuerno Natural' %}
     {% assign mat3_desc = 'Detalles cosidos a mano que aportan carácter y una sensación auténticamente artesanal.' %}
-    {% assign faq1_a = 'Nuestros Gabanes tienen un corte oversize pensado para llevarse holgado. Si estás entre dos tallas, te recomendamos elegir la más pequeña para un ajuste más entallado, o la más grande para un efecto oversize total. Consulta la guía de tallas junto al selector de talla.' %}
+    {% assign faq1_a = 'Corte oversize pensado para llevarse holgado. Entre dos tallas, elige la más pequeña para un ajuste entallado, o la más grande para un efecto oversize total.' %}
     {% assign faq5_q = '¿Qué tan abrigado es el Gabán Soft Coat?' %}
-    {% assign faq5_a = 'Su paño de lana premium ofrece un abrigo medio-alto, ideal para clima frío y noches frescas. Es versátil para llevar solo o sobre otras capas.' %}
+    {% assign faq5_a = 'Su paño de lana premium abriga bien en clima frío y noches frescas. Ideal solo o sobre otras capas.' %}
 
   {% when 'blazer-nebraska-kaki' %}
     {% assign story_title = 'Lana Kaki + Silueta Oversize' %}
@@ -820,9 +912,9 @@
     {% assign mat2_desc = 'Definen la silueta y aportan una caída impecable sobre los hombros.' %}
     {% assign mat3_name = 'Botones Metálicos Mate' %}
     {% assign mat3_desc = 'Detalles de acabado mate que aportan un toque moderno y sofisticado.' %}
-    {% assign faq1_a = 'El Blazer Nebraska tiene un corte oversize pensado para llevarse holgado. Si estás entre dos tallas, elige la más pequeña para un ajuste más entallado, o la más grande para un efecto oversize total. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte oversize pensado para llevarse holgado. Entre dos tallas, elige la más pequeña para un ajuste entallado, o la más grande para un efecto oversize total.' %}
     {% assign faq5_q = '¿Es una prenda de uso diario?' %}
-    {% assign faq5_a = 'Sí, su corte oversize y tejido versátil lo hacen ideal tanto para la oficina como para looks casuales. Combínalo con jeans o pantalón de sastre según la ocasión.' %}
+    {% assign faq5_a = 'Sí. Su corte oversize es ideal para oficina o looks casuales — combínalo con jeans o pantalón de sastre.' %}
 
   {% when 'chaqueta-urban-stone-negra' %}
     {% assign story_title = 'Algodón Técnico + Costura Urbana' %}
@@ -836,9 +928,9 @@
     {% assign mat2_desc = 'Aporta comodidad y una caída limpia sin sumar peso a la prenda.' %}
     {% assign mat3_name = 'Cierres Metálicos Reforzados' %}
     {% assign mat3_desc = 'Herrajes de alta durabilidad con acabado en negro mate.' %}
-    {% assign faq1_a = 'La Chaqueta Urban Stone tiene un corte entallado a la cintura. Si prefieres un ajuste más relajado, te recomendamos elegir una talla más. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte entallado a la cintura. Si prefieres un ajuste más relajado, elige una talla más.' %}
     {% assign faq5_q = '¿Para qué ocasiones es ideal?' %}
-    {% assign faq5_a = 'Es una pieza versátil, perfecta para looks urbanos de día y noche. Combínala con jeans, vestidos o pantalón de cuero para un resultado con actitud.' %}
+    {% assign faq5_a = 'Perfecta para looks urbanos de día y noche. Combínala con jeans, vestidos o pantalón de cuero.' %}
 
   {% when 'chaqueta-torera-urban-stone' %}
     {% assign story_title = 'Paño Clásico + Corte Torero' %}
@@ -852,9 +944,9 @@
     {% assign mat2_desc = 'Ayuda a mantener la forma torera y una caída impecable.' %}
     {% assign mat3_name = 'Botones Clásicos' %}
     {% assign mat3_desc = 'Acabado tradicional que aporta un toque elegante y atemporal.' %}
-    {% assign faq1_a = 'La Chaqueta Torera tiene un corte entallado y corto. Si buscas un ajuste más suelto, sube una talla. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte entallado y corto. Si buscas un ajuste más suelto, sube una talla.' %}
     {% assign faq5_q = '¿Es una prenda de entretiempo?' %}
-    {% assign faq5_a = 'Sí, su paño de peso medio la hace ideal para clima templado y como capa de transición en cualquier temporada.' %}
+    {% assign faq5_a = 'Sí, su paño de peso medio es ideal para clima templado y como capa de transición.' %}
 
   {% when 'blazer-genova-blanco' %}
     {% assign story_title = 'Paño Blanco Impecable + Manga 3/4' %}
@@ -868,9 +960,9 @@
     {% assign mat2_desc = 'Desliza con suavidad y aporta una terminación de lujo discreta.' %}
     {% assign mat3_name = 'Botones Nacarados' %}
     {% assign mat3_desc = 'Detalles delicados cosidos a mano que elevan el acabado de la prenda.' %}
-    {% assign faq1_a = 'El Blazer Genova tiene un corte entallado y elegante. Te recomendamos elegir tu talla habitual. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte entallado y elegante. Te recomendamos elegir tu talla habitual.' %}
     {% assign faq5_q = '¿Es ideal para eventos especiales?' %}
-    {% assign faq5_a = 'Sí, su color blanco impecable y corte sofisticado lo convierten en la pieza perfecta para bodas, cócteles y eventos formales.' %}
+    {% assign faq5_a = 'Sí, su blanco impecable y corte sofisticado lo hacen perfecto para bodas, cócteles y eventos formales.' %}
 
   {% when 'blazer-genova-rojo' %}
     {% assign story_title = 'Paño Rojo Intenso + Manga 3/4' %}
@@ -884,9 +976,9 @@
     {% assign mat2_desc = 'Desliza con suavidad y aporta una terminación de lujo discreta.' %}
     {% assign mat3_name = 'Botones Metálicos Dorados' %}
     {% assign mat3_desc = 'Detalles cosidos a mano que aportan un brillo sutil y sofisticado.' %}
-    {% assign faq1_a = 'El Blazer Genova tiene un corte entallado y elegante. Te recomendamos elegir tu talla habitual. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte entallado y elegante. Te recomendamos elegir tu talla habitual.' %}
     {% assign faq5_q = '¿Cómo lo puedo combinar?' %}
-    {% assign faq5_a = 'Es una pieza statement: combínala con negro para un contraste elegante, o con tonos neutros para dejar que el rojo sea el protagonista del look.' %}
+    {% assign faq5_a = 'Pieza statement: combínala con negro para un contraste elegante, o con neutros para que el rojo protagonice.' %}
 
   {% when 'chaqueta-manchester-classic' %}
     {% assign story_title = 'Paño Versátil + Costura Torera' %}
@@ -900,9 +992,9 @@
     {% assign mat2_desc = 'Aporta comodidad durante todo el día sin sumar peso.' %}
     {% assign mat3_name = 'Botones Clásicos' %}
     {% assign mat3_desc = 'Acabado atemporal que combina con cualquier estilo.' %}
-    {% assign faq1_a = 'La Chaqueta Manchester tiene un corte torero entallado. Si prefieres un ajuste más relajado, sube una talla. Consulta la guía de tallas junto al selector.' %}
+    {% assign faq1_a = 'Corte torero entallado. Si prefieres un ajuste más relajado, sube una talla.' %}
     {% assign faq5_q = '¿Con qué la puedo combinar?' %}
-    {% assign faq5_a = 'Es muy versátil: llévala con jeans y botas para un look casual, o con vestido para un toque más elegante.' %}
+    {% assign faq5_a = 'Muy versátil: jeans y botas para un look casual, o vestido para un toque elegante.' %}
 
 {% endcase %}
 
@@ -986,15 +1078,15 @@
     </div>
     <div class="mr-faq__item">
       <button class="mr-faq__question" type="button">¿Cómo debo lavar o cuidar esta prenda?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Recomendamos limpieza en seco para conservar la caída y textura de la lana. Entre usos, airea la prenda y guárdala en gancho. Evita el contacto prolongado con la humedad.</p></div>
+      <div class="mr-faq__answer"><p>Limpieza en seco para conservar la caída y textura. Airea la prenda entre usos y evita la humedad.</p></div>
     </div>
     <div class="mr-faq__item">
       <button class="mr-faq__question" type="button">¿Cuánto tarda el envío?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Envío gratis a toda Colombia. Los pedidos se procesan en 24 a 48 horas hábiles y llegan en un plazo de 3 a 5 días hábiles después del despacho.</p></div>
+      <div class="mr-faq__answer"><p>Envío gratis a toda Colombia. Procesamos en 24-48h y llega en 3 a 5 días hábiles.</p></div>
     </div>
     <div class="mr-faq__item">
       <button class="mr-faq__question" type="button">¿Puedo cambiar o devolver mi pedido?<span class="mr-faq__icon">+</span></button>
-      <div class="mr-faq__answer"><p>Sí. Aceptamos cambios y devoluciones dentro de los 30 días posteriores a la recepción, siempre que la prenda esté sin usar y con sus etiquetas originales.</p></div>
+      <div class="mr-faq__answer"><p>Sí. Cambios y devoluciones hasta 30 días después de recibido, sin usar y con etiquetas originales.</p></div>
     </div>
     <div class="mr-faq__item">
       <button class="mr-faq__question" type="button">{{ faq5_q }}<span class="mr-faq__icon">+</span></button>
@@ -1147,6 +1239,7 @@
     const productJsonEl = document.getElementById('ProductJson-{{ section.id }}');
     const addToCartBtn = document.getElementById('AddToCart-{{ section.id }}');
     const buyNowBtn = document.getElementById('BuyNow-{{ section.id }}');
+    const stickyAddToCartBtn = document.getElementById('StickyAddToCart-{{ section.id }}');
 
     if (variantRadios.length > 0 && productJsonEl && variantHiddenInput) {
       const productVariants = JSON.parse(productJsonEl.innerHTML);
@@ -1162,10 +1255,12 @@
               addToCartBtn.disabled = false;
               addToCartBtn.innerHTML = 'AÑADIR A LA BOLSA';
               if (buyNowBtn) { buyNowBtn.disabled = false; buyNowBtn.innerHTML = 'COMPRAR AHORA'; }
+              if (stickyAddToCartBtn) { stickyAddToCartBtn.disabled = false; stickyAddToCartBtn.innerHTML = 'Añadir a la Bolsa'; }
             } else {
               addToCartBtn.disabled = true;
               addToCartBtn.innerHTML = 'AGOTADO';
               if (buyNowBtn) { buyNowBtn.disabled = true; buyNowBtn.innerHTML = 'AGOTADO'; }
+              if (stickyAddToCartBtn) { stickyAddToCartBtn.disabled = true; stickyAddToCartBtn.innerHTML = 'Agotado'; }
             }
           }
         });
