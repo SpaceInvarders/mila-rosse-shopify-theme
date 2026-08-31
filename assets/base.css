@@ -58,12 +58,33 @@ h1, h2, h3, h4, h5, h6 {
 .mr-announcement {
   background: #000;
   color: var(--mr-white);
-  text-align: center;
-  padding: 12px 20px;
+  overflow: hidden;
+  padding: 12px 0;
+}
+.mr-announcement__track {
+  display: flex;
+  width: max-content;
+  animation: mrAnnouncementScroll 22s linear infinite;
+}
+.mr-announcement__group { display: flex; flex-shrink: 0; }
+.mr-announcement__item {
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-weight: 500;
+  white-space: nowrap;
+  padding: 0 36px;
+}
+@keyframes mrAnnouncementScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mr-announcement__track { animation: none; }
+  .mr-announcement__group:nth-child(2) { display: none; }
+}
+@media (max-width: 600px) {
+  .mr-announcement__item { font-size: 0.66rem; letter-spacing: 0.14em; padding: 0 22px; }
 }
 
 .mr-header {
