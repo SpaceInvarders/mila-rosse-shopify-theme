@@ -524,6 +524,16 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
   letter-spacing: 0.05em;
 }
+.mr-product__price-compare {
+  text-decoration: line-through;
+  color: var(--mr-text-light);
+  font-size: 0.85em;
+  margin-right: 8px;
+  font-weight: 400;
+}
+.mr-product__price-sale { color: var(--mr-copper); font-weight: 600; }
+.mr-product__badge--sale { background: var(--mr-copper); }
+.mr-product__badge--reviews { background: var(--mr-dark-green); font-size: 0.6rem; }
 
 .mr-products__cta-wrap { text-align: center; }
 

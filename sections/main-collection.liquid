@@ -16,10 +16,66 @@
     </div>
 
     {%- if collection.products.size > 0 -%}
+      {%- paginate collection.products by 24 -%}
+
+      {%- assign reviewed_handles = "blazer-genova-blanco,blazer-genova-rojo,chaqueta-manchester-classic" | split: "," -%}
+
+      <form id="MrCollectionForm" method="get" action="{{ collection.url }}">
+        <div class="mr-collection__toolbar">
+          {%- if collection.filters.size > 0 -%}
+            <button type="button" class="mr-collection__filter-toggle" id="MrFilterToggle" aria-expanded="false" aria-controls="MrFilterPanel">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/><circle cx="9" cy="6" r="1.8" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.8" fill="currentColor" stroke="none"/><circle cx="7" cy="18" r="1.8" fill="currentColor" stroke="none"/></svg>
+              Filtrar
+            </button>
+          {%- endif -%}
+          <div class="mr-collection__sort">
+            <label for="MrSortSelect">Ordenar</label>
+            <select id="MrSortSelect" name="sort_by" onchange="this.form.submit()">
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>{{ option.name }}</option>
+              {%- endfor -%}
+            </select>
+          </div>
+        </div>
+
+        {%- if collection.filters.size > 0 -%}
+          <div class="mr-collection__filters" id="MrFilterPanel" hidden>
+            {%- for filter in collection.filters -%}
+              {%- if filter.type == 'list' or filter.type == 'boolean' -%}
+                <div class="mr-filter-group">
+                  <div class="mr-filter-group__label">{{ filter.label }}</div>
+                  <div class="mr-filter-group__options">
+                    {%- for value in filter.values -%}
+                      <label class="mr-filter-option{% if value.count == 0 and value.active == false %} mr-filter-option--disabled{% endif %}">
+                        <input
+                          type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          onchange="this.form.submit()"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                        <span>{{ value.label }} ({{ value.count }})</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+            <a href="{{ collection.url }}" class="mr-filter-clear">Limpiar filtros</a>
+          </div>
+        {%- endif -%}
+      </form>
+
       <div class="mr-collection__grid">
         {%- for product in collection.products -%}
           <a href="{{ product.url }}" class="mr-product">
             <div class="mr-product__media">
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                <span class="mr-product__badge mr-product__badge--sale">-{{ discount_pct }}%</span>
+              {%- elsif reviewed_handles contains product.handle -%}
+                <span class="mr-product__badge mr-product__badge--reviews">★ Recomendado</span>
+              {%- endif -%}
               {%- if product.featured_image -%}
                 <img
                   src="{{ product.featured_image | image_url: width: 600 }}"
@@ -42,11 +98,28 @@
             </div>
             <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
             <h3 class="mr-product__title">{{ product.title }}</h3>
-            <div class="mr-product__price">{{ product.price | money }}</div>
+            <div class="mr-product__price">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="mr-product__price-compare">{{ product.compare_at_price | money }}</span>
+                <span class="mr-product__price-sale">{{ product.price | money }}</span>
+              {%- else -%}
+                {{ product.price | money }}
+              {%- endif -%}
+            </div>
             <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
           </a>
         {%- endfor -%}
       </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="mr-collection__pagination">
+          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}" class="mr-collection__page-link">← Anterior</a>{%- endif -%}
+          <span class="mr-collection__page-current">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+          {%- if paginate.next -%}<a href="{{ paginate.next.url }}" class="mr-collection__page-link">Siguiente →</a>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      {%- endpaginate -%}
     {%- else -%}
       <div class="mr-collection__empty">
         <p>Próximamente nuevas piezas en esta colección.</p>
@@ -56,6 +129,24 @@
 
   </div>
 </section>
+
+<script>
+  (function() {
+    var toggle = document.getElementById('MrFilterToggle');
+    var panel = document.getElementById('MrFilterPanel');
+    if (!toggle || !panel) return;
+    toggle.addEventListener('click', function() {
+      var isOpen = panel.hasAttribute('hidden') ? false : true;
+      if (isOpen) {
+        panel.setAttribute('hidden', '');
+        toggle.setAttribute('aria-expanded', 'false');
+      } else {
+        panel.removeAttribute('hidden');
+        toggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+  })();
+</script>
 
 <style>
   .mr-collection {
@@ -69,7 +160,7 @@
   }
   .mr-collection__header {
     text-align: center;
-    margin-bottom: 70px;
+    margin-bottom: 50px;
   }
   .mr-collection__eyebrow {
     font-family: 'Inter', sans-serif;
@@ -112,12 +203,142 @@
     margin: 0;
   }
 
+  /* Toolbar: filtrar + ordenar */
+  .mr-collection__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(26, 71, 42, 0.12);
+  }
+  .mr-collection__filter-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--mr-dark-green, #1a472a);
+    border-radius: var(--mr-radius-sm, 6px);
+    padding: 10px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mr-dark-green, #1a472a);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .mr-collection__filter-toggle svg { width: 16px; height: 16px; }
+  .mr-collection__filter-toggle:hover,
+  .mr-collection__filter-toggle[aria-expanded="true"] {
+    background: var(--mr-dark-green, #1a472a);
+    color: #fff;
+  }
+  .mr-collection__sort {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+  }
+  .mr-collection__sort label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mr-text-light, #666);
+  }
+  .mr-collection__sort select {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    border: 1px solid rgba(26, 71, 42, 0.25);
+    border-radius: var(--mr-radius-sm, 6px);
+    background: #fff;
+    color: var(--mr-dark-green, #1a472a);
+    cursor: pointer;
+  }
+
+  /* Panel de filtros */
+  .mr-collection__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background: #fff;
+    border-radius: var(--mr-radius-md, 12px);
+    padding: 24px 28px;
+    margin-bottom: 30px;
+    box-shadow: var(--mr-shadow-sm);
+  }
+  .mr-filter-group__label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mr-dark-green, #1a472a);
+    margin-bottom: 12px;
+  }
+  .mr-filter-group__options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .mr-filter-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    color: var(--mr-text, #333);
+    cursor: pointer;
+  }
+  .mr-filter-option input { accent-color: var(--mr-dark-green, #1a472a); }
+  .mr-filter-option--disabled { opacity: 0.4; cursor: not-allowed; }
+  .mr-filter-clear {
+    align-self: flex-start;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: var(--mr-copper, #c97a44);
+    text-decoration: underline;
+  }
+
   .mr-collection__grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 40px 25px;
   }
 
+  /* Badges y precio con descuento */
+  .mr-product__badge--sale { background: var(--mr-copper, #c97a44); color: #fff; }
+  .mr-product__badge--reviews { background: var(--mr-dark-green, #1a472a); color: #fff; font-size: 0.65rem; }
+  .mr-product__price-compare {
+    text-decoration: line-through;
+    color: var(--mr-text-light, #999);
+    font-size: 0.85em;
+    margin-right: 8px;
+    font-weight: 400;
+  }
+  .mr-product__price-sale { color: var(--mr-copper, #c97a44); font-weight: 600; }
+
+  .mr-collection__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 60px;
+    font-family: 'Inter', sans-serif;
+  }
+  .mr-collection__page-link {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--mr-dark-green, #1a472a);
+    text-decoration: underline;
+  }
+  .mr-collection__page-current {
+    font-size: 0.8rem;
+    color: var(--mr-text-light, #666);
+  }
 
   .mr-collection__empty {
     text-align: center;
@@ -137,9 +358,14 @@
     .mr-collection { padding: 50px 20px; }
     .mr-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 25px 15px; }
     .mr-collection__header { margin-bottom: 40px; }
+    .mr-collection__toolbar { flex-wrap: wrap; }
+    .mr-collection__sort { margin-left: 0; }
+    .mr-collection__filters { padding: 20px; gap: 22px; }
   }
   @media (max-width: 480px) {
     .mr-collection__grid { grid-template-columns: repeat(2, 1fr); gap: 18px 12px; }
+    .mr-collection__toolbar { gap: 12px; }
+    .mr-collection__filter-toggle, .mr-collection__sort select { font-size: 0.75rem; padding: 8px 12px; }
   }
 </style>
 

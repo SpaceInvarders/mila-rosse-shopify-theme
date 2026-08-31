@@ -3,6 +3,8 @@
 
     <div class="mr-products__grid">
 
+      {%- assign reviewed_handles = "blazer-genova-blanco,blazer-genova-rojo,chaqueta-manchester-classic" | split: "," -%}
+
       {%- if section.settings.collection != blank and section.settings.collection.products.size > 0 -%}
         {%- assign source_products = section.settings.collection.products -%}
         {%- assign products_count = source_products.size -%}
@@ -12,8 +14,11 @@
         {%- for product in source_products limit: limit -%}
           <a href="{{ product.url }}" class="mr-product">
             <div class="mr-product__media">
-              {%- if forloop.first -%}
-                <span class="mr-product__badge">Nuevo</span>
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                <span class="mr-product__badge mr-product__badge--sale">-{{ discount_pct }}%</span>
+              {%- elsif reviewed_handles contains product.handle -%}
+                <span class="mr-product__badge mr-product__badge--reviews">★ Recomendado</span>
               {%- endif -%}
               {%- if product.featured_image -%}
                 <img
@@ -28,7 +33,14 @@
             </div>
             <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
             <h3 class="mr-product__title">{{ product.title }}</h3>
-            <div class="mr-product__price">{{ product.price | money }}</div>
+            <div class="mr-product__price">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="mr-product__price-compare">{{ product.compare_at_price | money }}</span>
+                <span class="mr-product__price-sale">{{ product.price | money }}</span>
+              {%- else -%}
+                {{ product.price | money }}
+              {%- endif -%}
+            </div>
             <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
           </a>
         {%- endfor -%}
@@ -39,8 +51,11 @@
         {%- for product in collections.all.products limit: limit -%}
           <a href="{{ product.url }}" class="mr-product">
             <div class="mr-product__media">
-              {%- if forloop.first -%}
-                <span class="mr-product__badge">Nuevo</span>
+              {%- if product.compare_at_price > product.price -%}
+                {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                <span class="mr-product__badge mr-product__badge--sale">-{{ discount_pct }}%</span>
+              {%- elsif reviewed_handles contains product.handle -%}
+                <span class="mr-product__badge mr-product__badge--reviews">★ Recomendado</span>
               {%- endif -%}
               {%- if product.featured_image -%}
                 <img
@@ -55,7 +70,14 @@
             </div>
             <div class="mr-product__category">{{ product.type | default: 'MILA ROSSE' }}</div>
             <h3 class="mr-product__title">{{ product.title }}</h3>
-            <div class="mr-product__price">{{ product.price | money }}</div>
+            <div class="mr-product__price">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="mr-product__price-compare">{{ product.compare_at_price | money }}</span>
+                <span class="mr-product__price-sale">{{ product.price | money }}</span>
+              {%- else -%}
+                {{ product.price | money }}
+              {%- endif -%}
+            </div>
             <div class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}'>{{ product.metafields.judgeme.badge }}</div>
           </a>
         {%- endfor -%}
