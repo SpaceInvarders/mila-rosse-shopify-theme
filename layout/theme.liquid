@@ -196,6 +196,10 @@
         .mr-fab__item { width: 44px; height: 44px; }
         .mr-fab__toggle { width: 52px; height: 52px; }
       }
+      /* Si hay una barra fija de compra (PDP en mobile), sube el botón de contacto para que no se tapen */
+      @media (max-width: 989px) {
+        .mr-fab.mr-fab--raised { bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+      }
 
       .mr-fab__toggle::after {
         content: '';
@@ -268,6 +272,10 @@
         var label = document.getElementById('MrFabLabel');
         var labelClose = document.getElementById('MrFabLabelClose');
         if (!wrap || !toggle) return;
+
+        if (document.querySelector('.mr-sticky-bar')) {
+          wrap.classList.add('mr-fab--raised');
+        }
 
         var LABEL_KEY = 'mrFabLabelDismissed';
         if (label) {

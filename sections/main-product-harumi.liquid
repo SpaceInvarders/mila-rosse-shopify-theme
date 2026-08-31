@@ -776,7 +776,7 @@
   }
 
   @media screen and (max-width: 989px) {
-    .mr-product-harumi__container { grid-template-columns: 1fr; padding: 0; gap: 0; }
+    .mr-product-harumi__container { grid-template-columns: minmax(0, 1fr); padding: 0; gap: 0; }
     .mr-product-harumi { max-width: 100vw; overflow-x: hidden; }
     .mr-gallery { display: flex; flex-direction: row; width: 100%; max-width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
     .mr-gallery::-webkit-scrollbar { display: none; }
