@@ -20,7 +20,8 @@
 /* ===== RESET ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; max-width: 100%; overflow-x: hidden; }
+body { max-width: 100%; overflow-x: hidden; }
 
 body.mr-body {
   font-family: var(--mr-font-sans);
