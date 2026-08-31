@@ -10,22 +10,18 @@
 {% endcomment %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap');
 
   :root {
     --mr-cream: #FBF9F6;
     --mr-green: #1B4D3E;
+    --mr-copper: #C97A44;
+    --mr-ink: #2E2C29;
     --mr-border: rgba(27, 77, 62, 0.15);
-    --mr-font-serif: 'Inter', sans-serif;
+    --mr-font-serif: 'Playfair Display', Georgia, serif;
     --mr-font-sans: 'Inter', sans-serif;
   }
 
-  .mr-product-harumi h1,
-  .mr-product-harumi h2,
-  .mr-product-harumi h3,
-  .mr-product-harumi h4,
-  .mr-product-harumi h5,
-  .mr-product-harumi h6,
   .mr-product-harumi p,
   .mr-product-harumi span,
   .mr-product-harumi label,
@@ -92,24 +88,33 @@
   .mr-review-count { font-size: 0.8rem; margin-left: 6px; letter-spacing: 1px; opacity: 0.8; }
 
   .mr-product-title {
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--mr-font-serif) !important;
     font-size: clamp(1.7rem, 2.8vw, 2.6rem);
     margin: 0 0 0.6rem 0;
     color: var(--mr-green);
-    line-height: 1.05;
-    font-weight: 900;
+    line-height: 1.15;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: -0.5px;
+    letter-spacing: 0.02em;
   }
 
   .mr-product-price {
     font-family: 'Inter', sans-serif !important;
-    font-size: 1.35rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 700;
     letter-spacing: 0;
     margin-bottom: 0.7rem;
     font-style: normal;
+    color: var(--mr-copper);
   }
+  .mr-product-price__compare {
+    text-decoration: line-through;
+    color: rgba(27, 77, 62, 0.4);
+    font-weight: 400;
+    font-size: 0.8em;
+    margin-right: 10px;
+  }
+  .mr-product-price__sale { color: var(--mr-copper); font-weight: 700; }
 
   .mr-product-rating {
     margin-bottom: 2rem;
@@ -174,15 +179,16 @@
     color: var(--mr-green);
   }
   .mr-size-modal__title {
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--mr-font-serif) !important;
     font-size: 1.3rem;
-    font-weight: 800;
+    font-weight: 600;
     color: var(--mr-green);
     margin: 0 0 0.75rem;
   }
   .mr-size-modal__note {
     font-size: 0.82rem;
-    color: rgba(27, 77, 62, 0.7);
+    color: var(--mr-ink);
+    opacity: 0.75;
     margin: 0 0 1.25rem;
     line-height: 1.6;
   }
@@ -207,7 +213,7 @@
   .mr-size-modal__tip {
     font-size: 0.85rem;
     line-height: 1.6;
-    color: rgba(27, 77, 62, 0.85);
+    color: var(--mr-ink);
     background: rgba(184, 115, 51, 0.08);
     padding: 0.9rem 1rem;
     border-radius: 10px;
@@ -324,9 +330,66 @@
     font-size: 0.93rem;
     font-weight: 400;
     line-height: 1.75;
-    color: rgba(27, 77, 62, 0.8);
+    color: var(--mr-ink);
   }
   .mr-tab-content.active { display: block; }
+
+  /* Puntos del carrusel de fotos (mobile) */
+  .mr-gallery__dots { display: none; }
+  @media screen and (max-width: 989px) {
+    .mr-gallery__dots {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 0 6px;
+      background: var(--mr-cream);
+    }
+    .mr-gallery__dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(27, 77, 62, 0.25);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .mr-gallery__dot.is-active { background: var(--mr-green); transform: scale(1.35); }
+  }
+
+  /* Mini carrusel de reseñas reales, arriba de la ficha */
+  .mr-mini-reviews { margin: 0 0 2.2rem; }
+  .mr-mini-reviews__title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--mr-green);
+    margin: 0 0 0.9rem;
+  }
+  .mr-mini-reviews__track {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin: 0 -0.25rem;
+    padding: 0 0.25rem 4px;
+  }
+  .mr-mini-reviews__track::-webkit-scrollbar { display: none; }
+  .mr-mini-review {
+    scroll-snap-align: start;
+    flex: 0 0 82%;
+    background: #fff;
+    border: 1px solid var(--mr-border);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+  }
+  .mr-mini-review__stars { color: var(--mr-copper); font-size: 0.85rem; letter-spacing: 2px; margin-bottom: 0.5rem; }
+  .mr-mini-review__quote { font-size: 0.88rem; line-height: 1.6; color: var(--mr-ink); margin: 0 0 0.6rem; font-style: italic; }
+  .mr-mini-review__author { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--mr-green); }
 
   .mr-reviews-full {
     max-width: 1100px;
@@ -342,11 +405,13 @@
     background-color: #fff;
   }
   .mr-related-title {
-    font-family: var(--mr-font-serif);
+    font-family: var(--mr-font-serif) !important;
     font-size: 2rem;
     text-align: center;
     margin-bottom: 3rem;
-    font-weight: 400;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     color: var(--mr-green);
   }
   .mr-related-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1400px; margin: 0 auto; }
@@ -380,17 +445,17 @@
     margin-bottom: 0.8rem;
   }
   .mr-story__title {
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--mr-font-serif) !important;
     font-size: clamp(1.5rem, 2.4vw, 2.1rem);
-    font-weight: 800;
+    font-weight: 600;
     color: var(--mr-green);
     margin: 0 0 1.2rem;
-    line-height: 1.2;
+    line-height: 1.25;
   }
   .mr-story__desc {
     font-size: 0.98rem;
     line-height: 1.8;
-    color: rgba(27, 77, 62, 0.85);
+    color: var(--mr-ink);
     margin: 0;
   }
 
@@ -414,7 +479,8 @@
   .mr-story__detail-caption {
     font-size: 0.85rem;
     font-style: italic;
-    color: rgba(27, 77, 62, 0.65);
+    color: var(--mr-ink);
+    opacity: 0.65;
     margin: 0 0 3rem;
   }
 
@@ -443,16 +509,16 @@
     margin-bottom: 0.5rem;
   }
   .mr-story__phase h3 {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 1.08rem;
-    font-weight: 700;
+    font-family: var(--mr-font-serif) !important;
+    font-size: 1.15rem;
+    font-weight: 600;
     color: var(--mr-green);
     margin: 0 0 0.6rem;
   }
   .mr-story__phase p {
     font-size: 0.9rem;
     line-height: 1.7;
-    color: rgba(27, 77, 62, 0.8);
+    color: var(--mr-ink);
     margin: 0;
   }
 
@@ -461,10 +527,10 @@
     padding-top: 3.5rem;
   }
   .mr-story__materials-title {
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--mr-font-serif) !important;
     text-align: center;
-    font-size: 1.3rem;
-    font-weight: 800;
+    font-size: 1.4rem;
+    font-weight: 600;
     color: var(--mr-green);
     margin: 0 0 2.5rem;
   }
@@ -495,7 +561,7 @@
   .mr-story__material p {
     font-size: 0.85rem;
     line-height: 1.65;
-    color: rgba(27, 77, 62, 0.78);
+    color: var(--mr-ink);
     margin: 0;
   }
 
@@ -506,10 +572,10 @@
     padding: 2rem 2rem 5rem;
   }
   .mr-faq__title {
-    font-family: 'Inter', sans-serif !important;
+    font-family: var(--mr-font-serif) !important;
     text-align: center;
-    font-size: 1.6rem;
-    font-weight: 800;
+    font-size: 1.7rem;
+    font-weight: 600;
     color: var(--mr-green);
     margin: 0 0 2.5rem;
   }
@@ -540,7 +606,7 @@
   .mr-faq__answer p {
     font-size: 0.92rem;
     line-height: 1.75;
-    color: rgba(27, 77, 62, 0.85);
+    color: var(--mr-ink);
     margin: 0 0 1.4rem;
   }
 
@@ -574,21 +640,58 @@
 <div class="mr-product-harumi">
   <div class="mr-product-harumi__container">
 
-    <div class="mr-gallery">
+    <div class="mr-gallery" id="MrGallery-{{ section.id }}">
       {% for media in product.media %}
         {% if media.media_type == 'image' %}
           <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
         {% endif %}
       {% endfor %}
     </div>
+    {%- assign mr_img_count = 0 -%}
+    {%- for media in product.media -%}{%- if media.media_type == 'image' -%}{%- assign mr_img_count = mr_img_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- if mr_img_count > 1 -%}
+      <div class="mr-gallery__dots" id="MrGalleryDots-{{ section.id }}">
+        {%- for i in (1..mr_img_count) -%}
+          <button type="button" class="mr-gallery__dot{% if forloop.first %} is-active{% endif %}" data-index="{{ forloop.index0 }}" aria-label="Ver foto {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
 
     <div class="mr-info-wrapper">
 
       <h1 class="mr-product-title">{{ product.title }}</h1>
-      <div class="mr-product-price">{{ product.price | money }}</div>
+      <div class="mr-product-price">
+        {%- if product.compare_at_price > product.price -%}
+          <span class="mr-product-price__compare">{{ product.compare_at_price | money }}</span>
+          <span class="mr-product-price__sale">{{ product.price | money }}</span>
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+      </div>
       <!-- Start of Judge.me code -->
       <div class="mr-product-rating jdgm-widget jdgm-preview-badge" style='{{ jm_style }}' data-id="{{ product.id }}" data-auto-install='false'>{{ product.metafields.judgeme.badge }}</div>
       <!-- End of Judge.me code -->
+
+      <div class="mr-mini-reviews">
+        <div class="mr-mini-reviews__title">Lo que dicen nuestras clientas</div>
+        <div class="mr-mini-reviews__track">
+          <div class="mr-mini-review">
+            <div class="mr-mini-review__stars">★★★★★</div>
+            <p class="mr-mini-review__quote">"Me encanta la tela, súper suave y se ajusta a la figura. Hermosa."</p>
+            <div class="mr-mini-review__author">Clienta Mila Rosse</div>
+          </div>
+          <div class="mr-mini-review">
+            <div class="mr-mini-review__stars">★★★★★</div>
+            <p class="mr-mini-review__quote">"Hermosa chaqueta, color y material exclusivo. Bolsillos útiles. Súper la calidad."</p>
+            <div class="mr-mini-review__author">Laura Castañeda H.</div>
+          </div>
+          <div class="mr-mini-review">
+            <div class="mr-mini-review__stars">★★★★★</div>
+            <p class="mr-mini-review__quote">"Es muy cómoda y con estilo. Fácil de combinar con cualquier prenda."</p>
+            <div class="mr-mini-review__author">Lina</div>
+          </div>
+        </div>
+      </div>
 
       {%- form 'product', product, id: 'product-form-harumi', class: 'form' -%}
         {% unless product.has_only_default_variant %}
@@ -1002,6 +1105,29 @@
         }
       });
     });
+
+    const mrGallery = document.getElementById('MrGallery-{{ section.id }}');
+    const mrDotsWrap = document.getElementById('MrGalleryDots-{{ section.id }}');
+    if (mrGallery && mrDotsWrap) {
+      const dots = Array.from(mrDotsWrap.querySelectorAll('.mr-gallery__dot'));
+      dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+          const idx = parseInt(dot.dataset.index, 10);
+          const target = mrGallery.children[idx];
+          if (target) target.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+        });
+      });
+      let galleryTicking = false;
+      mrGallery.addEventListener('scroll', () => {
+        if (galleryTicking) return;
+        galleryTicking = true;
+        requestAnimationFrame(() => {
+          const idx = Math.round(mrGallery.scrollLeft / mrGallery.clientWidth);
+          dots.forEach((dot, i) => dot.classList.toggle('is-active', i === idx));
+          galleryTicking = false;
+        });
+      }, { passive: true });
+    }
 
     const sizeGuideTrigger = document.getElementById('SizeGuideTrigger-{{ section.id }}');
     const sizeGuideModal = document.getElementById('SizeGuideModal-{{ section.id }}');
