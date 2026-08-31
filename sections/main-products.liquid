@@ -14,11 +14,8 @@
         {%- for product in source_products limit: limit -%}
           <a href="{{ product.url }}" class="mr-product">
             <div class="mr-product__media">
-              {%- if product.compare_at_price > product.price -%}
-                {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-                <span class="mr-product__badge mr-product__badge--sale">-{{ discount_pct }}%</span>
-              {%- elsif reviewed_handles contains product.handle -%}
-                <span class="mr-product__badge mr-product__badge--reviews">★ Recomendado</span>
+              {%- if product.compare_at_price > product.price or reviewed_handles contains product.handle -%}
+                <span class="mr-product__star" aria-hidden="true">★</span>
               {%- endif -%}
               {%- if product.featured_image -%}
                 <img
@@ -51,11 +48,8 @@
         {%- for product in collections.all.products limit: limit -%}
           <a href="{{ product.url }}" class="mr-product">
             <div class="mr-product__media">
-              {%- if product.compare_at_price > product.price -%}
-                {%- assign discount_pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-                <span class="mr-product__badge mr-product__badge--sale">-{{ discount_pct }}%</span>
-              {%- elsif reviewed_handles contains product.handle -%}
-                <span class="mr-product__badge mr-product__badge--reviews">★ Recomendado</span>
+              {%- if product.compare_at_price > product.price or reviewed_handles contains product.handle -%}
+                <span class="mr-product__star" aria-hidden="true">★</span>
               {%- endif -%}
               {%- if product.featured_image -%}
                 <img
