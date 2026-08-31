@@ -219,6 +219,51 @@
     border-radius: 10px;
     margin: 0;
   }
+
+  /* Pop-up de oferta 2x1 al comprar */
+  .mr-bundle-modal { position: fixed; inset: 0; z-index: 999; display: none; align-items: center; justify-content: center; }
+  .mr-bundle-modal.is-open { display: flex; }
+  .mr-bundle-modal__overlay { position: absolute; inset: 0; background: rgba(26, 71, 42, 0.6); }
+  .mr-bundle-modal__box {
+    position: relative;
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 460px;
+    width: 90%;
+    max-height: 88vh;
+    overflow-y: auto;
+    z-index: 1;
+  }
+  .mr-bundle-modal__close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; font-size: 1.8rem; line-height: 1; cursor: pointer; color: var(--mr-green); }
+  .mr-bundle-modal__eyebrow { font-family: 'Inter', sans-serif !important; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mr-copper); margin: 0 0 0.5rem; }
+  .mr-bundle-modal__title { font-family: var(--mr-font-serif) !important; font-size: 1.35rem; font-weight: 600; color: var(--mr-green); margin: 0 0 0.5rem; line-height: 1.25; }
+  .mr-bundle-modal__save { font-family: 'Inter', sans-serif !important; font-size: 0.88rem; color: var(--mr-ink); margin: 0 0 1.5rem; }
+  .mr-bundle-modal__save strong { color: var(--mr-copper); }
+  .mr-bundle-unit { display: flex; gap: 12px; align-items: center; padding: 0.9rem 0; border-top: 1px solid var(--mr-border); }
+  .mr-bundle-unit__img { width: 56px; height: 70px; object-fit: cover; border-radius: 6px; background: #f1ede6; flex-shrink: 0; }
+  .mr-bundle-unit__info { flex: 1; min-width: 0; }
+  .mr-bundle-unit__label { font-family: 'Inter', sans-serif !important; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--mr-copper); margin: 0 0 0.35rem; }
+  .mr-bundle-unit__name { font-family: 'Inter', sans-serif !important; font-size: 0.85rem; font-weight: 600; color: var(--mr-green); margin: 0 0 0.5rem; }
+  .mr-bundle-unit select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--mr-border);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--mr-green);
+    width: 100%;
+  }
+  .mr-bundle-unit__colors { display: flex; gap: 8px; margin-bottom: 0.6rem; }
+  .mr-bundle-unit__color { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 2px solid transparent; padding: 2px; cursor: pointer; background: none; }
+  .mr-bundle-unit__color.is-active { border-color: var(--mr-green); }
+  .mr-bundle-unit__color img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .mr-bundle-modal__actions { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
+  .mr-bundle-modal__accept { width: 100%; }
+  .mr-bundle-modal__decline { background: none; border: none; text-align: center; font-family: 'Inter', sans-serif !important; font-size: 0.8rem; color: var(--mr-ink); opacity: 0.65; text-decoration: underline; cursor: pointer; padding: 0.4rem; }
+  .mr-bundle-modal__error { font-size: 0.78rem; color: #b3261e; margin: 0.6rem 0 0; display: none; }
+
   .mr-variant-options { display: flex; flex-wrap: wrap; gap: 10px; }
   .mr-variant-pill { display: inline-block; }
   .mr-variant-pill input[type="radio"] { display: none; }
@@ -750,6 +795,7 @@
     .mr-related-section { padding: 4rem 0 7.5rem; }
     .mr-related-title { padding: 0 1.5rem; }
     .mr-size-modal__box { padding: 1.75rem; }
+    .mr-bundle-modal__box { padding: 1.75rem; }
     .mr-story { padding: 3rem 1.5rem 1rem; }
     .mr-story__detail-gallery { gap: 0.6rem; margin-top: 1.5rem; }
     .mr-story__phases { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
@@ -763,6 +809,29 @@
   if product.handle == 'blazer-genova-blanco' or product.handle == 'blazer-genova-rojo'
     assign color_siblings = 'blazer-genova-blanco,blazer-genova-rojo' | split: ','
   endif
+
+  assign bundle_price = 0
+  assign bundle_savings = 0
+  case product.handle
+    when 'abrigo-soft-gaban'
+      assign bundle_price = 265000
+      assign bundle_savings = 139000
+    when 'chaqueta-manchester-classic'
+      assign bundle_price = 203000
+      assign bundle_savings = 107000
+    when 'blazer-genova-blanco', 'blazer-genova-rojo'
+      assign bundle_price = 190000
+      assign bundle_savings = 100000
+    when 'chaqueta-torera-urban-stone'
+      assign bundle_price = 148000
+      assign bundle_savings = 78000
+    when 'chaqueta-urban-stone-negra'
+      assign bundle_price = 152000
+      assign bundle_savings = 80000
+    when 'blazer-nebraska-kaki'
+      assign bundle_price = 197000
+      assign bundle_savings = 103000
+  endcase
 -%}
 
 <div class="mr-product-harumi">
@@ -1239,6 +1308,77 @@
   {{ product.variants | json }}
 </script>
 
+{%- if color_siblings.size > 1 -%}
+<script type="application/json" id="MrBundleSiblings-{{ section.id }}">
+  {
+    {%- for sib_handle in color_siblings -%}
+      "{{ sib_handle }}": {{ all_products[sib_handle].variants | json }}{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  }
+</script>
+{%- endif -%}
+
+{%- if bundle_price > 0 -%}
+  {%- assign sib2 = product -%}
+  {%- if color_siblings.size > 1 -%}
+    {%- assign sib2 = all_products[color_siblings[1]] -%}
+    {%- if product.handle == color_siblings[1] -%}
+      {%- assign sib2 = all_products[color_siblings[0]] -%}
+    {%- endif -%}
+  {%- endif -%}
+<div class="mr-bundle-modal" id="MrBundleModal-{{ section.id }}" aria-hidden="true">
+  <div class="mr-bundle-modal__overlay"></div>
+  <div class="mr-bundle-modal__box" role="dialog" aria-modal="true" aria-label="Oferta 2 por 1">
+    <button type="button" class="mr-bundle-modal__close" aria-label="Cerrar">&times;</button>
+    <div class="mr-bundle-modal__eyebrow">Oferta por tiempo limitado</div>
+    <h3 class="mr-bundle-modal__title">Llévate 2 y ahorra {{ bundle_savings | money }}</h3>
+    <p class="mr-bundle-modal__save">2 unidades por <strong>{{ bundle_price | money }}</strong> en vez de {{ product.price | times: 2 | money }}{% if color_siblings.size > 1 %} — mezcla blanco y rojo si quieres{% endif %}.</p>
+
+    <div class="mr-bundle-unit">
+      <img class="mr-bundle-unit__img" src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}">
+      <div class="mr-bundle-unit__info">
+        <div class="mr-bundle-unit__label">Unidad 1</div>
+        <div class="mr-bundle-unit__name">{{ product.title }}</div>
+        <select class="mr-bundle-unit__size" id="MrBundleSize1-{{ section.id }}" data-handle="{{ product.handle }}">
+          {%- for variant in product.variants -%}
+            <option value="{{ variant.id }}" {% if variant.id == product.selected_or_first_available_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (agotado){% endunless %}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    <div class="mr-bundle-unit">
+      <img class="mr-bundle-unit__img" id="MrBundleImg2-{{ section.id }}" src="{{ sib2.featured_image | image_url: width: 120 }}" alt="{{ sib2.title | escape }}">
+      <div class="mr-bundle-unit__info">
+        <div class="mr-bundle-unit__label">Unidad 2</div>
+        <div class="mr-bundle-unit__name" id="MrBundleName2-{{ section.id }}">{{ sib2.title }}</div>
+        {%- if color_siblings.size > 1 -%}
+          <div class="mr-bundle-unit__colors">
+            {%- for sib_handle in color_siblings -%}
+              {%- assign sib = all_products[sib_handle] -%}
+              <button type="button" class="mr-bundle-unit__color{% if sib.handle == sib2.handle %} is-active{% endif %}" data-handle="{{ sib.handle }}" title="{{ sib.title | escape }}">
+                <img src="{{ sib.featured_image | image_url: width: 80 }}" alt="{{ sib.title | escape }}">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+        <select class="mr-bundle-unit__size" id="MrBundleSize2-{{ section.id }}" data-handle="{{ sib2.handle }}">
+          {%- for variant in sib2.variants -%}
+            <option value="{{ variant.id }}" {% if variant.id == sib2.selected_or_first_available_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (agotado){% endunless %}</option>
+          {%- endfor -%}
+        </select>
+      </div>
+    </div>
+
+    <div class="mr-bundle-modal__actions">
+      <button type="button" class="mr-btn mr-bundle-modal__accept" id="MrBundleAccept-{{ section.id }}">Sí, llévate las 2 por {{ bundle_price | money }}</button>
+      <button type="button" class="mr-bundle-modal__decline" id="MrBundleDecline-{{ section.id }}">No gracias, solo quiero 1</button>
+    </div>
+    <p class="mr-bundle-modal__error" id="MrBundleError-{{ section.id }}">No pudimos agregar la oferta. Intenta de nuevo o continúa con 1 unidad.</p>
+  </div>
+</div>
+{%- endif -%}
+
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const handleRecommendations = () => {
@@ -1367,6 +1507,102 @@
           }
         });
       });
+    }
+
+    const bundleModal = document.getElementById('MrBundleModal-{{ section.id }}');
+    if (bundleModal) {
+      const bundleOverlay = bundleModal.querySelector('.mr-bundle-modal__overlay');
+      const bundleClose = bundleModal.querySelector('.mr-bundle-modal__close');
+      const bundleAccept = document.getElementById('MrBundleAccept-{{ section.id }}');
+      const bundleDecline = document.getElementById('MrBundleDecline-{{ section.id }}');
+      const bundleError = document.getElementById('MrBundleError-{{ section.id }}');
+      const bundleSize1 = document.getElementById('MrBundleSize1-{{ section.id }}');
+      const bundleSize2 = document.getElementById('MrBundleSize2-{{ section.id }}');
+      const bundleImg2 = document.getElementById('MrBundleImg2-{{ section.id }}');
+      const bundleName2 = document.getElementById('MrBundleName2-{{ section.id }}');
+      const bundleColorBtns = bundleModal.querySelectorAll('.mr-bundle-unit__color');
+      const bundleSiblingsEl = document.getElementById('MrBundleSiblings-{{ section.id }}');
+      const bundleSiblingsData = bundleSiblingsEl ? JSON.parse(bundleSiblingsEl.innerHTML) : null;
+      const productForm = document.getElementById('product-form-harumi');
+      const bundleAcceptDefaultText = bundleAccept ? bundleAccept.textContent : '';
+      let bundlePendingSubmitter = null;
+
+      const openBundleModal = (submitter) => {
+        bundlePendingSubmitter = submitter;
+        if (variantHiddenInput && bundleSize1) { bundleSize1.value = variantHiddenInput.value; }
+        if (bundleError) bundleError.style.display = 'none';
+        bundleModal.classList.add('is-open');
+        bundleModal.setAttribute('aria-hidden', 'false');
+      };
+      const closeBundleModal = () => {
+        bundleModal.classList.remove('is-open');
+        bundleModal.setAttribute('aria-hidden', 'true');
+      };
+
+      [addToCartBtn, buyNowBtn, stickyAddToCartBtn].forEach((btn) => {
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          if (btn.disabled) return;
+          e.preventDefault();
+          openBundleModal(btn);
+        });
+      });
+
+      if (bundleOverlay) bundleOverlay.addEventListener('click', closeBundleModal);
+      if (bundleClose) bundleClose.addEventListener('click', closeBundleModal);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bundleModal.classList.contains('is-open')) closeBundleModal();
+      });
+
+      if (bundleDecline) {
+        bundleDecline.addEventListener('click', () => {
+          closeBundleModal();
+          if (productForm && bundlePendingSubmitter) {
+            productForm.requestSubmit(bundlePendingSubmitter);
+          }
+        });
+      }
+
+      bundleColorBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          bundleColorBtns.forEach((b) => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+          const handle = btn.dataset.handle;
+          const img = btn.querySelector('img');
+          if (bundleImg2 && img) bundleImg2.src = img.src;
+          if (bundleName2) bundleName2.textContent = btn.getAttribute('title');
+          if (bundleSiblingsData && bundleSiblingsData[handle] && bundleSize2) {
+            bundleSize2.dataset.handle = handle;
+            bundleSize2.innerHTML = bundleSiblingsData[handle].map((v) =>
+              '<option value="' + v.id + '" ' + (v.available ? '' : 'disabled') + '>' + v.title + (v.available ? '' : ' (agotado)') + '</option>'
+            ).join('');
+          }
+        });
+      });
+
+      if (bundleAccept) {
+        bundleAccept.addEventListener('click', () => {
+          if (!bundleSize1 || !bundleSize2) return;
+          const variant1 = bundleSize1.value;
+          const variant2 = bundleSize2.value;
+          bundleAccept.disabled = true;
+          bundleAccept.textContent = 'Agregando...';
+          if (bundleError) bundleError.style.display = 'none';
+
+          fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: [{ id: variant1, quantity: 1 }, { id: variant2, quantity: 1 }] })
+          })
+            .then((res) => { if (!res.ok) throw new Error('cart add failed'); return res.json(); })
+            .then(() => { window.location.href = '/checkout'; })
+            .catch(() => {
+              bundleAccept.disabled = false;
+              bundleAccept.textContent = bundleAcceptDefaultText;
+              if (bundleError) bundleError.style.display = 'block';
+            });
+        });
+      }
     }
   });
 </script>
