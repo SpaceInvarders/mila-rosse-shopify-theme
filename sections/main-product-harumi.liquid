@@ -1331,8 +1331,8 @@
   <div class="mr-bundle-modal__box" role="dialog" aria-modal="true" aria-label="Oferta 2 por 1">
     <button type="button" class="mr-bundle-modal__close" aria-label="Cerrar">&times;</button>
     <div class="mr-bundle-modal__eyebrow">Oferta por tiempo limitado</div>
-    <h3 class="mr-bundle-modal__title">Llévate 2 y ahorra {{ bundle_savings | money }}</h3>
-    <p class="mr-bundle-modal__save">2 unidades por <strong>{{ bundle_price | money }}</strong> en vez de {{ product.price | times: 2 | money }}{% if color_siblings.size > 1 %} — mezcla blanco y rojo si quieres{% endif %}.</p>
+    <h3 class="mr-bundle-modal__title">Llévate 2 y ahorra {{ bundle_savings | times: 100 | money }}</h3>
+    <p class="mr-bundle-modal__save">2 unidades por <strong>{{ bundle_price | times: 100 | money }}</strong> en vez de {{ product.price | times: 2 | money }}{% if color_siblings.size > 1 %} — mezcla blanco y rojo si quieres{% endif %}.</p>
 
     <div class="mr-bundle-unit">
       <img class="mr-bundle-unit__img" src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}">
@@ -1371,7 +1371,7 @@
     </div>
 
     <div class="mr-bundle-modal__actions">
-      <button type="button" class="mr-btn mr-bundle-modal__accept" id="MrBundleAccept-{{ section.id }}">Sí, llévate las 2 por {{ bundle_price | money }}</button>
+      <button type="button" class="mr-btn mr-bundle-modal__accept" id="MrBundleAccept-{{ section.id }}">Sí, llévate las 2 por {{ bundle_price | times: 100 | money }}</button>
       <button type="button" class="mr-bundle-modal__decline" id="MrBundleDecline-{{ section.id }}">No gracias, solo quiero 1</button>
     </div>
     <p class="mr-bundle-modal__error" id="MrBundleError-{{ section.id }}">No pudimos agregar la oferta. Intenta de nuevo o continúa con 1 unidad.</p>
