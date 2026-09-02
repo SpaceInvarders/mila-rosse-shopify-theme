@@ -10,7 +10,9 @@
 {% endcomment %}
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap');
+  /* Las tipografías ya las carga theme.liquid de forma asíncrona (preload + swap).
+     Antes había aquí un @import que las volvía a pedir y bloqueaba el render
+     de esta página en particular — eliminado por rendimiento (LCP/FCP). */
 
   :root {
     --mr-cream: #FBF9F6;
@@ -382,42 +384,73 @@
   }
   .mr-tab-content.active { display: block; }
 
-  .mr-details-collapse {
-    max-height: 115px;
-    overflow: hidden;
-    position: relative;
-    transition: max-height 0.35s ease;
+  /* Detalles del producto: preguntas individuales plegables (cerradas por defecto) */
+  .mr-tab-content .mr-faq__item { border-bottom: 1px solid var(--mr-border); }
+  .mr-tab-content .mr-faq__item:first-child { border-top: 1px solid var(--mr-border); }
+  .mr-tab-content .mr-faq__question {
+    font-size: 0.92rem;
+    padding: 1.1rem 0;
+    text-transform: none;
+    letter-spacing: 0;
   }
-  .mr-details-collapse.is-expanded { max-height: 3000px; }
-  .mr-details-collapse:not(.is-expanded)::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 46px;
-    background: linear-gradient(transparent, var(--mr-cream));
-    pointer-events: none;
+  .mr-tab-content .mr-faq__icon { font-size: 1.3rem; }
+  .mr-tab-content .mr-faq__answer p {
+    font-size: 0.88rem;
+    line-height: 1.65;
+    margin: 0 0 1.1rem;
   }
-  .mr-details-collapse p,
-  .mr-details-collapse ul,
-  .mr-details-collapse li { font-size: 0.93rem; line-height: 1.7; }
-  .mr-details-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 0.8rem;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    font-family: 'Inter', sans-serif !important;
+  .mr-tab-note {
     font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--mr-copper);
+    line-height: 1.6;
+    color: var(--mr-ink);
+    opacity: 0.7;
+    margin: 1.1rem 0 0;
   }
-  .mr-details-toggle .mr-faq__icon { font-size: 1.1rem; transition: transform 0.25s ease; }
-  .mr-details-toggle.is-expanded .mr-faq__icon { transform: rotate(45deg); }
+
+  /* Video de producto en el feed (no en el carrusel) */
+  .mr-pdp-video {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto 2rem;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
+    background: #000;
+  }
+  .mr-pdp-video__el { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .mr-pdp-video__mute {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .mr-pdp-video__mute svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; }
+  .mr-pdp-video__badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--mr-green);
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 20px;
+    z-index: 2;
+  }
 
   /* Puntos del carrusel de fotos (mobile) */
   .mr-gallery__dots { display: none; }
@@ -835,22 +868,132 @@
       assign bundle_price = 197000
       assign bundle_savings = 103000
   endcase
+
+  case product.handle
+    when 'blazer-nebraska-kaki'
+      assign detail_q0 = '¿Te ha pasado que abres el clóset una mañana ocupada y nada te convence para verte profesional sin esfuerzo?'
+      assign detail_a0 = 'Ese momento en el que se te hace tarde, quieres verte impecable, pero no tienes tiempo ni ganas de armar un outfit completo. El Blazer Nebraska existe para resolver exactamente eso: te lo pones sobre cualquier básico y en segundos te ves lista, con autoridad y estilo, sin planchar ni pensarlo dos veces.'
+      assign detail_q1 = 'Lista en segundos'
+      assign detail_a1 = 'Combínalo con lo que ya tienes y transforma cualquier look en algo profesional al instante.'
+      assign detail_q2 = 'Se ve favorecedor, no solo "grande"'
+      assign detail_a2 = 'El tejido premium tiene la caída justa para que el corte oversize estilice en vez de sumar volumen.'
+      assign detail_q3 = 'Una sola pieza, dos vidas'
+      assign detail_a3 = 'De la oficina en la mañana a un plan casual en la noche, sin cambiarte.'
+      assign detail_q4 = 'Aguanta el uso real'
+      assign detail_a4 = 'Tejido y forrado que no pierden forma ni color lavada tras lavada, así que no vuelves a gastar en la misma prenda cada año.'
+      assign detail_note = 'Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada. Cuidado: limpieza en seco recomendada.'
+    when 'chaqueta-urban-stone-negra'
+      assign detail_q0 = '¿Sientes que tu ropa negra "básica" ya no dice nada de ti?'
+      assign detail_a0 = 'Tienes actitud, pero la ropa que compras se ve igual a la de todo el mundo. La Chaqueta Urban Stone Negra le da carácter a cualquier look sin que se note el esfuerzo: la actitud de ciudad que buscas, en una sola prenda.'
+      assign detail_q1 = 'Un look con actitud en un solo paso'
+      assign detail_a1 = 'Ponla sobre cualquier outfit y automáticamente se ve más interesante.'
+      assign detail_q2 = 'Se siente premium al tacto'
+      assign detail_a2 = 'Forro interior de calidad, nada de esa sensación plástica y barata de la fast fashion.'
+      assign detail_q3 = 'Se combina con todo lo que ya tienes'
+      assign detail_a3 = 'Jeans, faldas o pantalón de vestir — no necesitas repensar tu clóset.'
+      assign detail_q4 = 'Detalles que se notan de cerca'
+      assign detail_a4 = 'Botones y terminaciones que aguantan el uso diario sin verse desgastados en un mes.'
+      assign detail_note = 'Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+    when 'chaqueta-torera-urban-stone'
+      assign detail_q0 = '¿Buscas una chaqueta elegante que no se vea como si lo estuvieras intentando demasiado?'
+      assign detail_a0 = 'Cansa comprar prendas "de tendencia" que en 3 meses ya se ven pasadas de moda. La Chaqueta Torera Urban Stone es distinta: elegancia clásica que no caduca, para que la sigas usando temporada tras temporada sin pensarlo dos veces.'
+      assign detail_q1 = 'Nunca pasa de moda'
+      assign detail_a1 = 'Un corte atemporal que sigue viéndose bien de aquí a varios años.'
+      assign detail_q2 = 'Se ve costosa sin esfuerzo'
+      assign detail_a2 = 'Costuras impecables y forro de seda interior que se notan al tacto y a la vista.'
+      assign detail_q3 = 'Combina con todo tu clóset'
+      assign detail_a3 = 'El tono stone neutro hace que nunca te quedes sin qué ponerte.'
+      assign detail_q4 = 'Silueta que favorece'
+      assign detail_a4 = 'Manga 3/4 pensada para estilizar, no solo para verse "a la moda".'
+      assign detail_note = 'Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+    when 'blazer-genova-blanco'
+      assign detail_q0 = '¿Cuántas veces te ha tocado buscar algo elegante a última hora y terminas usando lo mismo de siempre?'
+      assign detail_a0 = 'Ese evento especial se acerca y no quieres repetir el outfit de la última vez. El Blazer Genova Blanco está hecho para ese momento exacto: te hace sentir la protagonista, sin que se note que lo compraste la semana anterior.'
+      assign detail_q1 = 'Te hace sentir la más elegante del lugar'
+      assign detail_a1 = 'Corte sofisticado con manga 3/4 pensado para eventos, no para el uso diario genérico.'
+      assign detail_q2 = 'Blanco que no da miedo usar'
+      assign detail_a2 = 'Tejido premium opaco y de calidad, nada de esa sensación delicada o transparente de la fast fashion.'
+      assign detail_q3 = 'Detalles que se ven de cerca'
+      assign detail_a3 = 'Botones nacarados y forro de seda que se notan en fotos y en persona.'
+      assign detail_q4 = 'Corte slim fit favorecedor'
+      assign detail_a4 = 'Pensado para estilizar tu figura, no solo para "quedar bien".'
+      assign detail_note = 'Ideal para bodas, eventos corporativos y noches especiales. Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+    when 'blazer-genova-rojo'
+      assign detail_q0 = '¿Te da un poco de miedo destacar, por si acaso llama demasiado la atención?'
+      assign detail_a0 = 'Quieres que te noten, pero sin verte como si estuvieras disfrazada. El Blazer Genova en rojo intenso está pensado exactamente para ese equilibrio: un color statement, con un corte serio y estructurado que se lee como seguridad, no como exceso.'
+      assign detail_q1 = 'Destacas con intención, no por accidente'
+      assign detail_a1 = 'El rojo se ve elegante, no estridente, gracias al corte sofisticado.'
+      assign detail_q2 = 'Se siente tan bien como se ve'
+      assign detail_a2 = 'Tejido premium con caída que favorece, no un rojo plano de fast fashion.'
+      assign detail_q3 = 'Silueta que estiliza'
+      assign detail_a3 = 'Corte slim fit y manga 3/4 pensados para marcar figura, no solo color.'
+      assign detail_q4 = 'La pieza que la gente recuerda'
+      assign detail_a4 = 'Ideal para ese evento en el que sí quieres que te vean llegar.'
+      assign detail_note = 'Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+    when 'chaqueta-manchester-classic'
+      assign detail_q0 = '¿Te cansaste de comprar chaquetas "de tendencia" que a los 3 meses ya no usas?'
+      assign detail_a0 = 'Sabes la sensación: la compras porque está de moda, la usas un par de veces, y termina olvidada. La Chaqueta Manchester Classic no es una moda pasajera — es la pieza versátil que realmente vas a usar una y otra vez, con acabados que se sienten de verdad premium.'
+      assign detail_q1 = 'Se convierte en tu favorita, no en un capricho'
+      assign detail_a1 = 'Versátil para el día a día, no solo para una foto.'
+      assign detail_q2 = 'Detalles que se notan, no que se deshilachan'
+      assign detail_a2 = 'Acabados artesanales y tejido de alta gama que no se ven "genéricos".'
+      assign detail_q3 = 'Lista para cualquier plan'
+      assign detail_a3 = 'Con jeans y botas para el día, o para elevar un look más arreglado en la noche.'
+      assign detail_q4 = 'Envejece bien'
+      assign detail_a4 = 'Forro premium y costuras pensadas para durar, no para una temporada.'
+      assign detail_note = 'Una pieza icónica que define la colección. Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+    when 'abrigo-soft-gaban'
+      assign detail_q0 = '¿El frío te obliga a elegir entre estar abrigada o verte bien?'
+      assign detail_a0 = 'Sabemos la sensación: los días fríos llegan y terminas escondida en abrigos que abrigan pero no estilizan, o que se ven baratos apenas te los pones. El Gabán Soft Coat no te hace elegir — te abriga de verdad y eleva cualquier outfit que lleves debajo, en segundos.'
+      assign detail_q1 = 'Abrigo real, no solo de adorno'
+      assign detail_a1 = 'Tejido soft de máxima calidad pensado para el frío de verdad, no solo para la foto.'
+      assign detail_q2 = 'Eleva lo que ya tienes puesto'
+      assign detail_a2 = 'Póntelo sobre cualquier outfit y automáticamente se ve más elegante.'
+      assign detail_q3 = 'Silueta que favorece, no que esconde'
+      assign detail_a3 = 'Cinturón ajustable para marcar tu figura en vez de ocultarla bajo capas.'
+      assign detail_q4 = 'Práctico para el día a día'
+      assign detail_a4 = 'Bolsillos funcionales y forro completo premium, pensado para usarse, no solo para lucirse.'
+      assign detail_note = 'La inversión definitiva para tu armario otoño-invierno. Parte de nuestra Colección Otoño 2026, con unidades limitadas por temporada.'
+  endcase
+
+  assign product_video = product.media | where: 'media_type', 'video' | first
 -%}
 
 <div class="mr-product-harumi">
   <div class="mr-product-harumi__container">
 
+    {%- assign mr_first_image = product.media | where: 'media_type', 'image' | first -%}
+    {%- if mr_first_image -%}
+      {%- comment -%}
+        Precarga de la primera foto del producto (elemento LCP de esta página),
+        mismo patrón que el hero del homepage: srcset/sizes idénticos al <img>
+        real para que el navegador reutilice la misma descarga.
+      {%- endcomment -%}
+      <link
+        rel="preload"
+        as="image"
+        href="{{ mr_first_image | image_url: width: 700 }}"
+        imagesrcset="{{ mr_first_image | image_url: width: 500 }} 500w, {{ mr_first_image | image_url: width: 700 }} 700w, {{ mr_first_image | image_url: width: 1200 }} 1200w"
+        imagesizes="(min-width: 990px) 55vw, 100vw"
+        fetchpriority="high"
+      >
+    {%- endif -%}
+
     <div class="mr-gallery" id="MrGallery-{{ section.id }}">
       {% for media in product.media %}
         {% if media.media_type == 'image' %}
-          <img src="{{ media | image_url: width: 1200 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-        {% elsif media.media_type == 'video' %}
-          {{ media | media_tag: image_size: '1200x', controls: true, class: 'mr-gallery__video' }}
+          <img
+            src="{{ media | image_url: width: 700 }}"
+            srcset="{{ media | image_url: width: 500 }} 500w, {{ media | image_url: width: 700 }} 700w, {{ media | image_url: width: 1200 }} 1200w"
+            sizes="(min-width: 990px) 55vw, 100vw"
+            alt="{{ media.alt | escape }}"
+            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            fetchpriority="{% if forloop.first %}high{% else %}auto{% endif %}">
         {% endif %}
       {% endfor %}
     </div>
     {%- assign mr_img_count = 0 -%}
-    {%- for media in product.media -%}{%- if media.media_type == 'image' or media.media_type == 'video' -%}{%- assign mr_img_count = mr_img_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+    {%- for media in product.media -%}{%- if media.media_type == 'image' -%}{%- assign mr_img_count = mr_img_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
     {%- if mr_img_count > 1 -%}
       <div class="mr-gallery__dots" id="MrGalleryDots-{{ section.id }}">
         {%- for i in (1..mr_img_count) -%}
@@ -983,6 +1126,17 @@
         </button>
       </div>
 
+      {%- if product_video -%}
+        <div class="mr-pdp-video" id="MrPdpVideo-{{ section.id }}">
+          <span class="mr-pdp-video__badge">Video</span>
+          {{ product_video | media_tag: image_size: '900x', loop: true, muted: true, controls: false, class: 'mr-pdp-video__el' }}
+          <button type="button" class="mr-pdp-video__mute" id="MrPdpVideoMute-{{ section.id }}" aria-label="Activar sonido">
+            <svg class="mr-pdp-video__icon-muted" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            <svg class="mr-pdp-video__icon-unmuted" viewBox="0 0 24 24" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          </button>
+        </div>
+      {%- endif -%}
+
       <div class="mr-trust-icons">
         <div class="mr-trust-item">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -1018,13 +1172,30 @@
         </div>
 
         <div class="mr-tab-content active" id="tab-detalles">
-          {% if product.description != blank %}
-            <div class="mr-details-collapse" id="MrDetailsCollapse-{{ section.id }}">
-              {{ product.description }}
+          {% if detail_q0 != blank %}
+            <div class="mr-faq__item">
+              <button class="mr-faq__question" type="button">{{ detail_q0 }}<span class="mr-faq__icon">+</span></button>
+              <div class="mr-faq__answer"><p>{{ detail_a0 }}</p></div>
             </div>
-            <button type="button" class="mr-details-toggle" id="MrDetailsToggle-{{ section.id }}">
-              <span class="mr-details-toggle__label">Ver más</span><span class="mr-faq__icon">+</span>
-            </button>
+            <div class="mr-faq__item">
+              <button class="mr-faq__question" type="button">{{ detail_q1 }}<span class="mr-faq__icon">+</span></button>
+              <div class="mr-faq__answer"><p>{{ detail_a1 }}</p></div>
+            </div>
+            <div class="mr-faq__item">
+              <button class="mr-faq__question" type="button">{{ detail_q2 }}<span class="mr-faq__icon">+</span></button>
+              <div class="mr-faq__answer"><p>{{ detail_a2 }}</p></div>
+            </div>
+            <div class="mr-faq__item">
+              <button class="mr-faq__question" type="button">{{ detail_q3 }}<span class="mr-faq__icon">+</span></button>
+              <div class="mr-faq__answer"><p>{{ detail_a3 }}</p></div>
+            </div>
+            <div class="mr-faq__item">
+              <button class="mr-faq__question" type="button">{{ detail_q4 }}<span class="mr-faq__icon">+</span></button>
+              <div class="mr-faq__answer"><p>{{ detail_a4 }}</p></div>
+            </div>
+            {% if detail_note != blank %}
+              <p class="mr-tab-note">{{ detail_note }}</p>
+            {% endif %}
           {% else %}
             <p>Un artículo de sastrería excepcional, diseñado meticulosamente para la mujer contemporánea.</p>
           {% endif %}
@@ -1414,16 +1585,29 @@
       });
     });
 
-    const detailsCollapse = document.getElementById('MrDetailsCollapse-{{ section.id }}');
-    const detailsToggle = document.getElementById('MrDetailsToggle-{{ section.id }}');
-    if (detailsCollapse && detailsToggle) {
-      if (detailsCollapse.scrollHeight <= 130) {
-        detailsToggle.style.display = 'none';
-      } else {
-        detailsToggle.addEventListener('click', () => {
-          const expanded = detailsCollapse.classList.toggle('is-expanded');
-          detailsToggle.classList.toggle('is-expanded', expanded);
-          detailsToggle.querySelector('.mr-details-toggle__label').textContent = expanded ? 'Ver menos' : 'Ver más';
+    const pdpVideoWrap = document.getElementById('MrPdpVideo-{{ section.id }}');
+    if (pdpVideoWrap) {
+      const pdpVideoEl = pdpVideoWrap.querySelector('video');
+      const pdpMuteBtn = document.getElementById('MrPdpVideoMute-{{ section.id }}');
+      if (pdpVideoEl) {
+        pdpVideoEl.muted = true;
+        pdpVideoEl.setAttribute('playsinline', '');
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              pdpVideoEl.play().catch(() => {});
+            } else {
+              pdpVideoEl.pause();
+            }
+          });
+        }, { threshold: 0.5 });
+        io.observe(pdpVideoEl);
+      }
+      if (pdpMuteBtn && pdpVideoEl) {
+        pdpMuteBtn.addEventListener('click', () => {
+          pdpVideoEl.muted = !pdpVideoEl.muted;
+          pdpMuteBtn.querySelector('.mr-pdp-video__icon-muted').style.display = pdpVideoEl.muted ? 'block' : 'none';
+          pdpMuteBtn.querySelector('.mr-pdp-video__icon-unmuted').style.display = pdpVideoEl.muted ? 'none' : 'block';
         });
       }
     }
