@@ -28,14 +28,28 @@
   assign text_color = section.settings.text_color | default: '#ffffff'
   assign overlay_opacity = section.settings.overlay_opacity | default: 35
 
+  # Elige la version MP4 mas liviana disponible que siga viendose bien en
+  # mobile (ancho <= 640px). Antes se tomaba la primera fuente MP4 del
+  # arreglo, que en la practica solia ser el render HD 720p (~3.7MB) aunque
+  # el video se muestre en una pantalla de 375-428px de ancho.
   assign mp4_url = ''
+  assign mp4_best_width = 0
+  assign mp4_fallback_url = ''
   if section.settings.video_source
     for source in section.settings.video_source.sources
       if source.format == 'mp4'
-        assign mp4_url = source.url
-        break
+        if mp4_fallback_url == blank
+          assign mp4_fallback_url = source.url
+        endif
+        if source.width <= 640 and source.width > mp4_best_width
+          assign mp4_url = source.url
+          assign mp4_best_width = source.width
+        endif
       endif
     endfor
+    if mp4_url == blank
+      assign mp4_url = mp4_fallback_url
+    endif
   endif
 -%}
 

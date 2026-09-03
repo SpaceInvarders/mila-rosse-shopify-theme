@@ -20,6 +20,8 @@
               {%- if product.featured_image -%}
                 <img
                   src="{{ product.featured_image | image_url: width: 600 }}"
+                  srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 800 }} 800w"
+                  sizes="(min-width: 990px) 20vw, (min-width: 769px) 30vw, 68vw"
                   alt="{{ product.featured_image.alt | escape | default: product.title }}"
                   loading="lazy"
                   width="600"
@@ -54,6 +56,8 @@
               {%- if product.featured_image -%}
                 <img
                   src="{{ product.featured_image | image_url: width: 600 }}"
+                  srcset="{{ product.featured_image | image_url: width: 400 }} 400w, {{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 800 }} 800w"
+                  sizes="(min-width: 990px) 20vw, (min-width: 769px) 30vw, 68vw"
                   alt="{{ product.featured_image.alt | escape | default: product.title }}"
                   loading="lazy"
                   width="600"
