@@ -576,6 +576,11 @@ h1, h2, h3, h4, h5, h6 {
 
 .mr-product .jdgm-preview-badge { margin-top: 8px; display: flex; justify-content: center; }
 
+/* Fix: el tema sobrescribía la fuente de íconos de Judge.me y las estrellas
+   se veían como cuadros vacíos en vez de ★. Restaura la fuente de íconos
+   correcta (recomendado por soporte de Judge.me). */
+.jdgm-star { font-family: 'JudgemeStar' !important; }
+
 /* ===== BOTÓN PRIMARIO ===== */
 .mr-btn {
   display: inline-block;
