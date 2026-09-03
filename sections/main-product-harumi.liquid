@@ -264,6 +264,10 @@
   .mr-bundle-unit__color { width: 34px; height: 34px; border-radius: 50%; overflow: hidden; border: 2px solid transparent; padding: 2px; cursor: pointer; background: none; }
   .mr-bundle-unit__color.is-active { border-color: var(--mr-green); }
   .mr-bundle-unit__color img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block; }
+  .mr-bundle-unit__partners { display: flex; gap: 8px; margin-bottom: 0.6rem; }
+  .mr-bundle-unit__partner { width: 46px; height: 58px; border-radius: 8px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: #f1ede6; flex-shrink: 0; }
+  .mr-bundle-unit__partner.is-active { border-color: var(--mr-copper); }
+  .mr-bundle-unit__partner img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .mr-bundle-modal__actions { margin-top: 1.6rem; display: flex; flex-direction: column; gap: 0.7rem; }
   .mr-bundle-modal__accept { width: 100%; }
   .mr-bundle-modal__decline { background: none; border: none; text-align: center; font-family: 'Inter', sans-serif !important; font-size: 0.8rem; color: var(--mr-ink); opacity: 0.65; text-decoration: underline; cursor: pointer; padding: 0.4rem; }
@@ -841,33 +845,31 @@
 </style>
 
 {%- liquid
+  # Combo cruzado (Blazer + Chaqueta), reemplaza el 2x1 de la misma prenda.
+  # El descuento real (34.5% sobre ambas prendas) vive en Shopify como
+  # descuento automatico "Combo Blazer + Chaqueta - 34.5% off", asi que el
+  # precio de combo mostrado aqui se calcula igual (product.price y
+  # partner.price ya vienen en centavos, por eso no llevan | times: 100).
   assign color_siblings = ''
-  if product.handle == 'blazer-genova-blanco' or product.handle == 'blazer-genova-rojo'
-    assign color_siblings = 'blazer-genova-blanco,blazer-genova-rojo' | split: ','
+
+  assign combo_blazers = 'blazer-genova-blanco,blazer-genova-rojo,blazer-nebraska-kaki' | split: ','
+  assign combo_chaquetas = 'chaqueta-urban-stone-negra,chaqueta-torera-urban-stone,chaqueta-manchester-classic' | split: ','
+  assign combo_keep_pct = 0.655
+
+  assign combo_partners = ''
+  assign combo_category_label = ''
+  if combo_blazers contains product.handle
+    assign combo_partners = combo_chaquetas
+    assign combo_category_label = 'chaqueta'
+  elsif combo_chaquetas contains product.handle
+    assign combo_partners = combo_blazers
+    assign combo_category_label = 'blazer'
   endif
 
-  assign bundle_price = 0
-  assign bundle_savings = 0
-  case product.handle
-    when 'abrigo-soft-gaban'
-      assign bundle_price = 265000
-      assign bundle_savings = 139000
-    when 'chaqueta-manchester-classic'
-      assign bundle_price = 203000
-      assign bundle_savings = 107000
-    when 'blazer-genova-blanco', 'blazer-genova-rojo'
-      assign bundle_price = 190000
-      assign bundle_savings = 100000
-    when 'chaqueta-torera-urban-stone'
-      assign bundle_price = 148000
-      assign bundle_savings = 78000
-    when 'chaqueta-urban-stone-negra'
-      assign bundle_price = 152000
-      assign bundle_savings = 80000
-    when 'blazer-nebraska-kaki'
-      assign bundle_price = 197000
-      assign bundle_savings = 103000
-  endcase
+  assign combo_partner_default = ''
+  if combo_partners.size > 0
+    assign combo_partner_default = combo_partners | first
+  endif
 
   case product.handle
     when 'blazer-nebraska-kaki'
@@ -1484,38 +1486,39 @@
   {{ product.variants | json }}
 </script>
 
-{%- if color_siblings.size > 1 -%}
-<script type="application/json" id="MrBundleSiblings-{{ section.id }}">
+{%- if combo_partners.size > 0 -%}
+<script type="application/json" id="MrComboPartners-{{ section.id }}">
   {
-    {%- for sib_handle in color_siblings -%}
-      "{{ sib_handle }}": {{ all_products[sib_handle].variants | json }}{% unless forloop.last %},{% endunless %}
+    {%- for h in combo_partners -%}
+      "{{ h }}": {
+        "title": {{ all_products[h].title | json }},
+        "price": {{ all_products[h].price | json }},
+        "image": {{ all_products[h].featured_image | image_url: width: 120 | json }},
+        "variants": {{ all_products[h].variants | json }}
+      }{% unless forloop.last %},{% endunless %}
     {%- endfor -%}
   }
 </script>
-{%- endif -%}
 
-{%- if bundle_price > 0 -%}
-  {%- assign sib2 = product -%}
-  {%- if color_siblings.size > 1 -%}
-    {%- assign sib2 = all_products[color_siblings[1]] -%}
-    {%- if product.handle == color_siblings[1] -%}
-      {%- assign sib2 = all_products[color_siblings[0]] -%}
-    {%- endif -%}
-  {%- endif -%}
+{%- assign partner_product = all_products[combo_partner_default] -%}
+{%- assign combo_sum = product.price | plus: partner_product.price -%}
+{%- assign combo_price = combo_sum | times: combo_keep_pct | round -%}
+{%- assign combo_savings = combo_sum | minus: combo_price -%}
+
 <div class="mr-bundle-modal" id="MrBundleModal-{{ section.id }}" aria-hidden="true">
   <div class="mr-bundle-modal__overlay"></div>
-  <div class="mr-bundle-modal__box" role="dialog" aria-modal="true" aria-label="Oferta 2 por 1">
+  <div class="mr-bundle-modal__box" role="dialog" aria-modal="true" aria-label="Oferta de combo">
     <button type="button" class="mr-bundle-modal__close" aria-label="Cerrar">&times;</button>
     <div class="mr-bundle-modal__eyebrow">Oferta por tiempo limitado</div>
-    <h3 class="mr-bundle-modal__title">Llévate 2 y ahorra {{ bundle_savings | times: 100 | money }}</h3>
-    <p class="mr-bundle-modal__save">2 unidades por <strong>{{ bundle_price | times: 100 | money }}</strong> en vez de {{ product.price | times: 2 | money }}{% if color_siblings.size > 1 %} — mezcla blanco y rojo si quieres{% endif %}.</p>
+    <h3 class="mr-bundle-modal__title" id="MrBundleTitle-{{ section.id }}">Arma tu look y ahorra {{ combo_savings | money }}</h3>
+    <p class="mr-bundle-modal__save" id="MrBundleSave-{{ section.id }}">Las 2 prendas por <strong id="MrBundlePriceText-{{ section.id }}">{{ combo_price | money }}</strong> en vez de <span id="MrBundleSumText-{{ section.id }}">{{ combo_sum | money }}</span>.</p>
 
     <div class="mr-bundle-unit">
       <img class="mr-bundle-unit__img" src="{{ product.featured_image | image_url: width: 120 }}" alt="{{ product.title | escape }}">
       <div class="mr-bundle-unit__info">
-        <div class="mr-bundle-unit__label">Unidad 1</div>
+        <div class="mr-bundle-unit__label">Esta prenda</div>
         <div class="mr-bundle-unit__name">{{ product.title }}</div>
-        <select class="mr-bundle-unit__size" id="MrBundleSize1-{{ section.id }}" data-handle="{{ product.handle }}">
+        <select class="mr-bundle-unit__size" id="MrBundleSize1-{{ section.id }}" data-handle="{{ product.handle }}" data-price="{{ product.price }}">
           {%- for variant in product.variants -%}
             <option value="{{ variant.id }}" {% if variant.id == product.selected_or_first_available_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (agotado){% endunless %}</option>
           {%- endfor -%}
@@ -1524,31 +1527,32 @@
     </div>
 
     <div class="mr-bundle-unit">
-      <img class="mr-bundle-unit__img" id="MrBundleImg2-{{ section.id }}" src="{{ sib2.featured_image | image_url: width: 120 }}" alt="{{ sib2.title | escape }}">
+      <img class="mr-bundle-unit__img" id="MrBundleImg2-{{ section.id }}" src="{{ partner_product.featured_image | image_url: width: 120 }}" alt="{{ partner_product.title | escape }}">
       <div class="mr-bundle-unit__info">
-        <div class="mr-bundle-unit__label">Unidad 2</div>
-        <div class="mr-bundle-unit__name" id="MrBundleName2-{{ section.id }}">{{ sib2.title }}</div>
-        {%- if color_siblings.size > 1 -%}
-          <div class="mr-bundle-unit__colors">
-            {%- for sib_handle in color_siblings -%}
-              {%- assign sib = all_products[sib_handle] -%}
-              <button type="button" class="mr-bundle-unit__color{% if sib.handle == sib2.handle %} is-active{% endif %}" data-handle="{{ sib.handle }}" title="{{ sib.title | escape }}">
-                <img src="{{ sib.featured_image | image_url: width: 80 }}" alt="{{ sib.title | escape }}">
-              </button>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-        <select class="mr-bundle-unit__size" id="MrBundleSize2-{{ section.id }}" data-handle="{{ sib2.handle }}">
-          {%- for variant in sib2.variants -%}
-            <option value="{{ variant.id }}" {% if variant.id == sib2.selected_or_first_available_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (agotado){% endunless %}</option>
+        <div class="mr-bundle-unit__label">+ Elige tu {{ combo_category_label }}</div>
+        <div class="mr-bundle-unit__name" id="MrBundleName2-{{ section.id }}">{{ partner_product.title }}</div>
+        <div class="mr-bundle-unit__partners">
+          {%- for h in combo_partners -%}
+            {%- assign p = all_products[h] -%}
+            <button type="button" class="mr-bundle-unit__partner{% if h == combo_partner_default %} is-active{% endif %}" data-handle="{{ h }}" title="{{ p.title | escape }}">
+              <img src="{{ p.featured_image | image_url: width: 100 }}" alt="{{ p.title | escape }}">
+            </button>
+          {%- endfor -%}
+        </div>
+        <select class="mr-bundle-unit__size" id="MrBundleSize2-{{ section.id }}" data-handle="{{ combo_partner_default }}" data-price="{{ partner_product.price }}">
+          {%- for variant in partner_product.variants -%}
+            <option value="{{ variant.id }}" {% if variant.id == partner_product.selected_or_first_available_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>{{ variant.title }}{% unless variant.available %} (agotado){% endunless %}</option>
           {%- endfor -%}
         </select>
       </div>
     </div>
 
     <div class="mr-bundle-modal__actions">
-      <button type="button" class="mr-btn mr-bundle-modal__accept" id="MrBundleAccept-{{ section.id }}">Sí, llévate las 2 por {{ bundle_price | times: 100 | money }}</button>
-      <button type="button" class="mr-bundle-modal__decline" id="MrBundleDecline-{{ section.id }}">No gracias, solo quiero 1</button>
+      <button type="button" class="mr-btn mr-bundle-modal__accept" id="MrBundleAccept-{{ section.id }}">
+        <span id="MrBundleAcceptLabel-{{ section.id }}">Sí, llévate el combo por <span id="MrBundleAcceptPrice-{{ section.id }}">{{ combo_price | money }}</span></span>
+        <span id="MrBundleAcceptLoading-{{ section.id }}" style="display:none;">Agregando...</span>
+      </button>
+      <button type="button" class="mr-bundle-modal__decline" id="MrBundleDecline-{{ section.id }}">No gracias, solo quiero esta prenda</button>
     </div>
     <p class="mr-bundle-modal__error" id="MrBundleError-{{ section.id }}">No pudimos agregar la oferta. Intenta de nuevo o continúa con 1 unidad.</p>
   </div>
@@ -1703,23 +1707,48 @@
       const bundleOverlay = bundleModal.querySelector('.mr-bundle-modal__overlay');
       const bundleClose = bundleModal.querySelector('.mr-bundle-modal__close');
       const bundleAccept = document.getElementById('MrBundleAccept-{{ section.id }}');
+      const bundleAcceptLabel = document.getElementById('MrBundleAcceptLabel-{{ section.id }}');
+      const bundleAcceptLoading = document.getElementById('MrBundleAcceptLoading-{{ section.id }}');
+      const bundleAcceptPrice = document.getElementById('MrBundleAcceptPrice-{{ section.id }}');
       const bundleDecline = document.getElementById('MrBundleDecline-{{ section.id }}');
       const bundleError = document.getElementById('MrBundleError-{{ section.id }}');
       const bundleSize1 = document.getElementById('MrBundleSize1-{{ section.id }}');
       const bundleSize2 = document.getElementById('MrBundleSize2-{{ section.id }}');
       const bundleImg2 = document.getElementById('MrBundleImg2-{{ section.id }}');
       const bundleName2 = document.getElementById('MrBundleName2-{{ section.id }}');
-      const bundleColorBtns = bundleModal.querySelectorAll('.mr-bundle-unit__color');
-      const bundleSiblingsEl = document.getElementById('MrBundleSiblings-{{ section.id }}');
-      const bundleSiblingsData = bundleSiblingsEl ? JSON.parse(bundleSiblingsEl.innerHTML) : null;
+      const bundlePartnerBtns = bundleModal.querySelectorAll('.mr-bundle-unit__partner');
+      const bundlePartnersEl = document.getElementById('MrComboPartners-{{ section.id }}');
+      const bundlePartnersData = bundlePartnersEl ? JSON.parse(bundlePartnersEl.innerHTML) : null;
+      const bundleTitle = document.getElementById('MrBundleTitle-{{ section.id }}');
+      const bundlePriceText = document.getElementById('MrBundlePriceText-{{ section.id }}');
+      const bundleSumText = document.getElementById('MrBundleSumText-{{ section.id }}');
       const productForm = document.getElementById('product-form-harumi');
-      const bundleAcceptDefaultText = bundleAccept ? bundleAccept.textContent : '';
+      const COMBO_KEEP_PCT = 0.655;
       let bundlePendingSubmitter = null;
+
+      const formatCOP = (cents) => {
+        const pesos = Math.round(cents / 100);
+        return '$' + pesos.toLocaleString('es-CO') + ',00';
+      };
+
+      const recomputeComboPrice = () => {
+        if (!bundleSize1 || !bundleSize2) return;
+        const price1 = parseInt(bundleSize1.dataset.price || '0', 10);
+        const price2 = parseInt(bundleSize2.dataset.price || '0', 10);
+        const sum = price1 + price2;
+        const comboPrice = Math.round(sum * COMBO_KEEP_PCT);
+        const savings = sum - comboPrice;
+        if (bundleTitle) bundleTitle.textContent = 'Arma tu look y ahorra ' + formatCOP(savings);
+        if (bundlePriceText) bundlePriceText.textContent = formatCOP(comboPrice);
+        if (bundleSumText) bundleSumText.textContent = formatCOP(sum);
+        if (bundleAcceptPrice) bundleAcceptPrice.textContent = formatCOP(comboPrice);
+      };
 
       const openBundleModal = (submitter) => {
         bundlePendingSubmitter = submitter;
         if (variantHiddenInput && bundleSize1) { bundleSize1.value = variantHiddenInput.value; }
         if (bundleError) bundleError.style.display = 'none';
+        recomputeComboPrice();
         bundleModal.classList.add('is-open');
         bundleModal.setAttribute('aria-hidden', 'false');
       };
@@ -1752,20 +1781,23 @@
         });
       }
 
-      bundleColorBtns.forEach((btn) => {
+      bundlePartnerBtns.forEach((btn) => {
         btn.addEventListener('click', () => {
-          bundleColorBtns.forEach((b) => b.classList.remove('is-active'));
+          bundlePartnerBtns.forEach((b) => b.classList.remove('is-active'));
           btn.classList.add('is-active');
           const handle = btn.dataset.handle;
           const img = btn.querySelector('img');
           if (bundleImg2 && img) bundleImg2.src = img.src;
           if (bundleName2) bundleName2.textContent = btn.getAttribute('title');
-          if (bundleSiblingsData && bundleSiblingsData[handle] && bundleSize2) {
+          if (bundlePartnersData && bundlePartnersData[handle] && bundleSize2) {
+            const partner = bundlePartnersData[handle];
             bundleSize2.dataset.handle = handle;
-            bundleSize2.innerHTML = bundleSiblingsData[handle].map((v) =>
+            bundleSize2.dataset.price = partner.price;
+            bundleSize2.innerHTML = partner.variants.map((v) =>
               '<option value="' + v.id + '" ' + (v.available ? '' : 'disabled') + '>' + v.title + (v.available ? '' : ' (agotado)') + '</option>'
             ).join('');
           }
+          recomputeComboPrice();
         });
       });
 
@@ -1775,7 +1807,8 @@
           const variant1 = bundleSize1.value;
           const variant2 = bundleSize2.value;
           bundleAccept.disabled = true;
-          bundleAccept.textContent = 'Agregando...';
+          if (bundleAcceptLabel) bundleAcceptLabel.style.display = 'none';
+          if (bundleAcceptLoading) bundleAcceptLoading.style.display = '';
           if (bundleError) bundleError.style.display = 'none';
 
           fetch('/cart/add.js', {
@@ -1787,7 +1820,8 @@
             .then(() => { window.location.href = '/checkout'; })
             .catch(() => {
               bundleAccept.disabled = false;
-              bundleAccept.textContent = bundleAcceptDefaultText;
+              if (bundleAcceptLabel) bundleAcceptLabel.style.display = '';
+              if (bundleAcceptLoading) bundleAcceptLoading.style.display = 'none';
               if (bundleError) bundleError.style.display = 'block';
             });
         });
